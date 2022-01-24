@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.model.DataLogin
-import kotlinx.android.synthetic.main.activity_login_utama.view.*
-import kotlinx.android.synthetic.main.item_data.view.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
+
 
 class LoginAdapter(val data: List<DataLogin>?, private val click: onClickItem) : RecyclerView.Adapter<LoginAdapter.MyHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {

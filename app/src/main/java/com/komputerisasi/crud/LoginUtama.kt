@@ -4,16 +4,14 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.komputerisasi.crud.adapter.LoginAdapter
-import com.komputerisasi.crud.model.DataItem
 import com.komputerisasi.crud.model.DataLogin
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_login_utama.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_update_add.*
-import org.jetbrains.anko.startActivity
 import android.content.Intent
+import com.komputerisasi.crud.model.FgKeluarItem
 
 class LoginUtama() : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
@@ -54,27 +52,35 @@ class LoginUtama() : AppCompatActivity(), CrudView {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    override fun errorAdd(msg: String) {
+    override fun errorAddFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 
-    override fun onErrorDelete(msg: String) {
+    override fun onErrorDeleteFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 
-    override fun onErrorUpdate(msg: String) {
+    override fun onErrorUpdateFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 
-    override fun onFailedGet(msg: String) {
+    override fun onFailedGetFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 
-    override fun onSuccessDelete(msg: String) {
+    override fun onSuccessDeleteFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 
-    override fun onSuccessGet(data: List<DataItem>?) {
+    override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
+        TODO("Not yet implemented")
     }
 
-    override fun onSuccessUpdate(msg: String) {
+    override fun onSuccessUpdateFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 
-    override fun successAdd(msg: String) {
+    override fun successAddFgKeluar(msg: String) {
+        TODO("Not yet implemented")
     }
 }

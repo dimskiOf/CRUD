@@ -1,15 +1,15 @@
 package com.komputerisasi.crud.DataManagement
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.komputerisasi.crud.R
-import com.komputerisasi.crud.adapter.DataAdapter
-import com.komputerisasi.crud.model.DataItem
+import com.komputerisasi.crud.adapter.FgKeluarAdapter
 import com.komputerisasi.crud.model.DataLogin
+import com.komputerisasi.crud.model.FgKeluarItem
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
-import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.alert
+import kotlinx.android.synthetic.main.activity_fg_keluar.*
 import org.jetbrains.anko.startActivity
 
 class FgKeluar : AppCompatActivity(), CrudView {
@@ -19,7 +19,7 @@ class FgKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fg_keluar)
         presenter = Presenter(this)
-        presenter.getData()
+        presenter.getDataFgKeluar()
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddFgKeluar>()
@@ -27,57 +27,47 @@ class FgKeluar : AppCompatActivity(), CrudView {
         }
     }
 
-
-    override fun onSuccessGet(data: List<DataItem>?) {
-        rvCategory.adapter = DataAdapter(data,object : DataAdapter.onClickItem{
-            override fun clicked(item: DataItem?) {
-                startActivity<UpdateAddFgKeluar>("dataItem" to item)
-            }
-
-            override fun delete(item: DataItem?) {
-                presenter.hapusData(item?.staffId)
-                startActivity<FgKeluar>()
-                finish()
-            }
-
-        })
-    }
-
-    override fun onFailedGet(msg: String) {
-    }
-
-    override fun onSuccessGetLogin(data: List<DataLogin>?) {
-        val intent = intent
-        val credential = intent.extras!!.getString("token")
-
-        if (credential != null){
-            btnSerialize.setText(credential.toString())
-        }
-    }
+    override fun onSuccessGetLogin(data: List<DataLogin>?) {}
 
     override fun onFailedGetLogin(msg: String) {
     }
 
-    override fun onSuccessDelete(msg: String) {
-        presenter.getData()
+    override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
+        rvCategory.adapter = FgKeluarAdapter(data,object :FgKeluarAdapter.onClickItem{
+            override fun clicked(item: FgKeluarItem?) {
+                startActivity<UpdateAddFgKeluar>("dataItem" to item)
+            }
 
+            override fun delete(item: FgKeluarItem?) {
+                presenter.hapusDataFgKeluar(item?.IdFgKeluar)
+                startActivity<FgKeluar>()
+                finish()
+            }
+        })
     }
 
-    override fun onErrorDelete(msg: String) {
-        alert {
-            title = "Error Delete Data"
-        }.show()
+    override fun onFailedGetFgKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    override fun successAdd(msg: String) {
+    override fun onSuccessDeleteFgKeluar(msg: String) {
+        presenter.getDataFgKeluar()
     }
 
-    override fun errorAdd(msg: String) {
+    override fun onErrorDeleteFgKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onSuccessUpdate(msg: String) {
+    override fun successAddFgKeluar(msg: String) {
     }
 
-    override fun onErrorUpdate(msg: String) {
+    override fun errorAddFgKeluar(msg: String) {
     }
+
+    override fun onSuccessUpdateFgKeluar(msg: String) {
+    }
+
+    override fun onErrorUpdateFgKeluar(msg: String) {
+    }
+
 }

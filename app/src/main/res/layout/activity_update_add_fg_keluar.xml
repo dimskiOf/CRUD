@@ -7,31 +7,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".UpdateAddActivity">
+    tools:context=".DataManagement.UpdateAddFgKeluar">
 
     <EditText
-        android:id="@+id/etName"
-        android:hint="Name"
+        android:id="@+id/etItemNo"
+        android:hint="Kode Item"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/etPhone"
-        android:hint="Phone"
+        android:id="@+id/etItemDescription"
+        android:hint="Item Description"
+        android:lines="2"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/etAlamat"
-        android:hint="Alamat"
-        android:lines="3"
+        android:id="@+id/etQtyFG"
+        android:hint="Quantity"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etUnit1"
+        android:hint="Satuan"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etInputMinusPlus"
+        android:hint="Nilai Minus"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etTglCreateFg"
+        android:hint="Tgl Masuk"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etLoadNumber"
+        android:hint="Load Number"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnAction"
-        android:text="Tambah"
+        android:text="Simpan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

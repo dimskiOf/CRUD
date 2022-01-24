@@ -1,8 +1,8 @@
 package com.komputerisasi.crud.network
 
+import com.komputerisasi.crud.model.ResultFgKeluarItem
 import com.komputerisasi.crud.model.ResultLogin
 import com.komputerisasi.crud.model.ResultStatus
-import com.komputerisasi.crud.model.ResultStaff
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -12,6 +12,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+
 
 object NetworkConfig {
 
@@ -27,7 +28,6 @@ object NetworkConfig {
     }
 
     //Retrofit
-
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://192.168.1.244/ci3/rest/serverapi/")
@@ -36,16 +36,40 @@ object NetworkConfig {
             .build()
     }
 
+
     fun getService() = getRetrofit().create(StaffService::class.java)
 }
 interface StaffService{
 
-    //Fungsi Create Data
+    //Fungsi Get Data Fg Keluar
+    @GET("getDataFgKeluar")
+
+    fun getDataFgKeluar() : Call<ResultFgKeluarItem>
+
+    //Fungsi Create Data FG Keluar
     @FormUrlEncoded
-    @POST("addStaff")
-    fun addStaff(@Field("name") name : String,
-                 @Field("hp") hp : String,
-                 @Field("alamat") alamat : String) : Call<ResultStatus>
+    @POST("addFgKeluar")
+    fun addFgKeluar(@Field("itemno") itemno : String,
+                 @Field("tglcreatefg") tglcreatefg : String,
+                 @Field("qtyfg") qtyfg : Int,
+                 @Field("loadnumber") loadnumber : String,
+                 @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Update Data fg keluar
+    @FormUrlEncoded
+    @POST("updateFgKeluar")
+    fun updateFgKeluar(@Field("idfgkeluar") idfgkeluar : String,
+                       @Field("itemno") itemno : String,
+                       @Field("tglcreatefg") tglcreatefg : String,
+                       @Field("qtyfg") qtyfg : Int,
+                       @Field("loadnumber") loadnumber : String,
+                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Delete Data fg keluar
+    @FormUrlEncoded
+    @POST("deleteFgKeluar")
+    fun deleteFgKeluar(@Field("id") id: String?) : Call<ResultStatus>
+
 
     //Fungsi Login Data
     @FormUrlEncoded
@@ -53,22 +77,4 @@ interface StaffService{
     fun loginData(@Field("username") username : String,
                  @Field("password") password : String) : Call<ResultLogin>
 
-
-    //Fungsi Get Data
-    @GET("getDataStaff")
-
-    fun getData() : Call<ResultStaff>
-
-    //Fungsi Delete Data
-    @FormUrlEncoded
-    @POST("deleteStaff")
-    fun deleteStaff(@Field("id") id: String?) : Call<ResultStatus>
-
-    //Fungsi Update Data
-    @FormUrlEncoded
-    @POST("updateStaff")
-    fun updateStaff(@Field("id") id: String,
-                    @Field("name") name: String,
-                    @Field("hp") hp : String,
-                    @Field("alamat") alamat : String) : Call<ResultStatus>
 }

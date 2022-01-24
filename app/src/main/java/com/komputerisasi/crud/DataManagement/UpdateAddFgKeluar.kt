@@ -3,13 +3,13 @@ package com.komputerisasi.crud.DataManagement
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
-import com.komputerisasi.crud.model.DataItem
 import com.komputerisasi.crud.model.DataLogin
+import com.komputerisasi.crud.model.FgKeluarItem
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
-import kotlinx.android.synthetic.main.activity_update_add.*
+import kotlinx.android.synthetic.main.activity_update_add.btnAction
+import kotlinx.android.synthetic.main.activity_update_add_fg_keluar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
@@ -27,26 +27,35 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         val itemDataItem = intent.getSerializableExtra("dataItem")
 
         if (itemDataItem == null){
-            btnAction.text = "Tambah"
+            btnAction.text = "Simpan"
             btnAction.onClick {
-                presenter.addData(
-                    etName.text.toString(),
-                    etPhone.text.toString(),
-                    etAlamat.text.toString())
+                presenter.addDataFgKeluar(
+                    etItemNo.text.toString(),
+                    etTglCreateFg.text.toString(),
+                    Integer.parseInt(etQtyFG.text.toString()),
+                    etLoadNumber.text.toString(),
+                    etInputMinusPlus.text.toString(),
+                    )
             }
 
         }else if (itemDataItem != null){
             btnAction.text = "Update"
-            val item = itemDataItem as DataItem?
-            etName.setText(item?.staffName.toString())
-            etPhone.setText(item?.staffHp.toString())
-            etAlamat.setText(item?.staffAlamat.toString())
+            val item = itemDataItem as FgKeluarItem?
+            etItemNo.setText(item?.ItemNo.toString())
+            etItemDescription.setText(item?.ItemDescription.toString())
+            etQtyFG.setText(item?.QtyFG.toString())
+            etLoadNumber.setText(item?.LoadNumber.toString())
+            etInputMinusPlus.setText(item?.InputMinusPlus.toString())
+            etUnit1.setText(item?.Unit1.toString())
+            etTglCreateFg.setText(item?.TglCreateFg.toString())
             btnAction.onClick {
-                presenter.updateData(
-                    item?.staffId ?: "",
-                    etName.text.toString(),
-                    etPhone.text.toString(),
-                    etAlamat.text.toString())
+                presenter.updateDataFgKeluar(
+                    item?.IdFgKeluar ?: "",
+                    etItemNo.text.toString(),
+                    etTglCreateFg.text.toString(),
+                    Integer.parseInt(etQtyFG.text.toString()),
+                    etLoadNumber.text.toString(),
+                    etInputMinusPlus.text.toString())
                 finish()
             }
 
@@ -54,18 +63,42 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     }
 
 
+    override fun onSuccessDeleteFgKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
 
-    override fun successAdd(msg: String) {
-        startActivity<MainActivity>()
+    override fun onErrorDeleteFgKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetFgKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
+        TODO("Not yet implemented")
+    }
+
+
+
+    override fun successAddFgKeluar(msg: String) {
+        startActivity<FgKeluar>()
         finish()
     }
 
-    override fun errorAdd(msg: String) {}
+    override fun errorAddFgKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
 
-    override fun onSuccessUpdate(msg: String) {
-        startActivity<MainActivity>()
+    override fun onSuccessUpdateFgKeluar(msg: String) {
+        startActivity<FgKeluar>()
         finish()
     }
+
+    override fun onErrorUpdateFgKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {
 
@@ -75,13 +108,4 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
     }
 
-    override fun onErrorUpdate(msg: String) {}
-
-    override fun onSuccessGet(data: List<DataItem>?) {}
-
-    override fun onFailedGet(msg: String) {}
-
-    override fun onSuccessDelete(msg: String) {}
-
-    override fun onErrorDelete(msg: String) {}
 }

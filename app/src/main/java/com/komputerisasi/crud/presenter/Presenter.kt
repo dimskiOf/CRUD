@@ -1,8 +1,8 @@
 package com.komputerisasi.crud.presenter
 
 import android.util.Log
+import com.komputerisasi.crud.model.ResultFgKeluarItem
 import com.komputerisasi.crud.model.ResultLogin
-import com.komputerisasi.crud.model.ResultStaff
 import com.komputerisasi.crud.model.ResultStatus
 import com.komputerisasi.crud.network.NetworkConfig
 import retrofit2.Call
@@ -10,29 +10,6 @@ import retrofit2.Response
 
 class Presenter (val crudView: CrudView) {
 
-    //Fungsi GetData
-    fun getData(){
-        NetworkConfig.getService().getData()
-            .enqueue(object : retrofit2.Callback<ResultStaff>{
-                override fun onFailure(call: Call<ResultStaff>, t: Throwable) {
-                    crudView.onFailedGet(t.localizedMessage)
-                    Log.d("Error", "Error Data")
-                }
-
-                override fun onResponse(call: Call<ResultStaff>, response: Response<ResultStaff>) {
-                    if(response.isSuccessful){
-                        val status = response.body()?.status
-                        if (status == 200){
-                            val data = response.body()?.staff
-                            crudView.onSuccessGet(data)
-                        } else{
-                            crudView.onFailedGet("Error $status")
-                        }
-                    }
-                }
-
-            })
-    }
 
     //get data login
     fun loginData(username : String, password : String){
@@ -41,7 +18,6 @@ class Presenter (val crudView: CrudView) {
             .enqueue(object : retrofit2.Callback<ResultLogin>{
                 override fun onFailure(call: Call<ResultLogin>, t: Throwable) {
                     crudView.onFailedGetLogin(t.localizedMessage)
-                    crudView.errorAdd(t.localizedMessage)
                 }
 
                 override fun onResponse(call: Call<ResultLogin>, response: Response<ResultLogin>) {
@@ -59,63 +35,87 @@ class Presenter (val crudView: CrudView) {
             })
     }
 
-    //Add data
-    fun addData(name : String, hp : String, alamat : String){
+    //Fungsi GetDataFgKeluar
+    fun getDataFgKeluar(){
+        NetworkConfig.getService().getDataFgKeluar()
+            .enqueue(object : retrofit2.Callback<ResultFgKeluarItem>{
+                override fun onFailure(call: Call<ResultFgKeluarItem>, t: Throwable) {
+                    crudView.onFailedGetFgKeluar(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultFgKeluarItem>, response: Response<ResultFgKeluarItem>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.FgKeluarItems
+                            crudView.onSuccessGetFgKeluar(data)
+                        } else{
+                            crudView.onFailedGetFgKeluar("Error $status")
+                        }
+                    }
+                }
+
+            })
+    }
+
+
+    //Add data FG keluar
+    fun addDataFgKeluar(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .addStaff(name, hp, alamat)
+            .addFgKeluar(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
-                    crudView.errorAdd(t.localizedMessage)
+                    crudView.errorAddFgKeluar(t.localizedMessage)
                 }
 
                 override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
                     if (response.isSuccessful && response.body()?.status == 200) {
-                        crudView.successAdd(response.body()?.pesan ?: "")
+                        crudView.successAddFgKeluar(response.body()?.pesan ?: "")
                     }else {
-                        crudView.errorAdd(response.body()?.pesan ?: "")
+                        crudView.errorAddFgKeluar(response.body()?.pesan ?: "")
                     }
                 }
 
             })
     }
 
-
-    //Hapus Data
-    fun hapusData(id: String?){
+    //Update Data fg keluar
+    fun updateDataFgKeluar(idfgkeluar: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .deleteStaff(id)
+            .updateFgKeluar(idfgkeluar,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
-                    crudView.onErrorDelete(t.localizedMessage)
+                    crudView.onErrorUpdateFgKeluar(t.localizedMessage)
                 }
 
                 override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
                     if (response.isSuccessful && response.body()?.status == 200){
-                        crudView.onSuccessDelete(response.body()?.pesan ?: "")
-                    } else {
-                        crudView.onErrorDelete(response.body()?.pesan ?: "")
-                    }
-                }
-
-            })
-    }
-
-    //Update Data
-    fun updateData(id: String, name: String, hp: String, alamat: String){
-        NetworkConfig.getService()
-            .updateStaff(id, name, hp, alamat)
-            .enqueue(object : retrofit2.Callback<ResultStatus>{
-                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
-                    crudView.onErrorUpdate(t.localizedMessage)
-                }
-
-                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
-                    if (response.isSuccessful && response.body()?.status == 200){
-                        crudView.onSuccessUpdate(response.body()?.pesan ?: "")
+                        crudView.onSuccessUpdateFgKeluar(response.body()?.pesan ?: "")
                     }else{
-                        crudView.onErrorUpdate(response.body()?.pesan ?: "")
+                        crudView.onErrorUpdateFgKeluar(response.body()?.pesan ?: "")
                     }
 
+                }
+
+            })
+    }
+
+    //Hapus Data FG Keluar
+    fun hapusDataFgKeluar(id: String?){
+        NetworkConfig.getService()
+            .deleteFgKeluar(id)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorDeleteFgKeluar(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessDeleteFgKeluar(response.body()?.pesan ?: "")
+                    } else {
+                        crudView.onErrorDeleteFgKeluar(response.body()?.pesan ?: "")
+                    }
                 }
 
             })
