@@ -5,11 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.adapter.FgKeluarAdapter
-import com.komputerisasi.crud.adapter.FgMasukAdapter
-import com.komputerisasi.crud.model.DataLogin
-import com.komputerisasi.crud.model.FgKeluarItem
-import com.komputerisasi.crud.model.FgMasukItem
-import com.komputerisasi.crud.model.RmKeluarItem
+import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_fg_keluar.*
@@ -125,6 +121,38 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun successAddRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun errorAddRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetRmMasuk(data: List<RmMasukItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun successAddRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateRmMasuk(msg: String) {
         TODO("Not yet implemented")
     }
 }

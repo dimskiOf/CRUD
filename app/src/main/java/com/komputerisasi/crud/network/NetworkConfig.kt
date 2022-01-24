@@ -136,4 +136,35 @@ interface StaffService{
     @FormUrlEncoded
     @POST("deleteRmKeluar")
     fun deleteRmKeluar(@Field("id") id: String?) : Call<ResultStatus>
+
+    //<-------  Warehous RM MASUK ---->
+
+    //Fungsi Get Data Rm Masuk
+    @GET("getDataRmMasuk")
+
+    fun getDataRmMasuk() : Call<ResultRmMasukItem>
+
+    //Fungsi Create Data Rm Masuk
+    @FormUrlEncoded
+    @POST("addRmMasuk")
+    fun addRmMasuk(@Field("itemno") itemno : String,
+                    @Field("tglcreaterm") tglcreaterm : String,
+                    @Field("qtyrm") qtyrm : Int,
+                    @Field("loadnumber") loadnumber : String,
+                    @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Update Data Rm Masuk
+    @FormUrlEncoded
+    @POST("updateRmMasuk")
+    fun updateRmMasuk(@Field("idrmmasuk") idrmmasuk : String,
+                       @Field("itemno") itemno : String,
+                       @Field("tglcreaterm") tglcreaterm : String,
+                       @Field("qtyrm") qtyrm : Int,
+                       @Field("loadnumber") loadnumber : String,
+                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Delete Data Rm Masuk
+    @FormUrlEncoded
+    @POST("deleteRmMasuk")
+    fun deleteRmMasuk(@Field("id") id: String?) : Call<ResultStatus>
 }

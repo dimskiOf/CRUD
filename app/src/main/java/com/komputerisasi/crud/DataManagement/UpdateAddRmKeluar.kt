@@ -3,15 +3,12 @@ package com.komputerisasi.crud.DataManagement
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.komputerisasi.crud.R
-import com.komputerisasi.crud.model.DataLogin
-import com.komputerisasi.crud.model.FgKeluarItem
-import com.komputerisasi.crud.model.FgMasukItem
-import com.komputerisasi.crud.model.RmKeluarItem
+import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
-import kotlinx.android.synthetic.main.activity_update_add.btnAction
-import kotlinx.android.synthetic.main.activity_update_add_fg_keluar.*
+import kotlinx.android.synthetic.main.activity_update_add_rm_keluar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 
@@ -33,8 +30,8 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
             btnAction.onClick {
                 presenter.addDataRmKeluar(
                     etItemNo.text.toString(),
-                    etTglCreateFg.text.toString(),
-                    Integer.parseInt(etQtyFG.text.toString()),
+                    etTglCreateRm.text.toString(),
+                    Integer.parseInt(etQtyRM.text.toString()),
                     etLoadNumber.text.toString(),
                     etInputMinusPlus.text.toString(),
                 )
@@ -45,17 +42,17 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
             val item = itemDataItem as RmKeluarItem?
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
-            etQtyFG.setText(item?.QtyRm.toString())
+            etQtyRM.setText(item?.QtyRm.toString())
             etLoadNumber.setText(item?.LoadNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
             etUnit1.setText(item?.Unit1.toString())
-            etTglCreateFg.setText(item?.TglCreateRm.toString())
+            etTglCreateRm.setText(item?.TglCreateRm.toString())
             btnAction.onClick {
                 presenter.updateDataRmKeluar(
                     item?.IdRmKeluar ?: "",
                     etItemNo.text.toString(),
-                    etTglCreateFg.text.toString(),
-                    Integer.parseInt(etQtyFG.text.toString()),
+                    etTglCreateRm.text.toString(),
+                    Integer.parseInt(etQtyRM.text.toString()),
                     etLoadNumber.text.toString(),
                     etInputMinusPlus.text.toString())
                 finish()
@@ -130,7 +127,7 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun errorAddRmKeluar(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onErrorDeleteRmKeluar(msg: String) {
@@ -138,7 +135,7 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorUpdateRmKeluar(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onFailedGetRmKeluar(msg: String) {
@@ -163,4 +160,35 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
         finish()
     }
 
+    override fun onSuccessGetRmMasuk(data: List<RmMasukItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun successAddRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun errorAddRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

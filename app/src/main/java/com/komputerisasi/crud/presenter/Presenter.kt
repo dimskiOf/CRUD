@@ -132,7 +132,7 @@ class Presenter (val crudView: CrudView) {
                     if(response.isSuccessful){
                         val status = response.body()?.status
                         if (status == 200){
-                            val data = response.body()?.FgKeluarItems
+                            val data = response.body()?.FgMasukItems
                             crudView.onSuccessGetFgMasuk(data)
                         } else{
                             crudView.onFailedGetFgMasuk("Error $status")
@@ -285,6 +285,92 @@ class Presenter (val crudView: CrudView) {
                         crudView.onSuccessDeleteRmKeluar(response.body()?.pesan ?: "")
                     } else {
                         crudView.onErrorDeleteRmKeluar(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
+
+    //Fungsi GetDataRmMasuk
+    fun getDataRmMasuk(){
+        NetworkConfig.getService().getDataRmMasuk()
+            .enqueue(object : retrofit2.Callback<ResultRmMasukItem>{
+                override fun onFailure(call: Call<ResultRmMasukItem>, t: Throwable) {
+                    crudView.onFailedGetRmMasuk(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultRmMasukItem>, response: Response<ResultRmMasukItem>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.RmMasukItems
+                            crudView.onSuccessGetRmMasuk(data)
+                        } else{
+                            crudView.onFailedGetRmMasuk("Error $status")
+                        }
+                    }
+                }
+
+            })
+    }
+
+
+    //Add data RM Masuk
+    fun addDataRmMasuk(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
+        NetworkConfig.getService()
+            .addRmMasuk(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.errorAddRmMasuk(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200) {
+                        crudView.successAddRmMasuk(response.body()?.pesan ?: "")
+                    }else {
+                        crudView.errorAddRmMasuk(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
+
+    //Update Data Rm Masuk
+    fun updateDataRmMasuk(idrmmasuk: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
+        NetworkConfig.getService()
+            .updateRmMasuk(idrmmasuk,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorUpdateRmMasuk(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessUpdateRmMasuk(response.body()?.pesan ?: "")
+                    }else{
+                        crudView.onErrorUpdateRmMasuk(response.body()?.pesan ?: "")
+                    }
+
+                }
+
+            })
+    }
+
+    //Hapus Data RM Masuk
+    fun hapusDataRmMasuk(id: String?){
+        NetworkConfig.getService()
+            .deleteRmMasuk(id)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorDeleteRmMasuk(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessDeleteRmMasuk(response.body()?.pesan ?: "")
+                    } else {
+                        crudView.onErrorDeleteRmMasuk(response.body()?.pesan ?: "")
                     }
                 }
 

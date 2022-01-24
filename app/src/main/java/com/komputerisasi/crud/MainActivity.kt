@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.komputerisasi.crud.DataManagement.FgKeluar
 import com.komputerisasi.crud.DataManagement.FgMasuk
+import com.komputerisasi.crud.DataManagement.RmKeluar
+import com.komputerisasi.crud.DataManagement.RmMasuk
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 
@@ -19,6 +21,14 @@ class MainActivity : AppCompatActivity() {
         }
         FgMasuk.setOnClickListener {
             startActivity<FgMasuk>()
+            finish()
+        }
+        RmKeluar.setOnClickListener {
+            startActivity<RmKeluar>()
+            finish()
+        }
+        RmMasuk.setOnClickListener {
+            startActivity<RmMasuk>()
             finish()
         }
     }

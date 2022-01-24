@@ -5,13 +5,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.adapter.FgMasukAdapter
-import com.komputerisasi.crud.model.DataLogin
-import com.komputerisasi.crud.model.FgKeluarItem
-import com.komputerisasi.crud.model.FgMasukItem
-import com.komputerisasi.crud.model.RmKeluarItem
+import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
-import kotlinx.android.synthetic.main.activity_fg_keluar.*
+import kotlinx.android.synthetic.main.activity_fg_masuk.*
 import org.jetbrains.anko.startActivity
 
 class FgMasuk : AppCompatActivity(), CrudView {
@@ -21,7 +18,7 @@ class FgMasuk : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fg_masuk)
         presenter = Presenter(this)
-        presenter.getDataFgKeluar()
+        presenter.getDataFgMasuk()
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddFgMasuk>()
@@ -38,15 +35,14 @@ class FgMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetFgKeluar(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onSuccessDeleteFgKeluar(msg: String) {
-        presenter.getDataFgKeluar()
+
     }
 
     override fun onErrorDeleteFgKeluar(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun successAddFgKeluar(msg: String) {
@@ -131,6 +127,38 @@ class FgMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun successAddRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetRmMasuk(data: List<RmMasukItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun successAddRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun errorAddRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateRmMasuk(msg: String) {
         TODO("Not yet implemented")
     }
 }
