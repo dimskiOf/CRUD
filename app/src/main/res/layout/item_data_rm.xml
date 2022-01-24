@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/QtyFG"
+                    android:id="@+id/QtyRM"
                     android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/TglCreateFg"
+                    android:id="@+id/TglCreateRm"
                     android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

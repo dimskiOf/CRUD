@@ -8,6 +8,7 @@ import com.komputerisasi.crud.adapter.FgMasukAdapter
 import com.komputerisasi.crud.model.DataLogin
 import com.komputerisasi.crud.model.FgKeluarItem
 import com.komputerisasi.crud.model.FgMasukItem
+import com.komputerisasi.crud.model.RmKeluarItem
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_fg_keluar.*
@@ -101,4 +102,35 @@ class FgMasuk : AppCompatActivity(), CrudView {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
+    override fun errorAddRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateRmKeluark(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun successAddRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

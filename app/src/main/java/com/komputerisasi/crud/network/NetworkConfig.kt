@@ -1,9 +1,6 @@
 package com.komputerisasi.crud.network
 
-import com.komputerisasi.crud.model.ResultFgKeluarItem
-import com.komputerisasi.crud.model.ResultFgMasukItem
-import com.komputerisasi.crud.model.ResultLogin
-import com.komputerisasi.crud.model.ResultStatus
+import com.komputerisasi.crud.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -89,24 +86,54 @@ interface StaffService{
     @FormUrlEncoded
     @POST("addFgMasuk")
     fun addFgMasuk(@Field("itemno") itemno : String,
-                    @Field("tglcreatefg") tglcreatefg : String,
-                    @Field("qtyfg") qtyfg : Int,
-                    @Field("loadnumber") loadnumber : String,
-                    @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                   @Field("tglcreatefg") tglcreatefg : String,
+                   @Field("qtyfg") qtyfg : Int,
+                   @Field("loadnumber") loadnumber : String,
+                   @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
 
     //Fungsi Update Data fg Masuk
     @FormUrlEncoded
     @POST("updateFgMasuk")
     fun updateFgMasuk(@Field("idfgmasuk") idfgmasuk : String,
-                       @Field("itemno") itemno : String,
-                       @Field("tglcreatefg") tglcreatefg : String,
-                       @Field("qtyfg") qtyfg : Int,
-                       @Field("loadnumber") loadnumber : String,
-                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                      @Field("itemno") itemno : String,
+                      @Field("tglcreatefg") tglcreatefg : String,
+                      @Field("qtyfg") qtyfg : Int,
+                      @Field("loadnumber") loadnumber : String,
+                      @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
 
     //Fungsi Delete Data fg masuk
     @FormUrlEncoded
     @POST("deleteFgMasuk")
     fun deleteFgMasuk(@Field("id") id: String?) : Call<ResultStatus>
 
+    //<-------  Warehous RM KELUAR ---->
+
+    //Fungsi Get Data Rm Keluar
+    @GET("getDataRmKeluar")
+
+    fun getDataRmKeluar() : Call<ResultRmKeluarItem>
+
+    //Fungsi Create Data Rm Keluar
+    @FormUrlEncoded
+    @POST("addRmKeluar")
+    fun addRmKeluar(@Field("itemno") itemno : String,
+                    @Field("tglcreaterm") tglcreaterm : String,
+                    @Field("qtyrm") qtyrm : Int,
+                    @Field("loadnumber") loadnumber : String,
+                    @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Update Data Rm Keluar
+    @FormUrlEncoded
+    @POST("updateRmKeluar")
+    fun updateRmKeluar(@Field("idrmkeluar") idrmkeluar : String,
+                       @Field("itemno") itemno : String,
+                       @Field("tglcreaterm") tglcreaterm : String,
+                       @Field("qtyrm") qtyrm : Int,
+                       @Field("loadnumber") loadnumber : String,
+                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Delete Data Rm Keluar
+    @FormUrlEncoded
+    @POST("deleteRmKeluar")
+    fun deleteRmKeluar(@Field("id") id: String?) : Call<ResultStatus>
 }

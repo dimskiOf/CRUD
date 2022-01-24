@@ -1,10 +1,7 @@
 package com.komputerisasi.crud.presenter
 
 import android.util.Log
-import com.komputerisasi.crud.model.ResultFgKeluarItem
-import com.komputerisasi.crud.model.ResultFgMasukItem
-import com.komputerisasi.crud.model.ResultLogin
-import com.komputerisasi.crud.model.ResultStatus
+import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.network.NetworkConfig
 import retrofit2.Call
 import retrofit2.Response
@@ -188,7 +185,7 @@ class Presenter (val crudView: CrudView) {
             })
     }
 
-    //Hapus Data FG Keluar
+    //Hapus Data FG Masuk
     fun hapusDataFgMasuk(id: String?){
         NetworkConfig.getService()
             .deleteFgMasuk(id)
@@ -208,5 +205,90 @@ class Presenter (val crudView: CrudView) {
             })
     }
 
+    //Fungsi GetDataRmKeluar
+    fun getDataRmKeluar(){
+        NetworkConfig.getService().getDataRmKeluar()
+            .enqueue(object : retrofit2.Callback<ResultRmKeluarItem>{
+                override fun onFailure(call: Call<ResultRmKeluarItem>, t: Throwable) {
+                    crudView.onFailedGetRmKeluar(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultRmKeluarItem>, response: Response<ResultRmKeluarItem>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.RmKeluarItems
+                            crudView.onSuccessGetRmKeluar(data)
+                        } else{
+                            crudView.onFailedGetRmKeluar("Error $status")
+                        }
+                    }
+                }
+
+            })
+    }
+
+
+    //Add data RM keluar
+    fun addDataRmKeluar(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
+        NetworkConfig.getService()
+            .addRmKeluar(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.errorAddRmKeluar(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200) {
+                        crudView.successAddRmKeluar(response.body()?.pesan ?: "")
+                    }else {
+                        crudView.errorAddRmKeluar(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
+
+    //Update Data Rm Keluar
+    fun updateDataRmKeluar(idrmkeluar: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
+        NetworkConfig.getService()
+            .updateRmKeluar(idrmkeluar,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorUpdateRmKeluar(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessUpdateRmKeluark(response.body()?.pesan ?: "")
+                    }else{
+                        crudView.onErrorUpdateRmKeluar(response.body()?.pesan ?: "")
+                    }
+
+                }
+
+            })
+    }
+
+    //Hapus Data RM Keluar
+    fun hapusDataRmKeluar(id: String?){
+        NetworkConfig.getService()
+            .deleteRmKeluar(id)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorDeleteRmKeluar(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessDeleteRmKeluar(response.body()?.pesan ?: "")
+                    } else {
+                        crudView.onErrorDeleteRmKeluar(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
 
 }
