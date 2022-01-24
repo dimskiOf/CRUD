@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.model.DataLogin
 import com.komputerisasi.crud.model.FgKeluarItem
+import com.komputerisasi.crud.model.FgMasukItem
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_update_add.btnAction
@@ -106,6 +107,29 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
     override fun onFailedGetLogin(msg: String) {
 
+    }
+
+    override fun successAddFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessGetFgMasuk(data: List<FgMasukItem>?) {
+    }
+
+    override fun onSuccessUpdateFgMasuk(msg: String) {
+    }
+    override fun errorAddFgMasuk(msg: String) {
+    }
+
+    override fun onErrorDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onErrorUpdateFgMasuk(msg: String) {
+    }
+
+    override fun onFailedGetFgMasuk(msg: String) {
     }
 
 }

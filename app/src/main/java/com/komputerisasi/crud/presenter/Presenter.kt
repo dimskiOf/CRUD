@@ -2,6 +2,7 @@ package com.komputerisasi.crud.presenter
 
 import android.util.Log
 import com.komputerisasi.crud.model.ResultFgKeluarItem
+import com.komputerisasi.crud.model.ResultFgMasukItem
 import com.komputerisasi.crud.model.ResultLogin
 import com.komputerisasi.crud.model.ResultStatus
 import com.komputerisasi.crud.network.NetworkConfig
@@ -120,5 +121,92 @@ class Presenter (val crudView: CrudView) {
 
             })
     }
+
+    //Fungsi GetDataFgMasuk
+    fun getDataFgMasuk(){
+        NetworkConfig.getService().getDataFgMasuk()
+            .enqueue(object : retrofit2.Callback<ResultFgMasukItem>{
+                override fun onFailure(call: Call<ResultFgMasukItem>, t: Throwable) {
+                    crudView.onFailedGetFgMasuk(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultFgMasukItem>, response: Response<ResultFgMasukItem>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.FgKeluarItems
+                            crudView.onSuccessGetFgMasuk(data)
+                        } else{
+                            crudView.onFailedGetFgMasuk("Error $status")
+                        }
+                    }
+                }
+
+            })
+    }
+
+
+    //Add data FG Masuk
+    fun addDataFgMasuk(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
+        NetworkConfig.getService()
+            .addFgMasuk(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.errorAddFgMasuk(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200) {
+                        crudView.successAddFgMasuk(response.body()?.pesan ?: "")
+                    }else {
+                        crudView.errorAddFgMasuk(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
+
+    //Update Data fg Masuk
+    fun updateDataFgMasuk(idfgmasuk: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
+        NetworkConfig.getService()
+            .updateFgMasuk(idfgmasuk,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorUpdateFgMasuk(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessUpdateFgMasuk(response.body()?.pesan ?: "")
+                    }else{
+                        crudView.onErrorUpdateFgMasuk(response.body()?.pesan ?: "")
+                    }
+
+                }
+
+            })
+    }
+
+    //Hapus Data FG Keluar
+    fun hapusDataFgMasuk(id: String?){
+        NetworkConfig.getService()
+            .deleteFgMasuk(id)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onErrorDeleteFgMasuk(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200){
+                        crudView.onSuccessDeleteFgMasuk(response.body()?.pesan ?: "")
+                    } else {
+                        crudView.onErrorDeleteFgMasuk(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
+
 
 }

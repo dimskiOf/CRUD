@@ -1,6 +1,7 @@
 package com.komputerisasi.crud.network
 
 import com.komputerisasi.crud.model.ResultFgKeluarItem
+import com.komputerisasi.crud.model.ResultFgMasukItem
 import com.komputerisasi.crud.model.ResultLogin
 import com.komputerisasi.crud.model.ResultStatus
 import okhttp3.OkHttpClient
@@ -40,6 +41,13 @@ object NetworkConfig {
     fun getService() = getRetrofit().create(StaffService::class.java)
 }
 interface StaffService{
+    //Fungsi Login Data
+    @FormUrlEncoded
+    @POST("login")
+    fun loginData(@Field("username") username : String,
+                  @Field("password") password : String) : Call<ResultLogin>
+
+    //<-------  Warehous FG KELUAR ---->
 
     //Fungsi Get Data Fg Keluar
     @GET("getDataFgKeluar")
@@ -70,11 +78,35 @@ interface StaffService{
     @POST("deleteFgKeluar")
     fun deleteFgKeluar(@Field("id") id: String?) : Call<ResultStatus>
 
+    //<-------  Warehous FG MASUK ---->
 
-    //Fungsi Login Data
+    //Fungsi Get Data Fg Masuk
+    @GET("getDataFgMasuk")
+
+    fun getDataFgMasuk() : Call<ResultFgMasukItem>
+
+    //Fungsi Create Data FG Masuk
     @FormUrlEncoded
-    @POST("login")
-    fun loginData(@Field("username") username : String,
-                 @Field("password") password : String) : Call<ResultLogin>
+    @POST("addFgMasuk")
+    fun addFgMasuk(@Field("itemno") itemno : String,
+                    @Field("tglcreatefg") tglcreatefg : String,
+                    @Field("qtyfg") qtyfg : Int,
+                    @Field("loadnumber") loadnumber : String,
+                    @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Update Data fg Masuk
+    @FormUrlEncoded
+    @POST("updateFgMasuk")
+    fun updateFgMasuk(@Field("idfgmasuk") idfgmasuk : String,
+                       @Field("itemno") itemno : String,
+                       @Field("tglcreatefg") tglcreatefg : String,
+                       @Field("qtyfg") qtyfg : Int,
+                       @Field("loadnumber") loadnumber : String,
+                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+
+    //Fungsi Delete Data fg masuk
+    @FormUrlEncoded
+    @POST("deleteFgMasuk")
+    fun deleteFgMasuk(@Field("id") id: String?) : Call<ResultStatus>
 
 }

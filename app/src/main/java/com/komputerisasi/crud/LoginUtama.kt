@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_update_add.*
 import android.content.Intent
 import com.komputerisasi.crud.model.FgKeluarItem
+import com.komputerisasi.crud.model.FgMasukItem
 
 class LoginUtama() : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
@@ -82,5 +83,27 @@ class LoginUtama() : AppCompatActivity(), CrudView {
 
     override fun successAddFgKeluar(msg: String) {
         TODO("Not yet implemented")
+    }
+    override fun successAddFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessGetFgMasuk(data: List<FgMasukItem>?) {
+    }
+
+    override fun onSuccessUpdateFgMasuk(msg: String) {
+    }
+    override fun errorAddFgMasuk(msg: String) {
+    }
+
+    override fun onErrorDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onErrorUpdateFgMasuk(msg: String) {
+    }
+
+    override fun onFailedGetFgMasuk(msg: String) {
     }
 }

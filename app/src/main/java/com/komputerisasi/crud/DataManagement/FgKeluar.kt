@@ -5,8 +5,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.adapter.FgKeluarAdapter
+import com.komputerisasi.crud.adapter.FgMasukAdapter
 import com.komputerisasi.crud.model.DataLogin
 import com.komputerisasi.crud.model.FgKeluarItem
+import com.komputerisasi.crud.model.FgMasukItem
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_fg_keluar.*
@@ -68,6 +70,29 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorUpdateFgKeluar(msg: String) {
+    }
+
+    override fun successAddFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessGetFgMasuk(data: List<FgMasukItem>?) {
+    }
+
+    override fun onSuccessUpdateFgMasuk(msg: String) {
+    }
+    override fun errorAddFgMasuk(msg: String) {
+    }
+
+    override fun onErrorDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onErrorUpdateFgMasuk(msg: String) {
+    }
+
+    override fun onFailedGetFgMasuk(msg: String) {
     }
 
 }
