@@ -3,6 +3,7 @@ package com.komputerisasi.crud.DataManagement
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.adapter.FgKeluarAdapter
 import com.komputerisasi.crud.model.*
@@ -19,6 +20,11 @@ class FgKeluar : AppCompatActivity(), CrudView {
         setContentView(R.layout.activity_fg_keluar)
         presenter = Presenter(this)
         presenter.getDataFgKeluar()
+
+        btnKembali.setOnClickListener {
+            startActivity<MainActivity>()
+            finish()
+        }
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddFgKeluar>()
@@ -153,6 +159,14 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedgetToken(msg: String) {
         TODO("Not yet implemented")
     }
 }

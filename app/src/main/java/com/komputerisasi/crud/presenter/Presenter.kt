@@ -33,6 +33,26 @@ class Presenter (val crudView: CrudView) {
             })
     }
 
+    //get TOKEN
+    fun getToken(uname : String, token : String){
+        NetworkConfig.getService()
+            .tokenData(uname, token)
+            .enqueue(object : retrofit2.Callback<ResultStatus>{
+                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
+                    crudView.onFailedgetToken(t.localizedMessage)
+                }
+
+                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
+                    if (response.isSuccessful && response.body()?.status == 200) {
+                        crudView.onSuccessgetToken(response.body()?.pesan ?: "")
+                    }else {
+                        crudView.onFailedgetToken(response.body()?.pesan ?: "")
+                    }
+                }
+
+            })
+    }
+
     //Fungsi GetDataFgKeluar
     fun getDataFgKeluar(){
         NetworkConfig.getService().getDataFgKeluar()

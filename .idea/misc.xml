@@ -5,23 +5,23 @@
       <map>
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1125" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/drawable/bggradient.xml" value="0.1125" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1125" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_fg_keluar.xml" value="0.1" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_fg_masuk.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_fg_keluar.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_fg_masuk.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_login_utama.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_menu_utama.xml" value="0.16394927536231885" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_rm_keluar.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_rm_masuk.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_update_add.xml" value="0.1" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_update_add_fg_keluar.xml" value="0.18" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_update_add_fg_masuk.xml" value="0.1" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_update_add_rm_keluar.xml" value="0.1" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/item_data.xml" value="0.2" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_update_add_rm_masuk.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/item_data.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/item_data_rm.xml" value="0.1" />
-        <entry key="..\:/Users/rezdnov/StudioProjects/CRUD/app/src/main/res/layout/activity_rm_keluar.xml" value="0.33" />
-        <entry key="..\:/Users/rezdnov/StudioProjects/CRUD/app/src/main/res/layout/activity_rm_masuk.xml" value="0.12771739130434784" />
-        <entry key="..\:/Users/rezdnov/StudioProjects/CRUD/app/src/main/res/layout/activity_update_add_rm_keluar.xml" value="0.18" />
-        <entry key="..\:/Users/rezdnov/StudioProjects/CRUD/app/src/main/res/layout/item_data_rm.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/settings_layouts.xml" value="0.1234375" />
       </map>
     </option>
   </component>

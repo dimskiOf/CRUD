@@ -190,4 +190,11 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
     override fun onErrorUpdateRmMasuk(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+    override fun onSuccessgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

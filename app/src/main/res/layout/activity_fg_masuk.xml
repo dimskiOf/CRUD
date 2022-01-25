@@ -8,13 +8,23 @@
     tools:context=".DataManagement.FgMasuk">
 
     <Button
-        android:id="@+id/btnSerialize"
+        android:id="@+id/btnKembali"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="Back"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/btnfgmasuk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
         android:background="@android:color/background_light"
-        android:text=""
+        android:text="FG MASUK"
         android:textColor="@android:color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -30,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="93dp"
         android:background="@android:color/holo_green_dark"
         android:text="Tambah"
         android:textColor="@android:color/white" />

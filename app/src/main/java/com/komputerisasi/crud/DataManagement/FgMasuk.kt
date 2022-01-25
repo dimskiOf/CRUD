@@ -3,6 +3,7 @@ package com.komputerisasi.crud.DataManagement
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.adapter.FgMasukAdapter
 import com.komputerisasi.crud.model.*
@@ -19,6 +20,11 @@ class FgMasuk : AppCompatActivity(), CrudView {
         setContentView(R.layout.activity_fg_masuk)
         presenter = Presenter(this)
         presenter.getDataFgMasuk()
+
+        btnKembali.setOnClickListener {
+            startActivity<MainActivity>()
+            finish()
+        }
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddFgMasuk>()
@@ -159,6 +165,13 @@ class FgMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedgetToken(msg: String) {
         TODO("Not yet implemented")
     }
 }

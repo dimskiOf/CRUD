@@ -28,7 +28,7 @@ object NetworkConfig {
     //Retrofit
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.244/ci3/rest/serverapi/")
+            .baseUrl("")
             .client(getInterceptor())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -36,13 +36,23 @@ object NetworkConfig {
 
 
     fun getService() = getRetrofit().create(StaffService::class.java)
+
 }
+
+
+
 interface StaffService{
     //Fungsi Login Data
     @FormUrlEncoded
     @POST("login")
     fun loginData(@Field("username") username : String,
                   @Field("password") password : String) : Call<ResultLogin>
+
+    //Fungsi Get Token
+    @FormUrlEncoded
+    @POST("gettoken")
+    fun tokenData(@Field("usrnm") usrnm : String,
+                  @Field("accesstoken") accesstoken : String) : Call<ResultStatus>
 
     //<-------  Warehous FG KELUAR ---->
 

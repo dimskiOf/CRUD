@@ -6,6 +6,8 @@ interface CrudView {
     //Untuk Login Data
     fun onSuccessGetLogin(data: List<DataLogin>?)
     fun onFailedGetLogin(msg : String)
+    fun onSuccessgetToken(msg: String)
+    fun onFailedgetToken(msg: String)
 
     //Untuk get data
     fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?)

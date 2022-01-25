@@ -195,4 +195,11 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
     override fun onErrorUpdateRmMasuk(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onSuccessgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

@@ -3,6 +3,7 @@ package com.komputerisasi.crud.DataManagement
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.adapter.RmKeluarAdapter
 import com.komputerisasi.crud.model.*
@@ -19,6 +20,11 @@ class RmKeluar : AppCompatActivity(), CrudView {
         setContentView(R.layout.activity_rm_keluar)
         presenter = Presenter(this)
         presenter.getDataRmKeluar()
+
+        btnKembali.setOnClickListener {
+            startActivity<MainActivity>()
+            finish()
+        }
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddRmKeluar>()
@@ -152,6 +158,13 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorUpdateRmMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedgetToken(msg: String) {
         TODO("Not yet implemented")
     }
 }
