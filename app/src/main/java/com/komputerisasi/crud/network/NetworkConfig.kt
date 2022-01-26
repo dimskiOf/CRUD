@@ -31,18 +31,16 @@ object NetworkConfig {
         return okHttpClient
     }
 
-
-
     //Retrofit
-    fun getRetrofit(setter:String): Retrofit {
+    fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(setter)
+            .baseUrl("")
             .client(getInterceptor())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    fun getService() = getRetrofit(null.toString()).create(StaffService::class.java)
+    fun getService() = getRetrofit().create(StaffService::class.java)
 
 }
 
@@ -65,9 +63,9 @@ class DatabaseHelper(context: Context) : ManagedSQLiteOpenHelper(context, "datab
         //Buat tabel pada database
         var dt = db?.rawQuery("select * from table_settings where name_setting = 'settingurl'",null)
         if(dt!!.moveToNext()){
-            NetworkConfig.getRetrofit(dt.getString(2))
+            dt.getString(2)
+
         }
-        NetworkConfig.getRetrofit("http://localhost/")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -77,6 +75,7 @@ class DatabaseHelper(context: Context) : ManagedSQLiteOpenHelper(context, "datab
 
 val Context.database: DatabaseHelper
 get() = DatabaseHelper(applicationContext)
+
 
 interface StaffService{
     //Fungsi Login Data
