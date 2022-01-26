@@ -7,26 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".DataManagement.RmKeluar">
 
-    <Button
-        android:id="@+id/btnKembali"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="Back"
-        android:textColor="@android:color/black" />
-
-    <Button
-        android:id="@+id/btnrmkeluar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="48dp"
-        android:background="@android:color/background_light"
-        android:text="RM KELUAR"
-        android:textColor="@android:color/black" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCategory"
         android:layout_width="match_parent"
@@ -40,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="93dp"
+        android:layout_marginBottom="0dp"
         android:background="@android:color/holo_green_dark"
         android:text="Tambah"
         android:textColor="@android:color/white" />
