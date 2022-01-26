@@ -22,6 +22,13 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_add_rm_keluar)
 
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "UPDATE ADD RM KELUAR"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         presenter = Presenter(this)
         val itemDataItem = intent.getSerializableExtra("dataItem")
 
@@ -61,6 +68,11 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<RmKeluar>()
+        return true
+    }
 
     override fun onSuccessDeleteFgKeluar(msg: String) {
         TODO("Not yet implemented")

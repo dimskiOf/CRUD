@@ -22,6 +22,13 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_add_fg_keluar)
 
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "UPDATE ADD FG KELUAR"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         presenter = Presenter(this)
         val itemDataItem = intent.getSerializableExtra("dataItem")
 
@@ -61,6 +68,11 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<FgKeluar>()
+        return true
+    }
 
     override fun onSuccessDeleteFgKeluar(msg: String) {
         TODO("Not yet implemented")

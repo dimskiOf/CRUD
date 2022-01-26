@@ -12,13 +12,16 @@ import android.content.Intent
 import com.komputerisasi.crud.model.*
 import kotlinx.android.synthetic.main.settings_layouts.*
 import com.komputerisasi.crud.konfigurasi.DatabaseHelper
-
+import org.jetbrains.anko.startActivity
 
 
 class LoginUtama() : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        globalVar = selectDatabase("settingurl")
+
         presenter = Presenter(this)
         val data1 = selectDatabase("username")
         val data2 = selectDatabase("accesstoken")
@@ -29,13 +32,27 @@ class LoginUtama() : AppCompatActivity(), CrudView {
 
         settingserver.setOnClickListener {
             setContentView(R.layout.settings_layouts)
+
+            val actionbar = supportActionBar
+            //set actionbar title
+            actionbar!!.title = "lOGIN"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
+            actionbar.setDisplayHomeAsUpEnabled(true)
+
             btnSaveSetting.setOnClickListener {
                 val stats = selectDatabase("settingurl")
                 val urls = etSaveUrl.text.toString()
                 if (stats.isNotEmpty()) {
                     updateDatabase(urls,"settingurl",1)
+                    Toast.makeText(this, "Berhasil update server", Toast.LENGTH_SHORT).show()
+                    startActivity<LoginUtama>()
+                    finish()
                 }else{
                     insertDatabase(urls, 1, "settingurl")
+                    Toast.makeText(this, "Berhasil input server", Toast.LENGTH_SHORT).show()
+                    startActivity<LoginUtama>()
+                    finish()
                 }
 
             }
@@ -56,22 +73,35 @@ class LoginUtama() : AppCompatActivity(), CrudView {
             }
         }
     }else{
-            super.onCreate(savedInstanceState)
-           setContentView(R.layout.activity_main)
+            startActivity<MainActivity>()
+            finish()
         }
     }
 
+    companion object {
+
+        var globalVar = ""
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<LoginUtama>()
+        finish()
+        return true
+    }
 
     private fun insertDatabase(valuess: String,status: Int, namaseting: String) {
         var helper = DatabaseHelper(applicationContext)
         var db = helper.readableDatabase
          db.execSQL("INSERT INTO table_settings (valuer,status,name_setting) VALUES('"+ valuess +"','"+status+"','"+namaseting+"')")
+        db.close()
     }
 
      private fun updateDatabase(valuess: String,namaseting: String,status: Int){
          var helper = DatabaseHelper(applicationContext)
          var db = helper.readableDatabase
          db.execSQL("UPDATE table_settings set valuer='"+ valuess +"',status ='"+status+"' where name_setting= '"+namaseting+"'")
+        db.close()
      }
 
     private fun selectDatabase(namaseting: String): String {
@@ -82,6 +112,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
            return dt.getString(2)
         }
         return ""
+        db.close()
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {

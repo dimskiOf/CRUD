@@ -21,15 +21,23 @@ class RmKeluar : AppCompatActivity(), CrudView {
         presenter = Presenter(this)
         presenter.getDataRmKeluar()
 
-        btnKembali.setOnClickListener {
-            startActivity<MainActivity>()
-            finish()
-        }
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "RM KELUAR"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddRmKeluar>()
-            finish()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<MainActivity>()
+        finish()
+        return true
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {}

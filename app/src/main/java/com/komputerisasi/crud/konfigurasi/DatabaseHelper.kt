@@ -28,6 +28,7 @@ class DatabaseHelper(context: Context) : ManagedSQLiteOpenHelper(context, "datab
             SettingContract.VALUER to TEXT,
             SettingContract.STATUS to INTEGER
         )
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

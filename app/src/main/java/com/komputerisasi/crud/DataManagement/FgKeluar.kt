@@ -21,15 +21,23 @@ class FgKeluar : AppCompatActivity(), CrudView {
         presenter = Presenter(this)
         presenter.getDataFgKeluar()
 
-        btnKembali.setOnClickListener {
-            startActivity<MainActivity>()
-            finish()
-        }
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "FG KELUAR"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
             startActivity<UpdateAddFgKeluar>()
-            finish()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<MainActivity>()
+        finish()
+        return true
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {}
