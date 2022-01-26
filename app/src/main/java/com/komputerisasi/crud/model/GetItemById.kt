@@ -13,16 +13,16 @@ class GetItemById : Serializable {
     @field:SerializedName("ITEMDESCRIPTION")
     val Itemdes: String? = null
 
-    @field:SerializedName("")
+    @field:SerializedName("UNIT1")
     val Satuan: String = "Sack"
 
-    @field:SerializedName("")
+    @field:SerializedName("SD")
     val MinusPlus: String = "0"
 
     val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
     val currentDate = sdf.format(Date())
 
-    @field:SerializedName("")
+    @field:SerializedName("WQW")
     val TglMasuk: String = currentDate
 
 }

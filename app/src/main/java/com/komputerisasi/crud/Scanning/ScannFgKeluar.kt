@@ -15,28 +15,33 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.komputerisasi.crud.DataManagement.UpdateAddFgKeluar
+import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.R
+import com.komputerisasi.crud.konfigurasi.DatabaseHelper
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_scann_fg_keluar.*
 
 class ScannFgKeluar : AppCompatActivity(), CrudView {
-
-
     @SuppressLint("SetTextI18n")
     private lateinit var codeScanner: CodeScanner
+
+    private val heavyObject: Presenter by lazy {
+        Presenter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scann_fg_keluar)
 
+        LoginUtama.globalVar = selectDatabase("settingurl")
 
         setupPermissions()
         codeScanner()
     }
 
-    private  lateinit var presenter: Presenter
+
      fun codeScanner() {
         codeScanner = CodeScanner(this, scn)
 
@@ -53,8 +58,8 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
                 runOnUiThread {
                     hasilscannfgkeluar.text = it.text
 
-                    presenter.getDataItemById(
-                        it.text.toString()
+                    heavyObject.getDataItemById(
+                        "asdasd"
                     )
                 }
             }
@@ -70,6 +75,17 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
             }
 
         }
+    }
+
+    private fun selectDatabase(namaseting: String): String {
+        var helper = DatabaseHelper(applicationContext)
+        var db = helper.readableDatabase
+        var dt = db.rawQuery("select * from table_settings where name_setting = '"+namaseting+"'",null)
+        if(dt.moveToNext()){
+            return dt.getString(2)
+        }
+        return ""
+        db.close()
     }
 
     override fun onResume() {

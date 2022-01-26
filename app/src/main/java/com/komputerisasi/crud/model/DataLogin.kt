@@ -5,15 +5,15 @@ import java.io.Serializable
 
 class DataLogin : Serializable {
 
-    @field:SerializedName("username")
+    @field:SerializedName("USERNAME")
     val username: String? = null
 
-    @field:SerializedName("privilage")
+    @field:SerializedName("ID_JABATAN")
     val privilage: String? = null
 
-    @field:SerializedName("access_token")
+    @field:SerializedName("PASSWD")
     val accesstoken: String? = null
 
-    @field:SerializedName("email")
+    @field:SerializedName("EMAIL")
     val email: String? = null
 }
