@@ -31,8 +31,19 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
         presenter = Presenter(this)
         val itemDataItem = intent.getSerializableExtra("dataItem")
+        val itemcode=intent.getStringExtra("itemcode")
+        val itemdes=intent.getStringExtra("itemdes")
+        val tglmasuk=intent.getStringExtra("tglmasuk")
+        val satuan=intent.getStringExtra("satuan")
+        val minusplus=intent.getStringExtra("minusplus")
 
         if (itemDataItem == null){
+            etItemNo.setText(itemcode)
+            etItemDescription.setText(itemdes)
+            etInputMinusPlus.setText(minusplus)
+            etUnit1.setText(satuan)
+            etTglCreateFg.setText(tglmasuk)
+
             btnAction.text = "Simpan"
             btnAction.onClick {
                 presenter.addDataFgKeluar(
@@ -210,6 +221,14 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetItemById(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemById(msg: String) {
         TODO("Not yet implemented")
     }
 }

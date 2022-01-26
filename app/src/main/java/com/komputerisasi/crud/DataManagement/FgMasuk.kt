@@ -182,4 +182,11 @@ class FgMasuk : AppCompatActivity(), CrudView {
     override fun onFailedgetToken(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onSuccessGetItemById(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

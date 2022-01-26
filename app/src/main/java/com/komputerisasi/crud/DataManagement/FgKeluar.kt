@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
+import com.komputerisasi.crud.Scanning.ScannFgKeluar
 import com.komputerisasi.crud.adapter.FgKeluarAdapter
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
@@ -29,7 +30,8 @@ class FgKeluar : AppCompatActivity(), CrudView {
         actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
-            startActivity<UpdateAddFgKeluar>()
+          startActivity<ScannFgKeluar>()
+
         }
     }
 
@@ -177,4 +179,13 @@ class FgKeluar : AppCompatActivity(), CrudView {
     override fun onFailedgetToken(msg: String) {
         TODO("Not yet implemented")
     }
+
+    override fun onSuccessGetItemById(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
 }

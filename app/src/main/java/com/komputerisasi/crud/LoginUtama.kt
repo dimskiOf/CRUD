@@ -257,4 +257,12 @@ class LoginUtama() : AppCompatActivity(), CrudView {
          Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
      }
 
+    override fun onSuccessGetItemById(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
 }

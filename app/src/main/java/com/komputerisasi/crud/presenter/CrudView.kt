@@ -49,4 +49,8 @@ interface CrudView {
     fun onSuccessUpdateRmMasuk(msg: String)
     fun onErrorUpdateRmMasuk(msg: String)
 
+    //Get Item By Id
+    fun onSuccessGetItemById(data: List<GetItemById>?)
+    fun onErrorGetItemById(msg: String)
+
 }

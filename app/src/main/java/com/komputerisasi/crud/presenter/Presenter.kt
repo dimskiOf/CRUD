@@ -397,4 +397,29 @@ class Presenter (val crudView: CrudView) {
             })
     }
 
+    // get data item by id
+    fun getDataItemById(itemnos: String?){
+        NetworkConfig.getService().getitembyid(itemnos)
+            .enqueue(object : retrofit2.Callback<ResultGetItemById>{
+                override fun onFailure(call: Call<ResultGetItemById>, t: Throwable) {
+                    crudView.onErrorGetItemById(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultGetItemById>, response: Response<ResultGetItemById>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.GetItemByIds
+                            crudView.onSuccessGetItemById(data)
+                        } else{
+                            crudView.onErrorGetItemById("Error $status")
+                        }
+                    }
+                }
+
+            })
+
+    }
+
 }

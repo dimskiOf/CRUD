@@ -175,4 +175,9 @@ interface StaffService{
     @FormUrlEncoded
     @POST("deleteRmMasuk")
     fun deleteRmMasuk(@Field("id") id: String?) : Call<ResultStatus>
+
+    //fungsi get data item by id
+    @FormUrlEncoded
+    @POST("getitembyid")
+    fun getitembyid(@Field("itemnos") itemnos: String? ) : Call<ResultGetItemById>
 }
