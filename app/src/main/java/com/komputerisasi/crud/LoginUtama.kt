@@ -122,6 +122,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
             b.putExtra("token", "Selamat datang "+i.username)
             insertDatabase(i.username.toString(),1,"username")
             insertDatabase(i.accesstoken.toString(),1,"accesstoken")
+            Toast.makeText(this, "Login Berhasil", Toast.LENGTH_SHORT).show()
             startActivity(b)
         }
 

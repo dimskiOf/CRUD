@@ -1,7 +1,9 @@
 package com.komputerisasi.crud
 
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.komputerisasi.crud.DataManagement.FgKeluar
 import com.komputerisasi.crud.DataManagement.FgMasuk
 import com.komputerisasi.crud.DataManagement.RmKeluar
@@ -38,10 +40,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         Logout.setOnClickListener {
-            deletesDatabase("username")
-            deletesDatabase("accesstoken")
-            startActivity<LoginUtama>()
-            finish()
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setMessage("Logout?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    // Delete selected note from database
+                    deletesDatabase("username")
+                    deletesDatabase("accesstoken")
+                    startActivity<LoginUtama>()
+                    finish()
+                    Toast.makeText(this, "Logout!!", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
         }
 
     }
