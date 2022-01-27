@@ -1,10 +1,13 @@
 package com.komputerisasi.crud.DataManagement
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.R
+import com.komputerisasi.crud.konfigurasi.DatabaseHelper
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
@@ -19,6 +22,8 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        LoginUtama.globalVar = selectDatabase("settingurl")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_add_fg_keluar)
 
@@ -38,6 +43,12 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         val minusplus=intent.getStringExtra("minusplus")
 
         if (itemDataItem == null){
+            etItemNo.setFocusable(false)
+            etItemDescription.setFocusable(false)
+            etInputMinusPlus.setFocusable(false)
+            etUnit1.setFocusable(false)
+            etTglCreateFg.setFocusable(false)
+
             etItemNo.setText(itemcode)
             etItemDescription.setText(itemdes)
             etInputMinusPlus.setText(minusplus)
@@ -46,13 +57,26 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
             btnAction.text = "Simpan"
             btnAction.onClick {
-                presenter.addDataFgKeluar(
-                    etItemNo.text.toString(),
-                    etTglCreateFg.text.toString(),
-                    Integer.parseInt(etQtyFG.text.toString()),
-                    etLoadNumber.text.toString(),
-                    etInputMinusPlus.text.toString(),
-                    )
+                val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
+                builder.setMessage("Simpan Data?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, id ->
+
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { dialog, id ->
+
+                        presenter.addDataFgKeluar(
+                            etItemNo.text.toString(),
+                            etTglCreateFg.text.toString(),
+                            Integer.parseInt(etQtyFG.text.toString()),
+                            etLoadNumber.text.toString(),
+                            etInputMinusPlus.text.toString(),
+                        )
+                    }
+                val alert = builder.create()
+                alert.show()
+
             }
 
         }else if (itemDataItem != null){
@@ -66,14 +90,27 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             etUnit1.setText(item?.Unit1.toString())
             etTglCreateFg.setText(item?.TglCreateFg.toString())
             btnAction.onClick {
-                presenter.updateDataFgKeluar(
-                    item?.IdFgKeluar ?: "",
-                    etItemNo.text.toString(),
-                    etTglCreateFg.text.toString(),
-                    Integer.parseInt(etQtyFG.text.toString()),
-                    etLoadNumber.text.toString(),
-                    etInputMinusPlus.text.toString())
-                finish()
+                val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
+                builder.setMessage("Update Data?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { dialog, id ->
+                        // Delete selected note from database
+                        presenter.updateDataFgKeluar(
+                            item?.IdFgKeluar ?: "",
+                            etItemNo.text.toString(),
+                            etTglCreateFg.text.toString(),
+                            Integer.parseInt(etQtyFG.text.toString()),
+                            etLoadNumber.text.toString(),
+                            etInputMinusPlus.text.toString())
+                        finish()
+                    }
+                val alert = builder.create()
+                alert.show()
+
             }
 
         }
@@ -82,7 +119,19 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     override fun onSupportNavigateUp(): Boolean {
         //onBackPressed()
         startActivity<FgKeluar>()
+        finish()
         return true
+    }
+
+    private fun selectDatabase(namaseting: String): String {
+        var helper = DatabaseHelper(applicationContext)
+        var db = helper.readableDatabase
+        var dt = db.rawQuery("select * from table_settings where name_setting = '"+namaseting+"'",null)
+        if(dt.moveToNext()){
+            return dt.getString(2)
+        }
+        return ""
+        db.close()
     }
 
     override fun onSuccessDeleteFgKeluar(msg: String) {

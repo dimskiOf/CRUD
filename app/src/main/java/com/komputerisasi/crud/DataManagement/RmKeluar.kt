@@ -1,11 +1,15 @@
 package com.komputerisasi.crud.DataManagement
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
+import com.komputerisasi.crud.Scanning.ScannRmKeluar
 import com.komputerisasi.crud.adapter.RmKeluarAdapter
+import com.komputerisasi.crud.konfigurasi.DatabaseHelper
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
@@ -16,6 +20,8 @@ class RmKeluar : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
+        LoginUtama.globalVar = selectDatabase("settingurl")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rm_keluar)
         presenter = Presenter(this)
@@ -29,7 +35,8 @@ class RmKeluar : AppCompatActivity(), CrudView {
         actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
-            startActivity<UpdateAddRmKeluar>()
+            startActivity<ScannRmKeluar>()
+            finish()
         }
     }
 
@@ -38,6 +45,17 @@ class RmKeluar : AppCompatActivity(), CrudView {
         startActivity<MainActivity>()
         finish()
         return true
+    }
+
+    private fun selectDatabase(namaseting: String): String {
+        var helper = DatabaseHelper(applicationContext)
+        var db = helper.readableDatabase
+        var dt = db.rawQuery("select * from table_settings where name_setting = '"+namaseting+"'",null)
+        if(dt.moveToNext()){
+            return dt.getString(2)
+        }
+        return ""
+        db.close()
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {}
@@ -118,13 +136,40 @@ class RmKeluar : AppCompatActivity(), CrudView {
     override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {
         rvCategory.adapter = RmKeluarAdapter(data,object :RmKeluarAdapter.onClickItem{
             override fun clicked(item: RmKeluarItem?) {
-                startActivity<UpdateAddRmKeluar>("dataItem" to item)
+                val builder = AlertDialog.Builder(this@RmKeluar)
+                builder.setMessage("Are you sure you want to Delete?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { dialog, id ->
+                        // Delete selected note from database
+                        startActivity<UpdateAddRmKeluar>("dataItem" to item)
+                        finish()
+                    }
+                val alert = builder.create()
+                alert.show()
+
             }
 
             override fun delete(item: RmKeluarItem?) {
-                presenter.hapusDataRmKeluar(item?.IdRmKeluar)
-                startActivity<RmKeluar>()
-                finish()
+                val builder = AlertDialog.Builder(this@RmKeluar)
+                builder.setMessage("Are you sure you want to Delete?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { dialog, id ->
+                        // Delete selected note from database
+                        presenter.hapusDataRmKeluar(item?.IdRmKeluar)
+                        startActivity<RmKeluar>()
+                        finish()
+                    }
+                val alert = builder.create()
+                alert.show()
+
             }
         })
     }

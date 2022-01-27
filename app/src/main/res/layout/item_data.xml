@@ -50,7 +50,6 @@
                     android:layout_marginLeft="10dp"
                     android:id="@+id/ItemDescription"
                     android:text=""
-                    android:lines="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

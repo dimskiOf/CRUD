@@ -14,6 +14,7 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.komputerisasi.crud.DataManagement.RmKeluar
 import com.komputerisasi.crud.DataManagement.UpdateAddRmKeluar
 import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.R
@@ -22,6 +23,7 @@ import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_scann_rm_keluar.*
+import org.jetbrains.anko.startActivity
 
 class ScannRmKeluar : AppCompatActivity(), CrudView {
     @SuppressLint("SetTextI18n")
@@ -35,10 +37,24 @@ class ScannRmKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scann_rm_keluar)
 
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "SCANNING BARCODE/QRCODE"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         LoginUtama.globalVar = selectDatabase("settingurl")
 
         setupPermissions()
         codeScanner()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<RmKeluar>()
+        finish()
+        return true
     }
 
 
@@ -283,6 +299,8 @@ class ScannRmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
+        codeScanner.releaseResources()
+        super.onPause()
         data?.forEach{
                 i ->
             val b = Intent(this, UpdateAddRmKeluar::class.java)
@@ -292,6 +310,7 @@ class ScannRmKeluar : AppCompatActivity(), CrudView {
             b.putExtra("satuan", i.Satuan)
             b.putExtra("minusplus", i.MinusPlus)
             startActivity(b)
+            finish()
         }
     }
 

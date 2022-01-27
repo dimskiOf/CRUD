@@ -69,7 +69,7 @@ class Presenter (val crudView: CrudView) {
                             val data = response.body()?.FgKeluarItems
                             crudView.onSuccessGetFgKeluar(data)
                         } else{
-                            crudView.onFailedGetFgKeluar("Error $status")
+                            crudView.onFailedGetFgKeluar(response.body()?.pesan ?: "Error $status")
                         }
                     }
                 }
@@ -155,7 +155,7 @@ class Presenter (val crudView: CrudView) {
                             val data = response.body()?.FgMasukItems
                             crudView.onSuccessGetFgMasuk(data)
                         } else{
-                            crudView.onFailedGetFgMasuk("Error $status")
+                            crudView.onFailedGetFgMasuk(response.body()?.pesan ?: "Error $status")
                         }
                     }
                 }
@@ -241,7 +241,7 @@ class Presenter (val crudView: CrudView) {
                             val data = response.body()?.RmKeluarItems
                             crudView.onSuccessGetRmKeluar(data)
                         } else{
-                            crudView.onFailedGetRmKeluar("Error $status")
+                            crudView.onFailedGetRmKeluar(response.body()?.pesan ?:"Error $status")
                         }
                     }
                 }
@@ -327,7 +327,7 @@ class Presenter (val crudView: CrudView) {
                             val data = response.body()?.RmMasukItems
                             crudView.onSuccessGetRmMasuk(data)
                         } else{
-                            crudView.onFailedGetRmMasuk("Error $status")
+                            crudView.onFailedGetRmMasuk(response.body()?.pesan ?: "Error $status")
                         }
                     }
                 }
@@ -413,7 +413,7 @@ class Presenter (val crudView: CrudView) {
                             val data = response.body()?.GetItemByIds
                             crudView.onSuccessGetItemById(data)
                         } else{
-                            crudView.onErrorGetItemById("Error $status")
+                            crudView.onErrorGetItemById(response.body()?.pesan ?: "Error $status")
                         }
                     }
                 }

@@ -14,6 +14,7 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.komputerisasi.crud.DataManagement.FgKeluar
 import com.komputerisasi.crud.DataManagement.UpdateAddFgKeluar
 import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.R
@@ -22,6 +23,7 @@ import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_scann_fg_keluar.*
+import org.jetbrains.anko.startActivity
 
 class ScannFgKeluar : AppCompatActivity(), CrudView {
     @SuppressLint("SetTextI18n")
@@ -37,10 +39,23 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
 
         LoginUtama.globalVar = selectDatabase("settingurl")
 
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "SCANNING BARCODE/QRCODE"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
         setupPermissions()
         codeScanner()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<FgKeluar>()
+        finish()
+        return true
+    }
 
      fun codeScanner() {
         codeScanner = CodeScanner(this, scn)
@@ -283,6 +298,8 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
+        codeScanner.releaseResources()
+        super.onPause()
         data?.forEach{
                 i ->
             val b = Intent(this, UpdateAddFgKeluar::class.java)
@@ -292,6 +309,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
             b.putExtra("satuan", i.Satuan)
             b.putExtra("minusplus", i.MinusPlus)
             startActivity(b)
+            finish()
         }
     }
 

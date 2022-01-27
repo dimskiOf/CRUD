@@ -22,19 +22,19 @@ class MainActivity : AppCompatActivity() {
 
         FgKeluar.setOnClickListener {
             startActivity<FgKeluar>()
-
+            finish()
         }
         FgMasuk.setOnClickListener {
             startActivity<FgMasuk>()
-
+            finish()
         }
         RmKeluar.setOnClickListener {
             startActivity<RmKeluar>()
-
+            finish()
         }
         RmMasuk.setOnClickListener {
             startActivity<RmMasuk>()
-
+            finish()
         }
 
         Logout.setOnClickListener {

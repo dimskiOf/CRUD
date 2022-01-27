@@ -1,12 +1,15 @@
 package com.komputerisasi.crud.DataManagement
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.MainActivity
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.Scanning.ScannFgKeluar
 import com.komputerisasi.crud.adapter.FgKeluarAdapter
+import com.komputerisasi.crud.konfigurasi.DatabaseHelper
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
@@ -17,6 +20,8 @@ class FgKeluar : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
+        LoginUtama.globalVar = selectDatabase("settingurl")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fg_keluar)
         presenter = Presenter(this)
@@ -31,7 +36,7 @@ class FgKeluar : AppCompatActivity(), CrudView {
 
         btnTambah.setOnClickListener {
           startActivity<ScannFgKeluar>()
-
+            finish()
         }
     }
 
@@ -42,6 +47,17 @@ class FgKeluar : AppCompatActivity(), CrudView {
         return true
     }
 
+    private fun selectDatabase(namaseting: String): String {
+        var helper = DatabaseHelper(applicationContext)
+        var db = helper.readableDatabase
+        var dt = db.rawQuery("select * from table_settings where name_setting = '"+namaseting+"'",null)
+        if(dt.moveToNext()){
+            return dt.getString(2)
+        }
+        return ""
+        db.close()
+    }
+
     override fun onSuccessGetLogin(data: List<DataLogin>?) {}
 
     override fun onFailedGetLogin(msg: String) {
@@ -50,13 +66,39 @@ class FgKeluar : AppCompatActivity(), CrudView {
     override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
         rvCategory.adapter = FgKeluarAdapter(data,object :FgKeluarAdapter.onClickItem{
             override fun clicked(item: FgKeluarItem?) {
-                startActivity<UpdateAddFgKeluar>("dataItem" to item)
+                val builder = AlertDialog.Builder(this@FgKeluar)
+                builder.setMessage("Edit Data?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
+                        // Delete selected note from database
+                        startActivity<UpdateAddFgKeluar>("dataItem" to item)
+                        finish()
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
             }
 
             override fun delete(item: FgKeluarItem?) {
-                presenter.hapusDataFgKeluar(item?.IdFgKeluar)
-                startActivity<FgKeluar>()
-                finish()
+                val builder = AlertDialog.Builder(this@FgKeluar)
+                builder.setMessage("Are you sure you want to Delete?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
+                        // Delete selected note from database
+                        presenter.hapusDataFgKeluar(item?.IdFgKeluar)
+                        startActivity<FgKeluar>()
+                        finish()
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+
             }
         })
     }
