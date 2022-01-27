@@ -14,16 +14,16 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
-import com.komputerisasi.crud.DataManagement.UpdateAddFgKeluar
+import com.komputerisasi.crud.DataManagement.UpdateAddRmMasuk
 import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.R
 import com.komputerisasi.crud.konfigurasi.DatabaseHelper
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
-import kotlinx.android.synthetic.main.activity_scann_fg_keluar.*
+import kotlinx.android.synthetic.main.activity_scann_rm_masuk.*
 
-class ScannFgKeluar : AppCompatActivity(), CrudView {
+class ScannRmMasuk : AppCompatActivity(), CrudView {
     @SuppressLint("SetTextI18n")
     private lateinit var codeScanner: CodeScanner
 
@@ -33,7 +33,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scann_fg_keluar)
+        setContentView(R.layout.activity_scann_rm_masuk)
 
         LoginUtama.globalVar = selectDatabase("settingurl")
 
@@ -42,7 +42,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
     }
 
 
-     fun codeScanner() {
+    fun codeScanner() {
         codeScanner = CodeScanner(this, scn)
 
         codeScanner.apply {
@@ -56,7 +56,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
 
             decodeCallback = DecodeCallback {
                 runOnUiThread {
-                    hasilscannfgkeluar.text = it.text
+                    hasilscannRmMasuk.text = it.text
 
                     heavyObject.getDataItemById(
                         it.text.toString()
@@ -66,7 +66,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
 
             errorCallback = ErrorCallback {
                 runOnUiThread {
-                  //  Log.e("Main", "codeScanner: ${it.message}")
+                    //  Log.e("Main", "codeScanner: ${it.message}")
                 }
             }
 
@@ -285,7 +285,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
         data?.forEach{
                 i ->
-            val b = Intent(this, UpdateAddFgKeluar::class.java)
+            val b = Intent(this, UpdateAddRmMasuk::class.java)
             b.putExtra("itemcode", i.ItemCode)
             b.putExtra("itemdes", i.Itemdes)
             b.putExtra("tglmasuk", i.TglMasuk)
