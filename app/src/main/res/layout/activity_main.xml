@@ -2,129 +2,128 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bggradient"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
         android:text="SELAMAT DATANG"
-        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="40dp"
-        android:textColor="@color/white"
-        android:gravity="center">
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/selamatdatang"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="70dp"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:text=""
-        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
         android:textSize="30dp"
-        android:textColor="@color/black"
-        android:gravity="center">
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="320dp"
         android:layout_height="400dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="150dp"
         android:layout_marginBottom="8dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="20dp"
-        app:layout_constraintVertical_bias="0.781"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:id="@+id/cardView2">
+        app:cardCornerRadius="15dp"
+        app:cardElevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.781">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent">
+            android:background="@color/white">
 
             <Button
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:id="@+id/Logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginBottom="50dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:text="LOGOUT" />
-
-            <Button
-                android:background="@android:color/holo_green_dark"
+                android:text="LOGOUT"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <Button
                 android:id="@+id/FgKeluar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginBottom="165dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
+                android:background="#F3EF3F3F"
                 android:text="FG KELUAR"
-                />
-
-            <Button
-                android:background="@android:color/holo_green_dark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <Button
                 android:id="@+id/FgMasuk"
-                android:layout_marginBottom="220dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:text="FG MASUK" />
-
-            <Button
-                    android:background="@android:color/holo_green_dark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:id="@+id/RmKeluar"
-                    android:layout_marginBottom="275dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="RM KELUAR" />
-
-            <Button
-                android:background="@android:color/holo_green_dark"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="220dp"
+                android:background="#F3EF3F3F"
+                android:text="FG MASUK"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/RmMasuk"
-                android:layout_marginBottom="330dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <Button
+                android:id="@+id/RmKeluar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:text="RM MASUK" />
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="275dp"
+                android:background="#F3EF3F3F"
+                android:text="RM KELUAR"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <Button
+                android:id="@+id/RmMasuk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="330dp"
+                android:background="#F3EF3F3F"
+                android:text="RM MASUK"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

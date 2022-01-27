@@ -34,6 +34,16 @@ class ScannFgMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val data1 = selectDatabase("username")
+        val data2 = selectDatabase("accesstoken")
+
+        if (data1.isEmpty() || data2.isEmpty()){
+            startActivity<LoginUtama>()
+            finish()
+        }else{
+
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scann_fg_masuk)
 

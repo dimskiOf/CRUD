@@ -17,12 +17,17 @@
 
     <Button
         android:id="@+id/btnTambah"
-        android:layout_width="match_parent"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:background="@android:color/holo_green_dark"
-        android:text="Tambah"
-        android:textColor="@android:color/white" />
+        android:background="@drawable/button_press"
+        android:drawableBottom="@drawable/rounderbtn"
+        android:text="+"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="normal|bold"
+        android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>

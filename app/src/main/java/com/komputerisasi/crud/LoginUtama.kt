@@ -19,7 +19,6 @@ class LoginUtama() : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         globalVar = selectDatabase("settingurl")
 
         presenter = Presenter(this)
@@ -73,6 +72,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
             }
         }
     }else{
+            super.onCreate(savedInstanceState)
             startActivity<MainActivity>()
             finish()
         }
@@ -116,14 +116,22 @@ class LoginUtama() : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(
+            "finish",
+            true
+        )
         data?.forEach{
             i ->
-            val b = Intent(this, MainActivity::class.java)
-            b.putExtra("token", "Selamat datang "+i.username)
+            intent.putExtra("token", "Selamat datang "+i.username)
             insertDatabase(i.username.toString(),1,"username")
             insertDatabase(i.accesstoken.toString(),1,"accesstoken")
             Toast.makeText(this, "Login Berhasil", Toast.LENGTH_SHORT).show()
-            startActivity(b)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
         }
 
     }

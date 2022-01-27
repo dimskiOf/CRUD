@@ -11,13 +11,15 @@ import com.komputerisasi.crud.DataManagement.RmMasuk
 import com.komputerisasi.crud.konfigurasi.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
-
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val data1 = selectDatabase("username")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val data1 = selectDatabase("username")
+
         LoginUtama.globalVar = selectDatabase("settingurl")
 
         selamatdatang.setText(data1)
@@ -47,8 +49,18 @@ class MainActivity : AppCompatActivity() {
                     // Delete selected note from database
                     deletesDatabase("username")
                     deletesDatabase("accesstoken")
-                    startActivity<LoginUtama>()
+                    val intent = Intent(this, LoginUtama::class.java)
+                    intent.putExtra(
+                        "finish",
+                        true
+                    )
+
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
                     finish()
+
                     Toast.makeText(this, "Logout!!", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, id ->

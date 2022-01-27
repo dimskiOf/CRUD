@@ -20,6 +20,16 @@ class RmKeluar : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
+        val data1 = selectDatabase("username")
+        val data2 = selectDatabase("accesstoken")
+
+        if (data1.isEmpty() || data2.isEmpty()){
+            startActivity<LoginUtama>()
+            finish()
+        }else{
+
+        }
+
         LoginUtama.globalVar = selectDatabase("settingurl")
 
         super.onCreate(savedInstanceState)
