@@ -158,7 +158,7 @@ class RmMasuk : AppCompatActivity(), CrudView {
         rvCategory.adapter = RmMasukAdapter(data,object :RmMasukAdapter.onClickItem{
             override fun clicked(item: RmMasukItem?) {
                 val builder = AlertDialog.Builder(this@RmMasuk)
-                builder.setMessage("Are you sure you want to Delete?")
+                builder.setMessage("Edit Data?")
                     .setCancelable(false)
                     .setNegativeButton("No") { dialog, id ->
                         // Dismiss the dialog

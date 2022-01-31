@@ -19,6 +19,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         globalVar = selectDatabase("settingurl")
 
         presenter = Presenter(this)
@@ -26,7 +27,6 @@ class LoginUtama() : AppCompatActivity(), CrudView {
         val data2 = selectDatabase("accesstoken")
 
         if (data1.isEmpty() || data2.isEmpty()) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_utama)
 
         settingserver.setOnClickListener {
@@ -72,7 +72,6 @@ class LoginUtama() : AppCompatActivity(), CrudView {
             }
         }
     }else{
-            super.onCreate(savedInstanceState)
             startActivity<MainActivity>()
             finish()
         }

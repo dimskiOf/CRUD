@@ -147,7 +147,7 @@ class RmKeluar : AppCompatActivity(), CrudView {
         rvCategory.adapter = RmKeluarAdapter(data,object :RmKeluarAdapter.onClickItem{
             override fun clicked(item: RmKeluarItem?) {
                 val builder = AlertDialog.Builder(this@RmKeluar)
-                builder.setMessage("Are you sure you want to Delete?")
+                builder.setMessage("Edit Data?")
                     .setCancelable(false)
                     .setNegativeButton("No") { dialog, id ->
                         // Dismiss the dialog
