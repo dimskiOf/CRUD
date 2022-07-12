@@ -39,10 +39,6 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "UPDATE ADD FG KELUAR"
-        //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         presenter = Presenter(this)
         val itemDataItem = intent.getSerializableExtra("dataItem")
@@ -53,6 +49,9 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         val minusplus=intent.getStringExtra("minusplus")
 
         if (itemDataItem == null){
+            actionbar!!.title = "SIMPAN FG KELUAR"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
             etItemNo.setFocusable(false)
             etItemDescription.setFocusable(false)
             etInputMinusPlus.setFocusable(false)
@@ -80,7 +79,7 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                             etItemNo.text.toString(),
                             etTglCreateFg.text.toString(),
                             Integer.parseInt(etQtyFG.text.toString()),
-                            etLoadNumber.text.toString(),
+                            etLotNumber.text.toString(),
                             etInputMinusPlus.text.toString(),
                         )
                     }
@@ -90,12 +89,15 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             }
 
         }else if (itemDataItem != null){
+            actionbar!!.title = "UPDATE FG KELUAR"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as FgKeluarItem?
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
             etQtyFG.setText(item?.QtyFG.toString())
-            etLoadNumber.setText(item?.LoadNumber.toString())
+            etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
             etUnit1.setText(item?.Unit1.toString())
             etTglCreateFg.setText(item?.TglCreateFg.toString())
@@ -114,7 +116,7 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                             etItemNo.text.toString(),
                             etTglCreateFg.text.toString(),
                             Integer.parseInt(etQtyFG.text.toString()),
-                            etLoadNumber.text.toString(),
+                            etLotNumber.text.toString(),
                             etInputMinusPlus.text.toString())
                         finish()
                     }

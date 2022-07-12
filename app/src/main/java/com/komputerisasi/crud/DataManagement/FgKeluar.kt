@@ -42,7 +42,6 @@ class FgKeluar : AppCompatActivity(), CrudView {
         actionbar!!.title = "FG KELUAR"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
           startActivity<ScannFgKeluar>()

@@ -5,27 +5,27 @@ import java.io.Serializable
 
 class RmKeluarItem : Serializable {
 
-    @field:SerializedName("LOAD_NMBR")
-    val LoadNumber: String? = null
+    @field:SerializedName("lot_nmbr")
+    val LotNumber: String? = null
 
-    @field:SerializedName("ITEMNO")
+    @field:SerializedName("itemno")
     val ItemNo: String? = null
 
-    @field:SerializedName("ITEMDESCRIPTION")
+    @field:SerializedName("itemdescription")
     val ItemDescription: String? = null
 
-    @field:SerializedName("UNIT1")
+    @field:SerializedName("unit1")
     val Unit1: String? = null
 
-    @field:SerializedName("QTY_RM")
+    @field:SerializedName("qty_rm")
     val QtyRm: String? = null
 
-    @field:SerializedName("TGL_CREATE_RM")
+    @field:SerializedName("tgl_create_rm")
     val TglCreateRm: String? = null
 
-    @field:SerializedName("INPUTMINUSPLUS")
+    @field:SerializedName("inputminusplus")
     val InputMinusPlus: String? = null
 
-    @field:SerializedName("ID_RM_KELUAR")
+    @field:SerializedName("id_rm_keluar")
     val IdRmKeluar: String? = null
 }

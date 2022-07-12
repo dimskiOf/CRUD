@@ -12,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import com.komputerisasi.crud.LoginUtama.Companion.globalVar
 
+
 object NetworkConfig {
 
     fun getInterceptor() : OkHttpClient {
@@ -27,6 +28,9 @@ object NetworkConfig {
 
     //Retrofit
     fun getRetrofit(): Retrofit {
+        if(globalVar.isEmpty()){
+            globalVar = "http://localhost/"
+        }
         return Retrofit.Builder()
             .baseUrl(globalVar)
             .client(getInterceptor())
@@ -34,150 +38,164 @@ object NetworkConfig {
             .build()
     }
 
-    fun getService() = getRetrofit().create(StaffService::class.java)
+    fun getService() = getRetrofit().create(DataService::class.java)
 
 }
 
 
-interface StaffService{
+interface DataService{
+
     //Fungsi Login Data
     @FormUrlEncoded
-    @POST("login")
+    @POST("api/login")
     fun loginData(@Field("username") username : String,
-                  @Field("password") password : String) : Call<ResultLogin>
+                  @Field("password") password : String,
+                  @Field("dbname") globalDatabase : String ) : Call<ResultLogin>
 
-    //Fungsi Get Token
-    @FormUrlEncoded
-    @POST("gettoken")
-    fun tokenData(@Field("usrnm") usrnm : String,
-                  @Field("accesstoken") accesstoken : String) : Call<ResultStatus>
 
     //<-------  Warehous FG KELUAR ---->
 
     //Fungsi Get Data Fg Keluar
-    @GET("getDataFgKeluar")
+    @FormUrlEncoded
+    @POST("api/getfgkeluar")
 
-    fun getDataFgKeluar() : Call<ResultFgKeluarItem>
+    fun getDataFgKeluar(@Field("dbname") globalDatabase : String) : Call<ResultFgKeluarItem>
 
     //Fungsi Create Data FG Keluar
     @FormUrlEncoded
-    @POST("addFgKeluar")
+    @POST("api/addFgKeluar")
     fun addFgKeluar(@Field("itemno") itemno : String,
                  @Field("tglcreatefg") tglcreatefg : String,
                  @Field("qtyfg") qtyfg : Int,
-                 @Field("loadnumber") loadnumber : String,
-                 @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                 @Field("lotnumber") lotnumber : String,
+                 @Field("inputminusplus") minusplus : String,
+                 @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data fg keluar
     @FormUrlEncoded
-    @POST("updateFgKeluar")
+    @POST("api/updateFgKeluar")
     fun updateFgKeluar(@Field("idfgkeluar") idfgkeluar : String,
                        @Field("itemno") itemno : String,
                        @Field("tglcreatefg") tglcreatefg : String,
                        @Field("qtyfg") qtyfg : Int,
-                       @Field("loadnumber") loadnumber : String,
-                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                       @Field("lotnumber") lotnumber : String,
+                       @Field("inputminusplus") minusplus : String,
+                       @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data fg keluar
     @FormUrlEncoded
-    @POST("deleteFgKeluar")
-    fun deleteFgKeluar(@Field("id") id: String?) : Call<ResultStatus>
+    @POST("api/deleteFgKeluar")
+    fun deleteFgKeluar(@Field("id") id: String?,
+                       @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //<-------  Warehous FG MASUK ---->
 
     //Fungsi Get Data Fg Masuk
-    @GET("getDataFgMasuk")
+    @FormUrlEncoded
+    @POST("api/getfgmasuk")
 
-    fun getDataFgMasuk() : Call<ResultFgMasukItem>
+    fun getDataFgMasuk(@Field("dbname") globalDatabase : String) : Call<ResultFgMasukItem>
 
     //Fungsi Create Data FG Masuk
     @FormUrlEncoded
-    @POST("addFgMasuk")
+    @POST("api/addFgMasuk")
     fun addFgMasuk(@Field("itemno") itemno : String,
                    @Field("tglcreatefg") tglcreatefg : String,
                    @Field("qtyfg") qtyfg : Int,
-                   @Field("loadnumber") loadnumber : String,
-                   @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                   @Field("lotnumber") lotnumber : String,
+                   @Field("inputminusplus") minusplus : String,
+                   @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data fg Masuk
     @FormUrlEncoded
-    @POST("updateFgMasuk")
+    @POST("api/updateFgMasuk")
     fun updateFgMasuk(@Field("idfgmasuk") idfgmasuk : String,
                       @Field("itemno") itemno : String,
                       @Field("tglcreatefg") tglcreatefg : String,
                       @Field("qtyfg") qtyfg : Int,
-                      @Field("loadnumber") loadnumber : String,
-                      @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                      @Field("lotnumber") lotnumber : String,
+                      @Field("inputminusplus") minusplus : String,
+                      @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data fg masuk
     @FormUrlEncoded
-    @POST("deleteFgMasuk")
-    fun deleteFgMasuk(@Field("id") id: String?) : Call<ResultStatus>
+    @POST("api/deleteFgMasuk")
+    fun deleteFgMasuk(@Field("id") id: String?,
+                      @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //<-------  Warehous RM KELUAR ---->
 
     //Fungsi Get Data Rm Keluar
-    @GET("getDataRmKeluar")
+    @FormUrlEncoded
+    @POST("api/getrmkeluar")
 
-    fun getDataRmKeluar() : Call<ResultRmKeluarItem>
+    fun getDataRmKeluar(@Field("dbname") globalDatabase : String) : Call<ResultRmKeluarItem>
 
     //Fungsi Create Data Rm Keluar
     @FormUrlEncoded
-    @POST("addRmKeluar")
+    @POST("api/addRmKeluar")
     fun addRmKeluar(@Field("itemno") itemno : String,
                     @Field("tglcreaterm") tglcreaterm : String,
                     @Field("qtyrm") qtyrm : Int,
-                    @Field("loadnumber") loadnumber : String,
-                    @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                    @Field("lotnumber") lotnumber : String,
+                    @Field("inputminusplus") minusplus : String,
+                    @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data Rm Keluar
     @FormUrlEncoded
-    @POST("updateRmKeluar")
+    @POST("api/updateRmKeluar")
     fun updateRmKeluar(@Field("idrmkeluar") idrmkeluar : String,
                        @Field("itemno") itemno : String,
                        @Field("tglcreaterm") tglcreaterm : String,
                        @Field("qtyrm") qtyrm : Int,
-                       @Field("loadnumber") loadnumber : String,
-                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                       @Field("lotnumber") lotnumber : String,
+                       @Field("inputminusplus") minusplus : String,
+                       @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data Rm Keluar
     @FormUrlEncoded
-    @POST("deleteRmKeluar")
-    fun deleteRmKeluar(@Field("id") id: String?) : Call<ResultStatus>
+    @POST("api/deleteRmKeluar")
+    fun deleteRmKeluar(@Field("id") id: String?,
+                       @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //<-------  Warehous RM MASUK ---->
 
     //Fungsi Get Data Rm Masuk
-    @GET("getDataRmMasuk")
+    @FormUrlEncoded
+    @POST("api/getrmmasuk")
 
-    fun getDataRmMasuk() : Call<ResultRmMasukItem>
+    fun getDataRmMasuk(@Field("dbname") globalDatabase : String) : Call<ResultRmMasukItem>
 
     //Fungsi Create Data Rm Masuk
     @FormUrlEncoded
-    @POST("addRmMasuk")
+    @POST("api/addRmMasuk")
     fun addRmMasuk(@Field("itemno") itemno : String,
                     @Field("tglcreaterm") tglcreaterm : String,
                     @Field("qtyrm") qtyrm : Int,
-                    @Field("loadnumber") loadnumber : String,
-                    @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                    @Field("lotnumber") lotnumber : String,
+                    @Field("inputminusplus") minusplus : String,
+                   @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data Rm Masuk
     @FormUrlEncoded
-    @POST("updateRmMasuk")
+    @POST("api/updateRmMasuk")
     fun updateRmMasuk(@Field("idrmmasuk") idrmmasuk : String,
                        @Field("itemno") itemno : String,
                        @Field("tglcreaterm") tglcreaterm : String,
                        @Field("qtyrm") qtyrm : Int,
-                       @Field("loadnumber") loadnumber : String,
-                       @Field("inputminusplus") minusplus : String) : Call<ResultStatus>
+                       @Field("lotnumber") lotnumber : String,
+                       @Field("inputminusplus") minusplus : String,
+                      @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data Rm Masuk
     @FormUrlEncoded
-    @POST("deleteRmMasuk")
-    fun deleteRmMasuk(@Field("id") id: String?) : Call<ResultStatus>
+    @POST("api/deleteRmMasuk")
+    fun deleteRmMasuk(@Field("id") id: String?,
+                      @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //fungsi get data item by id
     @FormUrlEncoded
-    @POST("getitembyid")
-    fun getitembyid(@Field("itemnos") itemnos: String? ) : Call<ResultGetItemById>
+    @POST("api/getitembyid")
+    fun getitembyid(@Field("itemnos") itemnos: String?,
+                    @Field("dbname") globalDatabase : String) : Call<ResultGetItemById>
 }

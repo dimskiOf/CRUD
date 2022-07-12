@@ -42,7 +42,6 @@ class FgMasuk : AppCompatActivity(), CrudView {
         actionbar!!.title = "FG MASUK"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
             startActivity<ScannFgMasuk>()

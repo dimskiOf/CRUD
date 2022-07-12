@@ -38,11 +38,6 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
         setContentView(R.layout.activity_update_add_fg_masuk)
 
         val actionbar = supportActionBar
-        //set actionbar title
-        actionbar!!.title = "UPDATE ADD FG MASUK"
-        //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         presenter = Presenter(this)
         val itemDataItem = intent.getSerializableExtra("dataItem")
@@ -53,6 +48,9 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
         val minusplus=intent.getStringExtra("minusplus")
 
         if (itemDataItem == null){
+            actionbar!!.title = "SIMPAN FG MASUK"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
             etItemNo.setFocusable(false)
             etItemDescription.setFocusable(false)
             etInputMinusPlus.setFocusable(false)
@@ -80,7 +78,7 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
                             etItemNo.text.toString(),
                             etTglCreateFg.text.toString(),
                             Integer.parseInt(etQtyFG.text.toString()),
-                            etLoadNumber.text.toString(),
+                            etLotNumber.text.toString(),
                             etInputMinusPlus.text.toString(),
                         )
                     }
@@ -90,12 +88,15 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
             }
 
         }else if (itemDataItem != null){
+            actionbar!!.title = "UPDATE FG MASUK"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as FgMasukItem?
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
             etQtyFG.setText(item?.QtyFG.toString())
-            etLoadNumber.setText(item?.LoadNumber.toString())
+            etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
             etUnit1.setText(item?.Unit1.toString())
             etTglCreateFg.setText(item?.TglCreateFg.toString())
@@ -114,7 +115,7 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
                             etItemNo.text.toString(),
                             etTglCreateFg.text.toString(),
                             Integer.parseInt(etQtyFG.text.toString()),
-                            etLoadNumber.text.toString(),
+                            etLotNumber.text.toString(),
                             etInputMinusPlus.text.toString())
                         finish()
                     }

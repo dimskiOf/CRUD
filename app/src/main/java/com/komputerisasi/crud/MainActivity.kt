@@ -15,14 +15,11 @@ import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val data1 = selectDatabase("username")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         LoginUtama.globalVar = selectDatabase("settingurl")
-
-        selamatdatang.setText(data1)
 
         FgKeluar.setOnClickListener {
             startActivity<FgKeluar>()

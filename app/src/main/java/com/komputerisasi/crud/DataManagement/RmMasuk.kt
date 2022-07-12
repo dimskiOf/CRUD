@@ -42,7 +42,6 @@ class RmMasuk : AppCompatActivity(), CrudView {
         actionbar!!.title = "RM MASUK"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
             startActivity<ScannRmMasuk>()

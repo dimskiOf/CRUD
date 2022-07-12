@@ -7,13 +7,13 @@ import java.util.*
 
 class GetItemById : Serializable {
 
-    @field:SerializedName("ITEMNO")
+    @field:SerializedName("itemno")
     val ItemCode: String? = null
 
-    @field:SerializedName("ITEMDESCRIPTION")
+    @field:SerializedName("itemdescription")
     val Itemdes: String? = null
 
-    @field:SerializedName("UNIT1")
+    @field:SerializedName("unit1")
     val Satuan: String = "Sack"
 
     @field:SerializedName("SD")

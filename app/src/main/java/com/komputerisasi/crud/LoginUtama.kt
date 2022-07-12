@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.komputerisasi.crud.presenter.CrudView
 import com.komputerisasi.crud.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_login_utama.*
-import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import com.komputerisasi.crud.model.*
 import kotlinx.android.synthetic.main.settings_layouts.*
@@ -21,6 +20,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         globalVar = selectDatabase("settingurl")
+        globalDatabase = selectDatabase("settingdatabase")
 
         presenter = Presenter(this)
         val data1 = selectDatabase("username")
@@ -34,25 +34,26 @@ class LoginUtama() : AppCompatActivity(), CrudView {
 
             val actionbar = supportActionBar
             //set actionbar title
-            actionbar!!.title = "lOGIN"
+            actionbar!!.title = "SERVER SETTING"
             //set back button
             actionbar.setDisplayHomeAsUpEnabled(true)
-            actionbar.setDisplayHomeAsUpEnabled(true)
+
+            val check = selectDatabase("settingurl")
+            val check2 = selectDatabase("settingdatabase")
+            etSaveUrl.setText(check)
+            etSaveDatabase.setText(check2)
 
             btnSaveSetting.setOnClickListener {
-                val stats = selectDatabase("settingurl")
                 val urls = etSaveUrl.text.toString()
-                if (stats.isNotEmpty()) {
-                    updateDatabase(urls,"settingurl",1)
-                    Toast.makeText(this, "Berhasil update server", Toast.LENGTH_SHORT).show()
-                    startActivity<LoginUtama>()
-                    finish()
-                }else{
-                    insertDatabase(urls, 1, "settingurl")
-                    Toast.makeText(this, "Berhasil input server", Toast.LENGTH_SHORT).show()
-                    startActivity<LoginUtama>()
-                    finish()
-                }
+                val db = etSaveDatabase.text.toString()
+
+                deleteDatabase("table_settings", "settingurl","name_setting")
+                deleteDatabase("table_settings", "settingdatabase","name_setting")
+                insertDatabase(urls, 1, "settingurl")
+                insertDatabase(db, 1, "settingdatabase")
+                Toast.makeText(this, "Berhasil input server", Toast.LENGTH_SHORT).show()
+                startActivity<LoginUtama>()
+                finish()
 
             }
         }
@@ -80,6 +81,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
     companion object {
 
         var globalVar = ""
+        var globalDatabase = ""
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -93,6 +95,12 @@ class LoginUtama() : AppCompatActivity(), CrudView {
         var helper = DatabaseHelper(applicationContext)
         var db = helper.readableDatabase
          db.execSQL("INSERT INTO table_settings (valuer,status,name_setting) VALUES('"+ valuess +"','"+status+"','"+namaseting+"')")
+        db.close()
+    }
+    private fun deleteDatabase(TABEL: String,VALUE : String, namaseting: String) {
+        var helper = DatabaseHelper(applicationContext)
+        var db = helper.readableDatabase
+        db.execSQL("DELETE FROM "+ TABEL +" WHERE "+ namaseting +" =  '"+ VALUE +"' ")
         db.close()
     }
 

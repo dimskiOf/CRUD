@@ -27,8 +27,6 @@ class LoginAdapter(val data: List<DataLogin>?, private val click: onClickItem) :
         fun onBind(get: DataLogin?) {
            get?.username
            get?.email
-           get?.privilage
-           get?.accesstoken
         }
     }
 

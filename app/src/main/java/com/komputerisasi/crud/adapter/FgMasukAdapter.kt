@@ -35,7 +35,7 @@ class FgMasukAdapter(val data: List<FgMasukItem>?, private val click: onClickIte
             itemView.QtyFG.text = get?.QtyFG
             itemView.TglCreateFg.text = get?.TglCreateFg
             itemView.InputMinusPlus.text = get?.InputMinusPlus
-            itemView.LoadNumber.text = get?.LoadNumber
+            itemView.LotNumber.text = get?.LotNumber
 
         }
     }

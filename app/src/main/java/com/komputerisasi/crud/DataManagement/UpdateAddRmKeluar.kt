@@ -38,11 +38,6 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
         setContentView(R.layout.activity_update_add_rm_keluar)
 
         val actionbar = supportActionBar
-        //set actionbar title
-        actionbar!!.title = "UPDATE ADD RM KELUAR"
-        //set back button
-        actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         presenter = Presenter(this)
         val itemDataItem = intent.getSerializableExtra("dataItem")
@@ -53,6 +48,9 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
         val minusplus=intent.getStringExtra("minusplus")
 
         if (itemDataItem == null){
+            actionbar!!.title = "SIMPAN RM KELUAR"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
             etItemNo.setFocusable(false)
             etItemDescription.setFocusable(false)
             etInputMinusPlus.setFocusable(false)
@@ -80,7 +78,7 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
                             etItemNo.text.toString(),
                             etTglCreateRm.text.toString(),
                             Integer.parseInt(etQtyRM.text.toString()),
-                            etLoadNumber.text.toString(),
+                            etLotNumber.text.toString(),
                             etInputMinusPlus.text.toString(),
                         )
                     }
@@ -90,12 +88,15 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
             }
 
         }else if (itemDataItem != null){
+            actionbar!!.title = "UPDATE RM KELUAR"
+            //set back button
+            actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as RmKeluarItem?
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
             etQtyRM.setText(item?.QtyRm.toString())
-            etLoadNumber.setText(item?.LoadNumber.toString())
+            etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
             etUnit1.setText(item?.Unit1.toString())
             etTglCreateRm.setText(item?.TglCreateRm.toString())
@@ -114,7 +115,7 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
                             etItemNo.text.toString(),
                             etTglCreateRm.text.toString(),
                             Integer.parseInt(etQtyRM.text.toString()),
-                            etLoadNumber.text.toString(),
+                            etLotNumber.text.toString(),
                             etInputMinusPlus.text.toString())
                         finish()
                     }

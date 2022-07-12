@@ -7,40 +7,6 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="SELAMAT DATANG"
-        android:textColor="@color/black"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/selamatdatang"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="70dp"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </TextView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="320dp"
@@ -81,7 +47,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="165dp"
                 android:background="#F3EF3F3F"
-                android:text="FG KELUAR"
+                android:text="BARANG JADI KELUAR"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -94,7 +60,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="220dp"
                 android:background="#F3EF3F3F"
-                android:text="FG MASUK"
+                android:text="BARANG JADI MASUK"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -107,7 +73,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="275dp"
                 android:background="#F3EF3F3F"
-                android:text="RM KELUAR"
+                android:text="MATERIAL KELUAR"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
@@ -120,7 +86,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="330dp"
                 android:background="#F3EF3F3F"
-                android:text="RM MASUK"
+                android:text="MATERIAL MASUK"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />

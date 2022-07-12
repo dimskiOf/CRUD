@@ -42,7 +42,6 @@ class RmKeluar : AppCompatActivity(), CrudView {
         actionbar!!.title = "RM KELUAR"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
             startActivity<ScannRmKeluar>()

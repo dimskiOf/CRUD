@@ -35,7 +35,7 @@ class FgKeluarAdapter(val data: List<FgKeluarItem>?, private val click: onClickI
             itemView.QtyFG.text = get?.QtyFG
             itemView.TglCreateFg.text = get?.TglCreateFg
             itemView.InputMinusPlus.text = get?.InputMinusPlus
-            itemView.LoadNumber.text = get?.LoadNumber
+            itemView.LotNumber.text = get?.LotNumber
 
         }
     }

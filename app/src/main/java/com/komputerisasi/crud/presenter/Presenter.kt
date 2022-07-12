@@ -1,18 +1,20 @@
 package com.komputerisasi.crud.presenter
 
 import android.util.Log
+import com.komputerisasi.crud.LoginUtama
 import com.komputerisasi.crud.model.*
 import com.komputerisasi.crud.network.NetworkConfig
 import retrofit2.Call
 import retrofit2.Response
 
-class Presenter (val crudView: CrudView) {
 
+class Presenter (val crudView: CrudView) {
 
     //get data login
     fun loginData(username : String, password : String){
+
         NetworkConfig.getService()
-            .loginData(username, password)
+            .loginData(username, password, LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultLogin>{
                 override fun onFailure(call: Call<ResultLogin>, t: Throwable) {
                     crudView.onFailedGetLogin(t.localizedMessage)
@@ -33,29 +35,9 @@ class Presenter (val crudView: CrudView) {
             })
     }
 
-    //get TOKEN
-    fun getToken(uname : String, token : String){
-        NetworkConfig.getService()
-            .tokenData(uname, token)
-            .enqueue(object : retrofit2.Callback<ResultStatus>{
-                override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
-                    crudView.onFailedgetToken(t.localizedMessage)
-                }
-
-                override fun onResponse(call: Call<ResultStatus>, response: Response<ResultStatus>) {
-                    if (response.isSuccessful && response.body()?.status == 200) {
-                        crudView.onSuccessgetToken(response.body()?.pesan ?: "")
-                    }else {
-                        crudView.onFailedgetToken(response.body()?.pesan ?: "")
-                    }
-                }
-
-            })
-    }
-
     //Fungsi GetDataFgKeluar
     fun getDataFgKeluar(){
-        NetworkConfig.getService().getDataFgKeluar()
+        NetworkConfig.getService().getDataFgKeluar(LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultFgKeluarItem>{
                 override fun onFailure(call: Call<ResultFgKeluarItem>, t: Throwable) {
                     crudView.onFailedGetFgKeluar(t.localizedMessage)
@@ -69,7 +51,9 @@ class Presenter (val crudView: CrudView) {
                             val data = response.body()?.FgKeluarItems
                             crudView.onSuccessGetFgKeluar(data)
                         } else{
-                            crudView.onFailedGetFgKeluar(response.body()?.pesan ?: "Error $status")
+                               crudView.onFailedGetFgKeluar(
+                                   response.body()?.pesan ?: "Error $status"
+                               )
                         }
                     }
                 }
@@ -81,7 +65,7 @@ class Presenter (val crudView: CrudView) {
     //Add data FG keluar
     fun addDataFgKeluar(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .addFgKeluar(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .addFgKeluar(itemno, tglcreate, qty,loadnumber,inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.errorAddFgKeluar(t.localizedMessage)
@@ -101,7 +85,7 @@ class Presenter (val crudView: CrudView) {
     //Update Data fg keluar
     fun updateDataFgKeluar(idfgkeluar: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .updateFgKeluar(idfgkeluar,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .updateFgKeluar(idfgkeluar,itemno,tglcreate,qty,loadnumber, inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorUpdateFgKeluar(t.localizedMessage)
@@ -122,7 +106,7 @@ class Presenter (val crudView: CrudView) {
     //Hapus Data FG Keluar
     fun hapusDataFgKeluar(id: String?){
         NetworkConfig.getService()
-            .deleteFgKeluar(id)
+            .deleteFgKeluar(id,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorDeleteFgKeluar(t.localizedMessage)
@@ -141,7 +125,7 @@ class Presenter (val crudView: CrudView) {
 
     //Fungsi GetDataFgMasuk
     fun getDataFgMasuk(){
-        NetworkConfig.getService().getDataFgMasuk()
+        NetworkConfig.getService().getDataFgMasuk(LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultFgMasukItem>{
                 override fun onFailure(call: Call<ResultFgMasukItem>, t: Throwable) {
                     crudView.onFailedGetFgMasuk(t.localizedMessage)
@@ -167,7 +151,7 @@ class Presenter (val crudView: CrudView) {
     //Add data FG Masuk
     fun addDataFgMasuk(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .addFgMasuk(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .addFgMasuk(itemno, tglcreate, qty,loadnumber,inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.errorAddFgMasuk(t.localizedMessage)
@@ -187,7 +171,7 @@ class Presenter (val crudView: CrudView) {
     //Update Data fg Masuk
     fun updateDataFgMasuk(idfgmasuk: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .updateFgMasuk(idfgmasuk,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .updateFgMasuk(idfgmasuk,itemno,tglcreate,qty,loadnumber, inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorUpdateFgMasuk(t.localizedMessage)
@@ -208,7 +192,7 @@ class Presenter (val crudView: CrudView) {
     //Hapus Data FG Masuk
     fun hapusDataFgMasuk(id: String?){
         NetworkConfig.getService()
-            .deleteFgMasuk(id)
+            .deleteFgMasuk(id,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorDeleteFgMasuk(t.localizedMessage)
@@ -227,7 +211,7 @@ class Presenter (val crudView: CrudView) {
 
     //Fungsi GetDataRmKeluar
     fun getDataRmKeluar(){
-        NetworkConfig.getService().getDataRmKeluar()
+        NetworkConfig.getService().getDataRmKeluar(LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultRmKeluarItem>{
                 override fun onFailure(call: Call<ResultRmKeluarItem>, t: Throwable) {
                     crudView.onFailedGetRmKeluar(t.localizedMessage)
@@ -253,7 +237,7 @@ class Presenter (val crudView: CrudView) {
     //Add data RM keluar
     fun addDataRmKeluar(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .addRmKeluar(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .addRmKeluar(itemno, tglcreate, qty,loadnumber,inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.errorAddRmKeluar(t.localizedMessage)
@@ -273,7 +257,7 @@ class Presenter (val crudView: CrudView) {
     //Update Data Rm Keluar
     fun updateDataRmKeluar(idrmkeluar: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .updateRmKeluar(idrmkeluar,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .updateRmKeluar(idrmkeluar,itemno,tglcreate,qty,loadnumber, inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorUpdateRmKeluar(t.localizedMessage)
@@ -294,7 +278,7 @@ class Presenter (val crudView: CrudView) {
     //Hapus Data RM Keluar
     fun hapusDataRmKeluar(id: String?){
         NetworkConfig.getService()
-            .deleteRmKeluar(id)
+            .deleteRmKeluar(id,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorDeleteRmKeluar(t.localizedMessage)
@@ -313,7 +297,7 @@ class Presenter (val crudView: CrudView) {
 
     //Fungsi GetDataRmMasuk
     fun getDataRmMasuk(){
-        NetworkConfig.getService().getDataRmMasuk()
+        NetworkConfig.getService().getDataRmMasuk(LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultRmMasukItem>{
                 override fun onFailure(call: Call<ResultRmMasukItem>, t: Throwable) {
                     crudView.onFailedGetRmMasuk(t.localizedMessage)
@@ -339,7 +323,7 @@ class Presenter (val crudView: CrudView) {
     //Add data RM Masuk
     fun addDataRmMasuk(itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .addRmMasuk(itemno, tglcreate, qty,loadnumber,inputMinusPlus)
+            .addRmMasuk(itemno, tglcreate, qty,loadnumber,inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.errorAddRmMasuk(t.localizedMessage)
@@ -359,7 +343,7 @@ class Presenter (val crudView: CrudView) {
     //Update Data Rm Masuk
     fun updateDataRmMasuk(idrmmasuk: String, itemno : String, tglcreate : String, qty : Int, loadnumber : String, inputMinusPlus : String){
         NetworkConfig.getService()
-            .updateRmMasuk(idrmmasuk,itemno,tglcreate,qty,loadnumber, inputMinusPlus)
+            .updateRmMasuk(idrmmasuk,itemno,tglcreate,qty,loadnumber, inputMinusPlus,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorUpdateRmMasuk(t.localizedMessage)
@@ -380,7 +364,7 @@ class Presenter (val crudView: CrudView) {
     //Hapus Data RM Masuk
     fun hapusDataRmMasuk(id: String?){
         NetworkConfig.getService()
-            .deleteRmMasuk(id)
+            .deleteRmMasuk(id,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultStatus>{
                 override fun onFailure(call: Call<ResultStatus>, t: Throwable) {
                     crudView.onErrorDeleteRmMasuk(t.localizedMessage)
@@ -399,7 +383,7 @@ class Presenter (val crudView: CrudView) {
 
     // get data item by id
     fun getDataItemById(itemnos: String?){
-        NetworkConfig.getService().getitembyid(itemnos)
+        NetworkConfig.getService().getitembyid(itemnos,LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultGetItemById>{
                 override fun onFailure(call: Call<ResultGetItemById>, t: Throwable) {
                     crudView.onErrorGetItemById(t.localizedMessage)

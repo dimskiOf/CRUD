@@ -52,7 +52,6 @@ class ScannRmKeluar : AppCompatActivity(), CrudView {
         actionbar!!.title = "SCANNING BARCODE/QRCODE"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
-        actionbar.setDisplayHomeAsUpEnabled(true)
 
         LoginUtama.globalVar = selectDatabase("settingurl")
 

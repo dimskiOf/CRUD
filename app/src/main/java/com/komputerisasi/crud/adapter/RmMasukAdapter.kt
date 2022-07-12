@@ -35,7 +35,7 @@ class RmMasukAdapter(val data: List<RmMasukItem>?, private val click: onClickIte
             itemView.QtyRM.text = get?.QtyRm
             itemView.TglCreateRm.text = get?.TglCreateRm
             itemView.InputMinusPlus.text = get?.InputMinusPlus
-            itemView.LoadNumber.text = get?.LoadNumber
+            itemView.LotNumber.text = get?.LotNumber
 
         }
     }
