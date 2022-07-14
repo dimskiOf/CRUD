@@ -73,6 +73,7 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
+        
         rvCategory.adapter = FgKeluarAdapter(data,object :FgKeluarAdapter.onClickItem{
             override fun clicked(item: FgKeluarItem?) {
                 val builder = AlertDialog.Builder(this@FgKeluar)

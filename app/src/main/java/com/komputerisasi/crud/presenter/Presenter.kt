@@ -12,7 +12,6 @@ class Presenter (val crudView: CrudView) {
 
     //get data login
     fun loginData(username : String, password : String){
-
         NetworkConfig.getService()
             .loginData(username, password, LoginUtama.globalDatabase)
             .enqueue(object : retrofit2.Callback<ResultLogin>{

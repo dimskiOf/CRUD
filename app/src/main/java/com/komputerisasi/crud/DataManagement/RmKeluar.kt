@@ -19,6 +19,7 @@ import org.jetbrains.anko.startActivity
 class RmKeluar : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val data1 = selectDatabase("username")
         val data2 = selectDatabase("accesstoken")

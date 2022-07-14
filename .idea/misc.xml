@@ -21,6 +21,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_main_menu.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_menu_utama.xml" value="0.16394927536231885" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_recycler_view.xml" value="0.1" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_rm_keluar.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_rm_masuk.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/activity_scann_fg_keluar.xml" value="0.1" />
@@ -40,6 +41,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/item_data.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/item_data_rm.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/nav_header_main_menu.xml" value="0.18" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/progress_loading.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/scannfgkeluar.xml" value="0.13385416666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/layout/settings_layouts.xml" value="0.12" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/CRUD/app/src/main/res/menu/activity_main_menu_drawer.xml" value="0.33" />
