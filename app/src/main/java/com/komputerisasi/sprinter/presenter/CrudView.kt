@@ -53,4 +53,12 @@ interface CrudView {
     fun onSuccessGetItemById(data: List<GetItemById>?)
     fun onErrorGetItemById(msg: String)
 
+    //Ping Api
+    fun onSuccessPingApi(msg: String)
+    fun onErrorPingApi(msg: String)
+
+    //DBNAME
+    fun onSuccessGetDBname(msg: String)
+    fun onErrorGetDBname(msg: String)
+
 }

@@ -9,7 +9,30 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_warehouse">Pengelolaan Warehouse</string>
+    <string name="menu_warehouse">Inventory</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_menu_utama">MenuUtama</string>
+
+
+        <string name="satuan_item">Android Spinner</string>
+
+        <string-array name="unit1">
+            <item>Satuan</item>
+            <item>M</item>
+            <item>CM</item>
+            <item>MM</item>
+            <item>Kg</item>
+            <item>G</item>
+            <item>Ons</item>
+            <item>Ton</item>
+            <item>Sak</item>
+            <item>L</item>
+            <item>ML</item>
+            <item>PCS</item>
+            <item>PACK</item>
+            <item>ROLL</item>
+
+        </string-array>
+
 </resources>

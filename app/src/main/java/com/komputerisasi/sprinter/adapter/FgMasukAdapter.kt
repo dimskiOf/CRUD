@@ -31,9 +31,14 @@ class FgMasukAdapter(val data: List<FgMasukItem>?, private val click: onClickIte
         fun onBind(get: FgMasukItem?) {
             itemView.ItemNo.text = get?.ItemNo
             itemView.ItemDescription.text = get?.ItemDescription
-            itemView.Unit1.text = get?.Unit1
-            itemView.QtyFG.text = get?.QtyFG
-            itemView.TglCreateFg.text = get?.TglCreateFg
+            if (get?.Unit3 == null) {
+                itemView.Unit1.text = get?.Unit1
+            }else{
+                itemView.Unit1.text = get?.Unit3
+            }
+            itemView.Catatan.text = get?.Catatan
+            itemView.QtyFG.text = get?.Qty
+            itemView.TglCreateFg.text = get?.TglCatatan
             itemView.InputMinusPlus.text = get?.InputMinusPlus
             itemView.LotNumber.text = get?.LotNumber
 

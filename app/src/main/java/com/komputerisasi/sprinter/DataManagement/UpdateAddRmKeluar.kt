@@ -14,10 +14,18 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_update_add_rm_keluar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import java.lang.Float
 
 @Suppress("SENSELESS_COMPARISON")
 class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
 
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
 
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
@@ -45,7 +53,10 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
         val itemdes=intent.getStringExtra("itemdes")
         val tglmasuk=intent.getStringExtra("tglmasuk")
         val satuan=intent.getStringExtra("satuan")
+        val catatan = intent.getStringExtra("catatan")
         val minusplus=intent.getStringExtra("minusplus")
+        val quantity = intent.getStringExtra("quantity")
+        val minimumqty = intent.getStringExtra("minimumqty")
 
         if (itemDataItem == null){
             actionbar!!.title = "SIMPAN RM KELUAR"
@@ -53,37 +64,98 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             etItemNo.setFocusable(false)
             etItemDescription.setFocusable(false)
-            etInputMinusPlus.setFocusable(false)
             etUnit1.setFocusable(false)
             etTglCreateRm.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etQuantity.setFocusable(false)
 
             etItemNo.setText(itemcode)
             etItemDescription.setText(itemdes)
             etInputMinusPlus.setText(minusplus)
             etUnit1.setText(satuan)
+            etCatatan.setText(catatan)
             etTglCreateRm.setText(tglmasuk)
+            etQtyMinimum.setText(minimumqty)
+            etQuantity.setText(quantity)
 
             btnAction.text = "Simpan"
             btnAction.onClick {
-                val builder = AlertDialog.Builder(this@UpdateAddRmKeluar)
-                builder.setMessage("Simpan Data?")
-                    .setCancelable(false)
-                    .setNegativeButton("No") { dialog, id ->
-                        // Dismiss the dialog
-                        dialog.dismiss()
+                if ((minimumqty.toString() == null) or (minimumqty.toString() == "0")) {
+                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyRM.text.toString())){
+                        val builder = AlertDialog.Builder(this@UpdateAddRmKeluar)
+                        builder.setMessage("Simpan Data?")
+                            .setCancelable(false)
+                            .setNegativeButton("No") { dialog, id ->
+
+                                dialog.dismiss()
+                            }
+                            .setPositiveButton("Yes") { dialog, id ->
+
+                                presenter.addDataRmKeluar(
+                                    applicationContext, etItemNo.text.toString(),
+                                    etTglCreateRm.text.toString(),
+                                    Float.parseFloat(etQtyRM.text.toString()),
+                                    etCatatan.text.toString(),
+                                    etLotNumber.text.toString(),
+                                    Float.parseFloat(etInputMinusPlus.text.toString()),
+                                )
+                            }
+                        val alert = builder.create()
+                        alert.show()
+                    }else{
+                        Toast.makeText(applicationContext, "Qauntity request melebihi stok awal", Toast.LENGTH_SHORT).show()
                     }
-                    .setPositiveButton("Yes") { dialog, id ->
-                        // Delete selected note from database
-                        presenter.addDataRmKeluar(
-                            etItemNo.text.toString(),
-                            etTglCreateRm.text.toString(),
-                            Integer.parseInt(etQtyRM.text.toString()),
-                            etLotNumber.text.toString(),
-                            etInputMinusPlus.text.toString(),
-                        )
+                }else{
+                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyRM.text.toString())){
+                        val a = Float.parseFloat(quantity.toString())
+                        val b = Float.parseFloat(etQtyRM.text.toString())
+                        if (Float.parseFloat(minimumqty.toString()) >= (a-b)){
+                            val builder = AlertDialog.Builder(this@UpdateAddRmKeluar)
+                            builder.setMessage("Stok awal akan membawahi quantity minimum, ingin melanjutkan?")
+                                .setCancelable(false)
+                                .setNegativeButton("No") { dialog, id ->
+
+                                    dialog.dismiss()
+                                }
+                                .setPositiveButton("Yes?") { dialog, id ->
+
+                                    presenter.addDataRmKeluar(
+                                        applicationContext, etItemNo.text.toString(),
+                                        etTglCreateRm.text.toString(),
+                                        Float.parseFloat(etQtyRM.text.toString()),
+                                        etCatatan.text.toString(),
+                                        etLotNumber.text.toString(),
+                                        Float.parseFloat(etInputMinusPlus.text.toString()),
+                                    )
+                                }
+                            val alert = builder.create()
+                            alert.show()
+                        }else{
+                            val builder = AlertDialog.Builder(this@UpdateAddRmKeluar)
+                            builder.setMessage("Simpan Data?")
+                                .setCancelable(false)
+                                .setNegativeButton("No") { dialog, id ->
+
+                                    dialog.dismiss()
+                                }
+                                .setPositiveButton("Yes") { dialog, id ->
+
+                                    presenter.addDataRmKeluar(
+                                        applicationContext, etItemNo.text.toString(),
+                                        etTglCreateRm.text.toString(),
+                                        Float.parseFloat(etQtyRM.text.toString()),
+                                        etCatatan.text.toString(),
+                                        etLotNumber.text.toString(),
+                                        Float.parseFloat(etInputMinusPlus.text.toString()),
+                                    )
+                                }
+                            val alert = builder.create()
+                            alert.show()
+                        }
+                    }else{
+                        Toast.makeText(applicationContext, "Qauntity request melebihi stok awal", Toast.LENGTH_SHORT).show()
                     }
-                val alert = builder.create()
-                alert.show()
+                }
 
             }
 
@@ -93,13 +165,24 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as RmKeluarItem?
+            etItemNo.setFocusable(false)
+            etItemDescription.setFocusable(false)
+            etUnit1.setFocusable(false)
+            etTglCreateRm.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etQuantity.setFocusable(false)
+
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
-            etQtyRM.setText(item?.QtyRm.toString())
+            etQtyRM.setText(item?.Qty.toString())
             etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
-            etUnit1.setText(item?.Unit1.toString())
-            etTglCreateRm.setText(item?.TglCreateRm.toString())
+            if (item?.Unit3.toString() != null){
+                etUnit1.setText(item?.Unit3.toString())
+            }else {
+                etUnit1.setText(item?.Unit1.toString())
+            }
+            etTglCreateRm.setText(item?.TglCatatan.toString())
             btnAction.onClick {
                 val builder = AlertDialog.Builder(this@UpdateAddRmKeluar)
                 builder.setMessage("Update Data?")
@@ -110,13 +193,14 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
                     }
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.updateDataRmKeluar(
-                            item?.IdRmKeluar ?: "",
+                        presenter.updateDataRmKeluar(applicationContext,
+                            item?.Id_warehouse_InOut ?: "",
                             etItemNo.text.toString(),
                             etTglCreateRm.text.toString(),
-                            Integer.parseInt(etQtyRM.text.toString()),
+                            Float.parseFloat(etQtyRM.text.toString()),
+                            etCatatan.text.toString(),
                             etLotNumber.text.toString(),
-                            etInputMinusPlus.text.toString())
+                            Float.parseFloat(etInputMinusPlus.text.toString()))
                         finish()
                     }
                 val alert = builder.create()
@@ -234,11 +318,13 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessUpdateRmKeluark(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         startActivity<RmKeluar>()
         finish()
     }
 
     override fun successAddRmKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         startActivity<RmKeluar>()
         finish()
     }
@@ -286,6 +372,13 @@ class UpdateAddRmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
 }

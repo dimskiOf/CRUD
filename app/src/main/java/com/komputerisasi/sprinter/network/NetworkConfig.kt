@@ -1,54 +1,87 @@
 package com.komputerisasi.sprinter.network
 
+import android.content.Context
+import com.komputerisasi.sprinter.BuildConfig
+import com.komputerisasi.sprinter.LoginUtama.Companion.globalVar
 import com.komputerisasi.sprinter.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import com.komputerisasi.sprinter.LoginUtama.Companion.globalVar
+import retrofit2.http.*
+import java.util.concurrent.TimeUnit
 
 
 object NetworkConfig {
-    fun getInterceptor() : OkHttpClient {
+    val userAgent = "SPRINTER APP"
+    fun getInterceptor(context: Context) : OkHttpClient {
+
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        logging.level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        }
+        else {
+            HttpLoggingInterceptor.Level.NONE
+        }
 
         val okHttpClient = OkHttpClient.Builder()
+            .followRedirects(true)
+            .followSslRedirects(true)
+            .retryOnConnectionFailure(true)
+            .setCookieStore(context)
             .addInterceptor(logging)
+            .addNetworkInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                  //  .header("Cookie", "application/json, text/javascript, */*; q=0.01")
+                  //  .header("Accept-Encoding", "gzip, deflate, br")
+                    .header("User-Agent", userAgent)
+                    .build()
+                chain.proceed(request)
+            }
+            .cache(null)
+            //.cookieJar(JavaNetCookieJar(cookieHandler))
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
         return okHttpClient
     }
 
-    //Retrofit
-    fun getRetrofit(): Retrofit {
-        if(globalVar.isEmpty()){
+    fun <T> getService(context: Context, baseUrl: String, service: Class<T>): T {
+        if (globalVar.isEmpty()){
             globalVar = "http://localhost/"
         }
-        return Retrofit.Builder()
+        val retrofit = Retrofit.Builder()
             .baseUrl(globalVar)
-            .client(getInterceptor())
             .addConverterFactory(GsonConverterFactory.create())
+            .client(getInterceptor(context))
             .build()
+
+       return retrofit.create(service)
     }
-
-    fun getService() = getRetrofit().create(DataService::class.java)
-
 }
 
 
 interface DataService{
+    @FormUrlEncoded
+    @POST("api/pingapi")
+    fun pingapi(@Field ("apikey") apikey : String,
+                @Field ("dbname") globalDatabase : String) : Call<ResultPingApi>
+
+    //Fungsi Login Data
+    @FormUrlEncoded
+    @POST("api/authdb")
+    fun chooseDatabase(@Field ("dbname") database : String) : Call<ResultDBConnect>
 
     //Fungsi Login Data
     @FormUrlEncoded
     @POST("api/login")
     fun loginData(@Field("username") username : String,
                   @Field("password") password : String,
-                  @Field("dbname") globalDatabase : String ) : Call<ResultLogin>
+                  @Field ("dbname") globalDatabase : String) : Call<ResultLogin>
 
 
     //<-------  Warehous FG KELUAR ---->
@@ -64,9 +97,10 @@ interface DataService{
     @POST("api/addFgKeluar")
     fun addFgKeluar(@Field("itemno") itemno : String,
                  @Field("tglcreatefg") tglcreatefg : String,
-                 @Field("qtyfg") qtyfg : Int,
+                 @Field("qtyfg") qtyfg : Float,
+                 @Field("catatan") catatanfg : String,
                  @Field("lotnumber") lotnumber : String,
-                 @Field("inputminusplus") minusplus : String,
+                 @Field("inputminusplus") minusplus : Float,
                  @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data fg keluar
@@ -75,9 +109,10 @@ interface DataService{
     fun updateFgKeluar(@Field("idfgkeluar") idfgkeluar : String,
                        @Field("itemno") itemno : String,
                        @Field("tglcreatefg") tglcreatefg : String,
-                       @Field("qtyfg") qtyfg : Int,
+                       @Field("qtyfg") qtyfg : Float,
+                       @Field("catatan") catatanfg : String,
                        @Field("lotnumber") lotnumber : String,
-                       @Field("inputminusplus") minusplus : String,
+                       @Field("inputminusplus") minusplus : Float,
                        @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data fg keluar
@@ -99,9 +134,10 @@ interface DataService{
     @POST("api/addFgMasuk")
     fun addFgMasuk(@Field("itemno") itemno : String,
                    @Field("tglcreatefg") tglcreatefg : String,
-                   @Field("qtyfg") qtyfg : Int,
+                   @Field("qtyfg") qtyfg : Float,
+                   @Field("catatan") catatanfg : String,
                    @Field("lotnumber") lotnumber : String,
-                   @Field("inputminusplus") minusplus : String,
+                   @Field("inputminusplus") minusplus : Float,
                    @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data fg Masuk
@@ -110,9 +146,10 @@ interface DataService{
     fun updateFgMasuk(@Field("idfgmasuk") idfgmasuk : String,
                       @Field("itemno") itemno : String,
                       @Field("tglcreatefg") tglcreatefg : String,
-                      @Field("qtyfg") qtyfg : Int,
+                      @Field("qtyfg") qtyfg : Float,
+                      @Field("catatan") catatanfg : String,
                       @Field("lotnumber") lotnumber : String,
-                      @Field("inputminusplus") minusplus : String,
+                      @Field("inputminusplus") minusplus : Float,
                       @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data fg masuk
@@ -134,9 +171,10 @@ interface DataService{
     @POST("api/addRmKeluar")
     fun addRmKeluar(@Field("itemno") itemno : String,
                     @Field("tglcreaterm") tglcreaterm : String,
-                    @Field("qtyrm") qtyrm : Int,
+                    @Field("qtyrm") qtyrm : Float,
+                    @Field("catatan") catatanrm : String,
                     @Field("lotnumber") lotnumber : String,
-                    @Field("inputminusplus") minusplus : String,
+                    @Field("inputminusplus") minusplus : Float,
                     @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data Rm Keluar
@@ -145,9 +183,10 @@ interface DataService{
     fun updateRmKeluar(@Field("idrmkeluar") idrmkeluar : String,
                        @Field("itemno") itemno : String,
                        @Field("tglcreaterm") tglcreaterm : String,
-                       @Field("qtyrm") qtyrm : Int,
+                       @Field("qtyrm") qtyrm : Float,
+                       @Field("catatan") catatanrm : String,
                        @Field("lotnumber") lotnumber : String,
-                       @Field("inputminusplus") minusplus : String,
+                       @Field("inputminusplus") minusplus : Float,
                        @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data Rm Keluar
@@ -169,10 +208,11 @@ interface DataService{
     @POST("api/addRmMasuk")
     fun addRmMasuk(@Field("itemno") itemno : String,
                     @Field("tglcreaterm") tglcreaterm : String,
-                    @Field("qtyrm") qtyrm : Int,
+                    @Field("qtyrm") qtyrm : Float,
+                    @Field("catatan") catatanfg : String,
                     @Field("lotnumber") lotnumber : String,
-                    @Field("inputminusplus") minusplus : String,
-                   @Field("dbname") globalDatabase : String) : Call<ResultStatus>
+                    @Field("inputminusplus") minusplus : Float,
+                    @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Update Data Rm Masuk
     @FormUrlEncoded
@@ -180,10 +220,11 @@ interface DataService{
     fun updateRmMasuk(@Field("idrmmasuk") idrmmasuk : String,
                        @Field("itemno") itemno : String,
                        @Field("tglcreaterm") tglcreaterm : String,
-                       @Field("qtyrm") qtyrm : Int,
+                       @Field("qtyrm") qtyrm : Float,
+                       @Field("catatan") catatanfg : String,
                        @Field("lotnumber") lotnumber : String,
-                       @Field("inputminusplus") minusplus : String,
-                      @Field("dbname") globalDatabase : String) : Call<ResultStatus>
+                       @Field("inputminusplus") minusplus : Float,
+                       @Field("dbname") globalDatabase : String) : Call<ResultStatus>
 
     //Fungsi Delete Data Rm Masuk
     @FormUrlEncoded

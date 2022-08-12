@@ -31,9 +31,14 @@ class RmKeluarAdapter(val data: List<RmKeluarItem>?, private val click: onClickI
         fun onBind(get: RmKeluarItem?) {
             itemView.ItemNo.text = get?.ItemNo
             itemView.ItemDescription.text = get?.ItemDescription
-            itemView.Unit1.text = get?.Unit1
-            itemView.QtyRM.text = get?.QtyRm
-            itemView.TglCreateRm.text = get?.TglCreateRm
+            if (get?.Unit3 == null) {
+                itemView.Unit1.text = get?.Unit1
+            }else{
+                itemView.Unit1.text = get?.Unit3
+            }
+            itemView.Catatan.text = get?.Catatan
+            itemView.QtyRM.text = get?.Qty
+            itemView.TglCreateRm.text = get?.TglCatatan
             itemView.InputMinusPlus.text = get?.InputMinusPlus
             itemView.LotNumber.text = get?.LotNumber
 

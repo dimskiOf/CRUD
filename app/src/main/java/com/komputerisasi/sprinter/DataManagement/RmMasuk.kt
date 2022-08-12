@@ -35,11 +35,11 @@ class RmMasuk : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rm_masuk)
         presenter = Presenter(this)
-        presenter.getDataRmMasuk()
+        presenter.getDataRmMasuk(this)
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "RM MASUK"
+        actionbar!!.title = "MATERIAL MASUK"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -47,6 +47,14 @@ class RmMasuk : AppCompatActivity(), CrudView {
             startActivity<ScannRmMasuk>()
             finish()
         }
+    }
+
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -183,7 +191,7 @@ class RmMasuk : AppCompatActivity(), CrudView {
                     }
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.hapusDataRmMasuk(item?.IdRmMasuk)
+                        presenter.hapusDataRmMasuk(applicationContext,item?.Id_warehouse_InOut)
                         startActivity<RmMasuk>()
                         finish()
                     }
@@ -199,7 +207,8 @@ class RmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessDeleteRmMasuk(msg: String) {
-        presenter.getDataRmMasuk()
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        presenter.getDataRmMasuk(this)
     }
 
     override fun onErrorDeleteRmMasuk(msg: String) {
@@ -233,6 +242,13 @@ class RmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
 }

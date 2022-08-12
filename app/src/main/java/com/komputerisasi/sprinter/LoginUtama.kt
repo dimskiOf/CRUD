@@ -1,28 +1,48 @@
 package com.komputerisasi.sprinter
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
+import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
 import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_login_utama.*
-import android.content.Intent
-import com.komputerisasi.sprinter.model.*
 import kotlinx.android.synthetic.main.settings_layouts.*
-import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import org.jetbrains.anko.startActivity
+import java.io.IOException
+import java.net.CookieHandler
+import java.net.CookieManager
+import java.net.CookiePolicy
+
 
 
 class LoginUtama() : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
+
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         globalVar = selectDatabase("settingurl")
         globalDatabase = selectDatabase("settingdatabase")
+        globalCookie = selectDatabase("cookies")
 
         presenter = Presenter(this)
+
+        try {
+            presenter.Pingapi(applicationContext, "rezdnov123")
+        }catch(e: IOException){
+            Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
+        }
+
+        // enable cookies
+        val cookieManager = CookieManager()
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
+        CookieHandler.setDefault(cookieManager)
+
         val data1 = selectDatabase("username")
         val data2 = selectDatabase("accesstoken")
 
@@ -45,15 +65,22 @@ class LoginUtama() : AppCompatActivity(), CrudView {
 
             btnSaveSetting.setOnClickListener {
                 val urls = etSaveUrl.text.toString()
-                val db = etSaveDatabase.text.toString()
-
                 deleteDatabase("table_settings", "settingurl","name_setting")
-                deleteDatabase("table_settings", "settingdatabase","name_setting")
                 insertDatabase(urls, 1, "settingurl")
-                insertDatabase(db, 1, "settingdatabase")
-                Toast.makeText(this, "Berhasil input server", Toast.LENGTH_SHORT).show()
-                startActivity<LoginUtama>()
-                finish()
+                globalVar = selectDatabase("settingurl")
+                globalDatabase = selectDatabase("settingdatabase")
+                globalCookie = selectDatabase("cookies")
+                try {
+                    presenter.Pingapi(applicationContext, "rezdnov123")
+                }catch(e: IOException){
+                    Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
+                }
+
+                val db = etSaveDatabase.text.toString()
+                presenter.DbName(this,
+                   db
+                )
+
 
             }
         }
@@ -67,7 +94,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
                 return@setOnClickListener
             } else {
                 presenter.loginData(
-                    email,
+                    this,email,
                     password
                 )
             }
@@ -77,11 +104,24 @@ class LoginUtama() : AppCompatActivity(), CrudView {
             finish()
         }
     }
+    override fun onSuccessGetDBname(msg: String) {
+        val db = etSaveDatabase.text.toString()
+        deleteDatabase("table_settings", "settingdatabase","name_setting")
+        insertDatabase(db, 1, "settingdatabase")
+        Toast.makeText(this, "Berhasil input server", Toast.LENGTH_SHORT).show()
+        startActivity<LoginUtama>()
+        finish()
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
 
     companion object {
 
         var globalVar = ""
         var globalDatabase = ""
+        var globalCookie = ""
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -90,6 +130,8 @@ class LoginUtama() : AppCompatActivity(), CrudView {
         finish()
         return true
     }
+
+
 
     private fun insertDatabase(valuess: String,status: Int, namaseting: String) {
         var helper = DatabaseHelper(applicationContext)
@@ -279,6 +321,14 @@ class LoginUtama() : AppCompatActivity(), CrudView {
 
     override fun onErrorGetItemById(msg: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun onSuccessPingApi(msg: String) {
+
+    }
+
+    override fun onErrorPingApi(msg: String) {
+
     }
 
 }

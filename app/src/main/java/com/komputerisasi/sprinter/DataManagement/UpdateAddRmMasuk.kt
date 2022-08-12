@@ -14,10 +14,18 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_update_add_rm_masuk.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import java.lang.Float
 
 @Suppress("SENSELESS_COMPARISON")
 class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
 
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
 
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
@@ -45,7 +53,10 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
         val itemdes=intent.getStringExtra("itemdes")
         val tglmasuk=intent.getStringExtra("tglmasuk")
         val satuan=intent.getStringExtra("satuan")
+        val catatan=intent.getStringExtra("catatan")
         val minusplus=intent.getStringExtra("minusplus")
+        val quantity = intent.getStringExtra("quantity")
+        val minimumqty = intent.getStringExtra("minimumqty")
 
         if (itemDataItem == null){
             actionbar!!.title = "SIMPAN RM MASUK"
@@ -53,15 +64,19 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             etItemNo.setFocusable(false)
             etItemDescription.setFocusable(false)
-            etInputMinusPlus.setFocusable(false)
             etUnit1.setFocusable(false)
             etTglCreateRm.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etQuantity.setFocusable(false)
 
             etItemNo.setText(itemcode)
             etItemDescription.setText(itemdes)
             etInputMinusPlus.setText(minusplus)
             etUnit1.setText(satuan)
+            etCatatan.setText(catatan)
             etTglCreateRm.setText(tglmasuk)
+            etQtyMinimum.setText(minimumqty)
+            etQuantity.setText(quantity)
 
             btnAction.text = "Simpan"
             btnAction.onClick {
@@ -74,13 +89,15 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
                     }
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.addDataRmMasuk(
+                        presenter.addDataRmMasuk(applicationContext,
                             etItemNo.text.toString(),
                             etTglCreateRm.text.toString(),
-                            Integer.parseInt(etQtyRM.text.toString()),
+                            Float.parseFloat(etQtyRM.text.toString()),
+                            etCatatan.text.toString(),
                             etLotNumber.text.toString(),
-                            etInputMinusPlus.text.toString(),
-                        )
+                            Float.parseFloat(
+                                etInputMinusPlus.text.toString()),
+                            )
                     }
                 val alert = builder.create()
                 alert.show()
@@ -93,13 +110,24 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as RmMasukItem?
+            etItemNo.setFocusable(false)
+            etItemDescription.setFocusable(false)
+            etUnit1.setFocusable(false)
+            etTglCreateRm.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etQuantity.setFocusable(false)
+
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
-            etQtyRM.setText(item?.QtyRm.toString())
+            etQtyRM.setText(item?.Qty.toString())
             etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
-            etUnit1.setText(item?.Unit1.toString())
-            etTglCreateRm.setText(item?.TglCreateRm.toString())
+            if (item?.Unit3.toString() != null){
+                etUnit1.setText(item?.Unit3.toString())
+            }else {
+                etUnit1.setText(item?.Unit1.toString())
+            }
+            etTglCreateRm.setText(item?.TglCatatan.toString())
             btnAction.onClick {
                 val builder = AlertDialog.Builder(this@UpdateAddRmMasuk)
                 builder.setMessage("Update Data?")
@@ -110,13 +138,14 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
                     }
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.updateDataRmMasuk(
-                            item?.IdRmMasuk ?: "",
+                        presenter.updateDataRmMasuk(applicationContext,
+                            item?.Id_warehouse_InOut ?: "",
                             etItemNo.text.toString(),
                             etTglCreateRm.text.toString(),
-                            Integer.parseInt(etQtyRM.text.toString()),
+                            Float.parseFloat(etQtyRM.text.toString()),
+                            etCatatan.text.toString(),
                             etLotNumber.text.toString(),
-                            etInputMinusPlus.text.toString())
+                            Float.parseFloat(etInputMinusPlus.text.toString()))
                         finish()
                     }
                 val alert = builder.create()
@@ -257,6 +286,7 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun successAddRmMasuk(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         startActivity<RmMasuk>()
         finish()
     }
@@ -266,6 +296,7 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessUpdateRmMasuk(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         startActivity<RmMasuk>()
         finish()
     }
@@ -285,6 +316,13 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
 }

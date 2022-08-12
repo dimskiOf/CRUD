@@ -35,11 +35,11 @@ class FgKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fg_keluar)
         presenter = Presenter(this)
-        presenter.getDataFgKeluar()
+        presenter.getDataFgKeluar(this)
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "FG KELUAR"
+        actionbar!!.title = "BARANG JADI KELUAR"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -47,6 +47,14 @@ class FgKeluar : AppCompatActivity(), CrudView {
           startActivity<ScannFgKeluar>()
             finish()
         }
+    }
+
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -98,9 +106,10 @@ class FgKeluar : AppCompatActivity(), CrudView {
                     .setCancelable(false)
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.hapusDataFgKeluar(item?.IdFgKeluar)
+                        presenter.hapusDataFgKeluar(applicationContext,item?.Id_warehouse_InOut)
                         startActivity<FgKeluar>()
                         finish()
+
                     }
                     .setNegativeButton("No") { dialog, id ->
                         // Dismiss the dialog
@@ -118,11 +127,20 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessDeleteFgKeluar(msg: String) {
-        presenter.getDataFgKeluar()
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        presenter.getDataFgKeluar(this)
     }
 
     override fun onErrorDeleteFgKeluar(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun successAddFgKeluar(msg: String) {

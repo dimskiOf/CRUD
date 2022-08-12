@@ -36,11 +36,11 @@ class RmKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rm_keluar)
         presenter = Presenter(this)
-        presenter.getDataRmKeluar()
+        presenter.getDataRmKeluar(this)
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "RM KELUAR"
+        actionbar!!.title = "MATERIAL KELUAR"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -48,6 +48,14 @@ class RmKeluar : AppCompatActivity(), CrudView {
             startActivity<ScannRmKeluar>()
             finish()
         }
+    }
+
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -140,7 +148,8 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessDeleteRmKeluar(msg: String) {
-        presenter.getDataRmKeluar()
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        presenter.getDataRmKeluar(this)
     }
 
     override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {
@@ -173,9 +182,10 @@ class RmKeluar : AppCompatActivity(), CrudView {
                     }
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.hapusDataRmKeluar(item?.IdRmKeluar)
+                        presenter.hapusDataRmKeluar(applicationContext,item?.Id_warehouse_InOut)
                         startActivity<RmKeluar>()
                         finish()
+
                     }
                 val alert = builder.create()
                 alert.show()
@@ -235,6 +245,13 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
 }

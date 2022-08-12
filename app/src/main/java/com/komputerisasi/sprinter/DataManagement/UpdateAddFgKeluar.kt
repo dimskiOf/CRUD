@@ -14,10 +14,18 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_update_add_fg_keluar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import java.lang.Float
 
 @Suppress("SENSELESS_COMPARISON")
 class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
 
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
@@ -46,7 +54,10 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         val itemdes=intent.getStringExtra("itemdes")
         val tglmasuk=intent.getStringExtra("tglmasuk")
         val satuan=intent.getStringExtra("satuan")
+        val catatan=intent.getStringExtra("catatan")
         val minusplus=intent.getStringExtra("minusplus")
+        val quantity = intent.getStringExtra("quantity")
+        val minimumqty = intent.getStringExtra("minimumqty")
 
         if (itemDataItem == null){
             actionbar!!.title = "SIMPAN FG KELUAR"
@@ -54,38 +65,98 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             etItemNo.setFocusable(false)
             etItemDescription.setFocusable(false)
-            etInputMinusPlus.setFocusable(false)
             etUnit1.setFocusable(false)
             etTglCreateFg.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etQuantity.setFocusable(false)
 
             etItemNo.setText(itemcode)
             etItemDescription.setText(itemdes)
             etInputMinusPlus.setText(minusplus)
             etUnit1.setText(satuan)
+            etCatatan.setText(catatan)
             etTglCreateFg.setText(tglmasuk)
+            etQtyMinimum.setText(minimumqty)
+            etQuantity.setText(quantity)
 
             btnAction.text = "Simpan"
             btnAction.onClick {
-                val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
-                builder.setMessage("Simpan Data?")
-                    .setCancelable(false)
-                    .setNegativeButton("No") { dialog, id ->
+                if ((minimumqty.toString() == null) or (minimumqty.toString() == "0")) {
+                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyFG.text.toString())){
+                        val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
+                        builder.setMessage("Simpan Data?")
+                            .setCancelable(false)
+                            .setNegativeButton("No") { dialog, id ->
 
-                        dialog.dismiss()
+                                dialog.dismiss()
+                            }
+                            .setPositiveButton("Yes") { dialog, id ->
+
+                                presenter.addDataFgKeluar(
+                                    applicationContext, etItemNo.text.toString(),
+                                    etTglCreateFg.text.toString(),
+                                    Float.parseFloat(etQtyFG.text.toString()),
+                                    etCatatan.text.toString(),
+                                    etLotNumber.text.toString(),
+                                    Float.parseFloat(etInputMinusPlus.text.toString()),
+                                )
+                            }
+                        val alert = builder.create()
+                        alert.show()
+                    }else{
+                        Toast.makeText(applicationContext, "Qauntity request melebihi stok awal", Toast.LENGTH_SHORT).show()
                     }
-                    .setPositiveButton("Yes") { dialog, id ->
+                }else{
+                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyFG.text.toString())){
+                        val a = Float.parseFloat(quantity.toString())
+                        val b = Float.parseFloat(etQtyFG.text.toString())
+                       if (Float.parseFloat(minimumqty.toString()) >= (a-b)){
+                           val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
+                           builder.setMessage("Stok awal akan membawahi quantity minimum, ingin melanjutkan?")
+                               .setCancelable(false)
+                               .setNegativeButton("No") { dialog, id ->
 
-                        presenter.addDataFgKeluar(
-                            etItemNo.text.toString(),
-                            etTglCreateFg.text.toString(),
-                            Integer.parseInt(etQtyFG.text.toString()),
-                            etLotNumber.text.toString(),
-                            etInputMinusPlus.text.toString(),
-                        )
+                                   dialog.dismiss()
+                               }
+                               .setPositiveButton("Yes") { dialog, id ->
+
+                                   presenter.addDataFgKeluar(
+                                       applicationContext, etItemNo.text.toString(),
+                                       etTglCreateFg.text.toString(),
+                                       Float.parseFloat(etQtyFG.text.toString()),
+                                       etCatatan.text.toString(),
+                                       etLotNumber.text.toString(),
+                                       Float.parseFloat(etInputMinusPlus.text.toString()),
+                                   )
+                               }
+                           val alert = builder.create()
+                           alert.show()
+                       }else{
+                           val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
+                           builder.setMessage("Simpan Data?")
+                               .setCancelable(false)
+                               .setNegativeButton("No") { dialog, id ->
+
+                                   dialog.dismiss()
+                               }
+                               .setPositiveButton("Yes") { dialog, id ->
+
+                                   presenter.addDataFgKeluar(
+                                       applicationContext, etItemNo.text.toString(),
+                                       etTglCreateFg.text.toString(),
+                                       Float.parseFloat(etQtyFG.text.toString()),
+                                       etCatatan.text.toString(),
+                                       etLotNumber.text.toString(),
+                                       Float.parseFloat(etInputMinusPlus.text.toString()),
+                                   )
+                               }
+                           val alert = builder.create()
+                           alert.show()
+                       }
+                    }else{
+                        Toast.makeText(applicationContext, "Qauntity request melebihi stok awal", Toast.LENGTH_SHORT).show()
                     }
-                val alert = builder.create()
-                alert.show()
-
+                }
             }
 
         }else if (itemDataItem != null){
@@ -94,13 +165,24 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as FgKeluarItem?
+            etItemNo.setFocusable(false)
+            etItemDescription.setFocusable(false)
+            etUnit1.setFocusable(false)
+            etTglCreateFg.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etQuantity.setFocusable(false)
+
             etItemNo.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
-            etQtyFG.setText(item?.QtyFG.toString())
+            etQtyFG.setText(item?.Qty.toString())
             etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
-            etUnit1.setText(item?.Unit1.toString())
-            etTglCreateFg.setText(item?.TglCreateFg.toString())
+            if (item?.Unit3.toString() != null){
+                etUnit1.setText(item?.Unit3.toString())
+            }else {
+                etUnit1.setText(item?.Unit1.toString())
+            }
+            etTglCreateFg.setText(item?.TglCatatan.toString())
             btnAction.onClick {
                 val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
                 builder.setMessage("Update Data?")
@@ -112,12 +194,13 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
                         presenter.updateDataFgKeluar(
-                            item?.IdFgKeluar ?: "",
+                            applicationContext,item?.Id_warehouse_InOut ?: "",
                             etItemNo.text.toString(),
                             etTglCreateFg.text.toString(),
-                            Integer.parseInt(etQtyFG.text.toString()),
+                            Float.parseFloat(etQtyFG.text.toString()),
+                            etCatatan.text.toString(),
                             etLotNumber.text.toString(),
-                            etInputMinusPlus.text.toString())
+                            Float.parseFloat(etInputMinusPlus.text.toString()))
                         finish()
                     }
                 val alert = builder.create()
@@ -165,6 +248,7 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
 
 
     override fun successAddFgKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         startActivity<FgKeluar>()
         finish()
     }
@@ -174,6 +258,7 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessUpdateFgKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
         startActivity<FgKeluar>()
         finish()
     }
@@ -290,6 +375,13 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
 }

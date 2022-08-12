@@ -40,12 +40,15 @@ dependencies {
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'//Interceptor logging test
-    implementation("com.squareup.okhttp3:logging-interceptor:4.2.0")//anko
+    implementation("com.squareup.okhttp3:logging-interceptor:4.4.1")//anko
     implementation 'org.jetbrains.anko:anko:0.10.8'
     //anko library
     implementation 'org.jetbrains.anko:anko-commons:0.10.8'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //cookie
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.4.1'
 
     //gson
     implementation 'com.google.code.gson:gson:2.8.8'

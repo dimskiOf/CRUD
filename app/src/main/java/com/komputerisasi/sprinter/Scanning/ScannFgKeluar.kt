@@ -81,7 +81,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
                 runOnUiThread {
                     hasilscannfgkeluar.text = it.text
 
-                    heavyObject.getDataItemById(
+                    heavyObject.getDataItemById(applicationContext,
                         it.text.toString()
                     )
                 }
@@ -314,7 +314,13 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
             b.putExtra("itemcode", i.ItemCode)
             b.putExtra("itemdes", i.Itemdes)
             b.putExtra("tglmasuk", i.TglMasuk)
-            b.putExtra("satuan", i.Satuan)
+            if (i.Unit3 != null){
+                b.putExtra("satuan", i.Unit3)
+            }else {
+                b.putExtra("satuan", i.Satuan)
+            }
+            b.putExtra("quantity", i.Quantity)
+            b.putExtra("minimumqty", i.Minimumqty)
             b.putExtra("minusplus", i.MinusPlus)
             startActivity(b)
             finish()
@@ -323,5 +329,20 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
 
     override fun onErrorGetItemById(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
+        TODO("Not yet implemented")
     }
 }

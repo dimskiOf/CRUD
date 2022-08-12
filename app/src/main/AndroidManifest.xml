@@ -13,45 +13,49 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CRUD"
         android:usesCleartextTraffic="true">
-
         <activity
-            android:name="com.komputerisasi.sprinter.Scanning.ScannRmMasuk"
+            android:name=".MenuUtama"
+            android:exported="false"
+            android:label="@string/title_activity_menu_utama"
+            android:theme="@style/Theme.CRUD.NoActionBar" />
+        <activity
+            android:name=".Scanning.ScannRmMasuk"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.Scanning.ScannRmKeluar"
+            android:name=".Scanning.ScannRmKeluar"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.Scanning.ScannFgMasuk"
+            android:name=".Scanning.ScannFgMasuk"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.Scanning.ScannFgKeluar"
+            android:name=".Scanning.ScannFgKeluar"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.UpdateAddRmMasuk"
+            android:name=".DataManagement.UpdateAddRmMasuk"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.UpdateAddRmKeluar"
+            android:name=".DataManagement.UpdateAddRmKeluar"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.UpdateAddFgMasuk"
+            android:name=".DataManagement.UpdateAddFgMasuk"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.UpdateAddFgKeluar"
+            android:name=".DataManagement.UpdateAddFgKeluar"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.FgMasuk"
+            android:name=".DataManagement.FgMasuk"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.FgKeluar"
+            android:name=".DataManagement.FgKeluar"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.RmMasuk"
+            android:name=".DataManagement.RmMasuk"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.DataManagement.RmKeluar"
+            android:name=".DataManagement.RmKeluar"
             android:exported="false" />
         <activity
-            android:name="com.komputerisasi.sprinter.LoginUtama"
+            android:name=".LoginUtama"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.komputerisasi.sprinter.MainActivity"
+            android:name=".MainActivity"
             android:exported="true" />
     </application>
 

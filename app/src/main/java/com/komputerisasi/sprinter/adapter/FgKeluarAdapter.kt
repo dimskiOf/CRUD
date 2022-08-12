@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.item_data.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class FgKeluarAdapter(val data: List<FgKeluarItem>?, private val click: onClickItem) : RecyclerView.Adapter<FgKeluarAdapter.MyHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_data,parent,false)
         return MyHolder(view)
@@ -31,9 +32,14 @@ class FgKeluarAdapter(val data: List<FgKeluarItem>?, private val click: onClickI
         fun onBind(get: FgKeluarItem?) {
             itemView.ItemNo.text = get?.ItemNo
             itemView.ItemDescription.text = get?.ItemDescription
-            itemView.Unit1.text = get?.Unit1
-            itemView.QtyFG.text = get?.QtyFG
-            itemView.TglCreateFg.text = get?.TglCreateFg
+            if (get?.Unit3 == null) {
+                itemView.Unit1.text = get?.Unit1
+            }else{
+                itemView.Unit1.text = get?.Unit3
+            }
+            itemView.Catatan.text = get?.Catatan
+            itemView.QtyFG.text = get?.Qty
+            itemView.TglCreateFg.text = get?.TglCatatan
             itemView.InputMinusPlus.text = get?.InputMinusPlus
             itemView.LotNumber.text = get?.LotNumber
 

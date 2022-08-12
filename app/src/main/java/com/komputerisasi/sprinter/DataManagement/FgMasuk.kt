@@ -35,11 +35,11 @@ class FgMasuk : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fg_masuk)
         presenter = Presenter(this)
-        presenter.getDataFgMasuk()
+        presenter.getDataFgMasuk(this)
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "FG MASUK"
+        actionbar!!.title = "BARANG JADI MASUK"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -103,7 +103,8 @@ class FgMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessDeleteFgMasuk(msg: String) {
-        presenter.getDataFgMasuk()
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        presenter.getDataFgMasuk(this)
     }
 
     override fun onSuccessGetFgMasuk(data: List<FgMasukItem>?) {
@@ -136,9 +137,10 @@ class FgMasuk : AppCompatActivity(), CrudView {
                     }
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
-                        presenter.hapusDataFgMasuk(item?.IdFgMasuk)
+                        presenter.hapusDataFgMasuk(applicationContext,item?.Id_warehouse_InOut)
                         startActivity<FgMasuk>()
                         finish()
+
                     }
                 val alert = builder.create()
                 alert.show()
@@ -240,6 +242,21 @@ class FgMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorGetItemById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
 }

@@ -17,15 +17,21 @@ class RmMasukItem : Serializable {
     @field:SerializedName("unit1")
     val Unit1: String? = null
 
-    @field:SerializedName("qty_rm")
-    val QtyRm: String? = null
+    @field:SerializedName("unit3")
+    val Unit3: String? = null
 
-    @field:SerializedName("tgl_create_rm")
-    val TglCreateRm: String? = null
+    @field:SerializedName("qty")
+    val Qty: String? = null
+
+    @field:SerializedName("catatan")
+    val Catatan: String? = null
+
+    @field:SerializedName("tgl_catatan")
+    val TglCatatan: String? = null
 
     @field:SerializedName("inputminusplus")
     val InputMinusPlus: String? = null
 
-    @field:SerializedName("id_rm_masuk")
-    val IdRmMasuk: String? = null
+    @field:SerializedName("id_warehouse_InOut")
+    val Id_warehouse_InOut: String? = null
 }
