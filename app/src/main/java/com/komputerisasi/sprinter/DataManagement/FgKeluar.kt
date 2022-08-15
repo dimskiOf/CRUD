@@ -257,5 +257,20 @@ class FgKeluar : AppCompatActivity(), CrudView {
     override fun onErrorGetItemById(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetScanChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
 
 }

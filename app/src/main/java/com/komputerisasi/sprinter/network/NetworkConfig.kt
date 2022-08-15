@@ -237,4 +237,14 @@ interface DataService{
     @POST("api/getitembyid")
     fun getitembyid(@Field("itemnos") itemnos: String?,
                     @Field("dbname") globalDatabase : String) : Call<ResultGetItemById>
+
+    //Fungsi Get Data STOK GUDANG
+    @FormUrlEncoded
+    @POST("api/getstokitem")
+
+    fun getDataStokItem(@Field("dbname") globalDatabase : String) : Call<ResultStok>
+
+    fun getScanDataStokItem(
+        @Field("itemnos") itemnos: String?,
+        @Field("dbname") globalDatabase : String) : Call<ResultCheckStok>
 }

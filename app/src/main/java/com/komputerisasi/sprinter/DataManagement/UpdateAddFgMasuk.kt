@@ -329,4 +329,19 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
     override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetScanChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

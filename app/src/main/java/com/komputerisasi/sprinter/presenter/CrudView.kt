@@ -18,6 +18,10 @@ interface CrudView {
     fun onFailedGetRmKeluar(msg : String)
     fun onSuccessGetRmMasuk(data: List<RmMasukItem>?)
     fun onFailedGetRmMasuk(msg : String)
+    fun onSuccessGetChekStok(data: List<ChekStokItem>?)
+    fun onFailedGetChekStok(msg: String)
+    fun onSuccessGetScanChekStok(data: List<ChekStokItem>?)
+    fun onFailedGetScanChekStok(msg: String)
 
     //Untuk Delete
     fun onSuccessDeleteFgKeluar(msg: String)

@@ -455,5 +455,55 @@ class Presenter (val crudView: CrudView){
             })
     }
 
+    //Fungsi GetDataStok
+    fun getDataStokItem(context:Context){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataStokItem(LoginUtama.globalDatabase)
+            .enqueue(object : retrofit2.Callback<ResultStok>{
+                override fun onFailure(call: Call<ResultStok>, t: Throwable) {
+                    crudView.onFailedGetChekStok(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultStok>, response: Response<ResultStok>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.ResultStok
+                            crudView.onSuccessGetChekStok(data)
+                        } else{
+                            crudView.onFailedGetChekStok(
+                                response.body()?.pesan ?: "Error $status"
+                            )
+                        }
+                    }
+                }
+
+            })
+    }
+
+    //Fungsi ScannGetDataStok
+    fun getScanDataStokItem(context:Context,itemnos: String?){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getScanDataStokItem(itemnos,LoginUtama.globalDatabase)
+            .enqueue(object : retrofit2.Callback<ResultCheckStok>{
+                override fun onFailure(call: Call<ResultCheckStok>, t: Throwable) {
+                    crudView.onFailedGetScanChekStok(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultCheckStok>, response: Response<ResultCheckStok>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.ChekStokItem
+                            crudView.onSuccessGetScanChekStok(data)
+                        } else{
+                            crudView.onFailedGetScanChekStok(response.body()?.pesan ?: "Error $status")
+                        }
+                    }
+                }
+
+            })
+    }
+
 
 }

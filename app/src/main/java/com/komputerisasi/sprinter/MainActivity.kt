@@ -37,6 +37,16 @@ class MainActivity : AppCompatActivity(), CrudView {
             Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
         }
 
+        CheckStok.setOnClickListener{
+            try {
+                presenter.Pingapi(applicationContext, "rezdnov123")
+            }catch(e: IOException){
+                Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
+            }
+            startActivity<FgKeluar>()
+            finish()
+        }
+
         FgKeluar.setOnClickListener {
             try {
                 presenter.Pingapi(applicationContext, "rezdnov123")
