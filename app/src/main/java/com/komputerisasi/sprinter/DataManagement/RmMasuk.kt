@@ -1,11 +1,15 @@
 package com.komputerisasi.sprinter.DataManagement
 
 import android.app.AlertDialog
+import android.app.SearchManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.sprinter.InventoryGudang
 import com.komputerisasi.sprinter.LoginUtama
-import com.komputerisasi.sprinter.MainActivity
 import com.komputerisasi.sprinter.R
 import com.komputerisasi.sprinter.Scanning.ScannRmMasuk
 import com.komputerisasi.sprinter.adapter.RmMasukAdapter
@@ -16,18 +20,22 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_rm_masuk.*
 import org.jetbrains.anko.startActivity
 
+
 class RmMasuk : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
+    companion object {
+        var limitstart = 0
+        var limitend = 10
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+        val loaduser = selectDatabase("datauser")
 
-        if (data1.isEmpty() || data2.isEmpty()){
+        if(loaduser.isNotEmpty()){
+
+        }else{
             startActivity<LoginUtama>()
             finish()
-        }else{
-
         }
 
         LoginUtama.globalVar = selectDatabase("settingurl")
@@ -35,7 +43,8 @@ class RmMasuk : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rm_masuk)
         presenter = Presenter(this)
-        presenter.getDataRmMasuk(this)
+        val tes = ""
+        presenter.getDataRmMasuk(this,tes, limitstart.toString(), limitend.toString())
 
         val actionbar = supportActionBar
         //set actionbar title
@@ -47,6 +56,7 @@ class RmMasuk : AppCompatActivity(), CrudView {
             startActivity<ScannRmMasuk>()
             finish()
         }
+
     }
 
     override fun onSuccessGetDBname(msg: String) {
@@ -56,10 +66,46 @@ class RmMasuk : AppCompatActivity(), CrudView {
     override fun onErrorGetDBname(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mymenu, menu)
+        val searchView = menu?.findItem(R.id.buttonsearch)?.actionView as SearchView
+        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(
+            searchManager.getSearchableInfo(componentName)
+        )
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                getInput(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+        return true
+        return super.onCreateOptionsMenu(menu)
+
+    }
+    fun getInput(searchText: String?) {
+        presenter.getDataRmMasuk(this,searchText.toString(), limitstart.toString(), limitend.toString())
+    }
+
+    // handle button activities
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id: Int = item.getItemId()
+        if (id == R.id.buttonsearch) {
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         //onBackPressed()
-        startActivity<MainActivity>()
+        startActivity<InventoryGudang>()
         finish()
         return true
     }
@@ -208,7 +254,8 @@ class RmMasuk : AppCompatActivity(), CrudView {
 
     override fun onSuccessDeleteRmMasuk(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
-        presenter.getDataRmMasuk(this)
+        val set = "";
+        presenter.getDataRmMasuk(this,set, limitstart.toString(), limitend.toString())
     }
 
     override fun onErrorDeleteRmMasuk(msg: String) {
@@ -267,3 +314,4 @@ class RmMasuk : AppCompatActivity(), CrudView {
         TODO("Not yet implemented")
     }
 }
+

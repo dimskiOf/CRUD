@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.komputerisasi.sprinter.R
 import com.komputerisasi.sprinter.model.ChekStokItem
-import kotlinx.android.synthetic.main.item_data.view.*
+import kotlinx.android.synthetic.main.item_stok_data.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class CheckStokAdapter(val data: List<ChekStokItem>?, private val click: onClickItem) : RecyclerView.Adapter<CheckStokAdapter.MyHolder>() {
@@ -23,20 +23,15 @@ class CheckStokAdapter(val data: List<ChekStokItem>?, private val click: onClick
         holder.itemView.onClick {
             click.clicked(data?.get(position))
         }
-        holder.itemView.btnHapus.setOnClickListener {
-            click.delete(data?.get(position))
-        }
     }
 
     class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(get: ChekStokItem?) {
             itemView.ItemNo.text = get?.ItemNo
             itemView.ItemDescription.text = get?.ItemDescription
-            if (get?.Unit3 == null) {
-                itemView.Unit1.text = get?.Unit1
-            }else{
-                itemView.Unit1.text = get?.Unit3
-            }
+            itemView.QtyStokMinimum.text = get?.Minimumqty
+            itemView.Unit1.text = get?.Unit1
+            itemView.QtyStok.text = get?.Qty
 
 
         }
@@ -44,7 +39,6 @@ class CheckStokAdapter(val data: List<ChekStokItem>?, private val click: onClick
 
     interface onClickItem{
         fun clicked (item: ChekStokItem?)
-        fun delete(item: ChekStokItem?)
 
     }
 }

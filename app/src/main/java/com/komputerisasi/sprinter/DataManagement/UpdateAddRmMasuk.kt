@@ -4,9 +4,14 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.Toast
 import com.komputerisasi.sprinter.LoginUtama
 import com.komputerisasi.sprinter.R
+import com.komputerisasi.sprinter.keyboard.Numberingwithdot
 import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
@@ -30,14 +35,13 @@ class UpdateAddRmMasuk : AppCompatActivity(), CrudView {
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+        val loaduser = selectDatabase("datauser")
 
-        if (data1.isEmpty() || data2.isEmpty()){
+        if(loaduser.isNotEmpty()){
+
+        }else{
             startActivity<LoginUtama>()
             finish()
-        }else{
-
         }
 
         LoginUtama.globalVar = selectDatabase("settingurl")

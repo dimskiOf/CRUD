@@ -66,7 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Qty Stok Awal"
-            android:inputType="number" />
+            android:inputType="numberSigned|numberDecimal"
+            android:digits= "0123456789."/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Qty Minimum"
-            android:inputType="number" />
+            android:inputType="numberSigned|numberDecimal"
+            android:digits= "0123456789."/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -104,8 +106,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Quantity"
-            android:inputType="number" />
+            android:inputType="numberSigned|numberDecimal"
+            android:digits= "0123456789."/>
     </com.google.android.material.textfield.TextInputLayout>
+<!--    <com.komputerisasi.sprinter.keyboard.Numberingwithdot-->
+<!--        android:id="@+id/keyboard"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_alignParentBottom="true"/>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout6"
@@ -162,7 +171,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Berat Palet"
-            android:inputType="number"
+            android:inputType="numberSigned|numberDecimal"
+            android:digits= "0123456789.-"/>
             />
     </com.google.android.material.textfield.TextInputLayout>
 

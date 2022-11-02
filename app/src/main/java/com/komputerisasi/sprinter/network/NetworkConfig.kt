@@ -53,6 +53,12 @@ object NetworkConfig {
     fun <T> getService(context: Context, baseUrl: String, service: Class<T>): T {
         if (globalVar.isEmpty()){
             globalVar = "http://localhost/"
+        }else{
+            if ("http://" in globalVar){
+            globalVar
+            }else{
+             globalVar = "http://"+globalVar+"/"
+            }
         }
         val retrofit = Retrofit.Builder()
             .baseUrl(globalVar)
@@ -90,7 +96,10 @@ interface DataService{
     @FormUrlEncoded
     @POST("api/getfgkeluar")
 
-    fun getDataFgKeluar(@Field("dbname") globalDatabase : String) : Call<ResultFgKeluarItem>
+    fun getDataFgKeluar(@Field("dbname") globalDatabase : String,
+                        @Field("searchquery") datasearch : String,
+                        @Field("limit_start") limitstart : String,
+                        @Field("limit_end") limitend : String) : Call<ResultFgKeluarItem>
 
     //Fungsi Create Data FG Keluar
     @FormUrlEncoded
@@ -127,7 +136,10 @@ interface DataService{
     @FormUrlEncoded
     @POST("api/getfgmasuk")
 
-    fun getDataFgMasuk(@Field("dbname") globalDatabase : String) : Call<ResultFgMasukItem>
+    fun getDataFgMasuk(@Field("dbname") globalDatabase : String,
+                       @Field("searchquery") datasearch : String,
+                       @Field("limit_start") limitstart : String,
+                       @Field("limit_end") limitend : String) : Call<ResultFgMasukItem>
 
     //Fungsi Create Data FG Masuk
     @FormUrlEncoded
@@ -164,7 +176,10 @@ interface DataService{
     @FormUrlEncoded
     @POST("api/getrmkeluar")
 
-    fun getDataRmKeluar(@Field("dbname") globalDatabase : String) : Call<ResultRmKeluarItem>
+    fun getDataRmKeluar(@Field("dbname") globalDatabase : String,
+                        @Field("searchquery") datasearch : String,
+                        @Field("limit_start") limitstart : String,
+                        @Field("limit_end") limitend : String) : Call<ResultRmKeluarItem>
 
     //Fungsi Create Data Rm Keluar
     @FormUrlEncoded
@@ -201,7 +216,10 @@ interface DataService{
     @FormUrlEncoded
     @POST("api/getrmmasuk")
 
-    fun getDataRmMasuk(@Field("dbname") globalDatabase : String) : Call<ResultRmMasukItem>
+    fun getDataRmMasuk(@Field("dbname") globalDatabase : String,
+                       @Field("searchquery") datasearch : String,
+                       @Field("limit_start") limitstart : String,
+                       @Field("limit_end") limitend : String) : Call<ResultRmMasukItem>
 
     //Fungsi Create Data Rm Masuk
     @FormUrlEncoded
@@ -241,9 +259,20 @@ interface DataService{
     //Fungsi Get Data STOK GUDANG
     @FormUrlEncoded
     @POST("api/getstokitem")
+    fun getDataStokItem(@Field("dbname") globalDatabase : String,
+                        @Field("searchquery") datasearch : String,
+                        @Field("limit_start") limitstart : String,
+                        @Field("limit_end") limitend : String) : Call<ResultStok>
 
-    fun getDataStokItem(@Field("dbname") globalDatabase : String) : Call<ResultStok>
+    @FormUrlEncoded
+    @POST("api/getstokitemfg")
+    fun getDataStokItemfg(@Field("dbname") globalDatabase : String,
+                          @Field("searchquery") datasearch : String,
+                          @Field("limit_start") limitstart : String,
+                          @Field("limit_end") limitend : String) : Call<ResultStok>
 
+    @FormUrlEncoded
+    @POST("api/getitembyscan")
     fun getScanDataStokItem(
         @Field("itemnos") itemnos: String?,
         @Field("dbname") globalDatabase : String) : Call<ResultCheckStok>

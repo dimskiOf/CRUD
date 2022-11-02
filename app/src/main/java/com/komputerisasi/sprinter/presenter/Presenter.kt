@@ -37,8 +37,8 @@ class Presenter (val crudView: CrudView){
     }
 
     //Fungsi GetDataFgKeluar
-    fun getDataFgKeluar(context:Context){
-        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataFgKeluar(LoginUtama.globalDatabase)
+    fun getDataFgKeluar(context:Context,datasearch : String,limitstart :String,limitend:String){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataFgKeluar(LoginUtama.globalDatabase,datasearch,limitstart,limitend)
             .enqueue(object : retrofit2.Callback<ResultFgKeluarItem>{
                 override fun onFailure(call: Call<ResultFgKeluarItem>, t: Throwable) {
                     crudView.onFailedGetFgKeluar(t.localizedMessage)
@@ -125,8 +125,8 @@ class Presenter (val crudView: CrudView){
     }
 
     //Fungsi GetDataFgMasuk
-    fun getDataFgMasuk(context:Context){
-        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataFgMasuk(LoginUtama.globalDatabase)
+    fun getDataFgMasuk(context:Context,datasearch : String,limitstart :String,limitend:String){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataFgMasuk(LoginUtama.globalDatabase,datasearch,limitstart,limitend)
             .enqueue(object : retrofit2.Callback<ResultFgMasukItem>{
                 override fun onFailure(call: Call<ResultFgMasukItem>, t: Throwable) {
                     crudView.onFailedGetFgMasuk(t.localizedMessage)
@@ -211,8 +211,8 @@ class Presenter (val crudView: CrudView){
     }
 
     //Fungsi GetDataRmKeluar
-    fun getDataRmKeluar(context:Context){
-        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataRmKeluar(LoginUtama.globalDatabase)
+    fun getDataRmKeluar(context:Context,datasearch : String,limitstart :String,limitend:String){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataRmKeluar(LoginUtama.globalDatabase,datasearch,limitstart,limitend)
             .enqueue(object : retrofit2.Callback<ResultRmKeluarItem>{
                 override fun onFailure(call: Call<ResultRmKeluarItem>, t: Throwable) {
                     crudView.onFailedGetRmKeluar(t.localizedMessage)
@@ -297,8 +297,8 @@ class Presenter (val crudView: CrudView){
     }
 
     //Fungsi GetDataRmMasuk
-    fun getDataRmMasuk(context:Context){
-        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataRmMasuk(LoginUtama.globalDatabase)
+    fun getDataRmMasuk(context:Context,datasearch : String,limitstart :String,limitend:String){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataRmMasuk(LoginUtama.globalDatabase,datasearch,limitstart,limitend)
             .enqueue(object : retrofit2.Callback<ResultRmMasukItem>{
                 override fun onFailure(call: Call<ResultRmMasukItem>, t: Throwable) {
                     crudView.onFailedGetRmMasuk(t.localizedMessage)
@@ -456,8 +456,33 @@ class Presenter (val crudView: CrudView){
     }
 
     //Fungsi GetDataStok
-    fun getDataStokItem(context:Context){
-        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataStokItem(LoginUtama.globalDatabase)
+    fun getDataStokItem(context:Context,datasearch : String,limitstart :String,limitend:String){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataStokItem(LoginUtama.globalDatabase,datasearch,limitstart,limitend)
+            .enqueue(object : retrofit2.Callback<ResultStok>{
+                override fun onFailure(call: Call<ResultStok>, t: Throwable) {
+                    crudView.onFailedGetChekStok(t.localizedMessage)
+                    Log.d("Error", "Error Data")
+                }
+
+                override fun onResponse(call: Call<ResultStok>, response: Response<ResultStok>) {
+                    if(response.isSuccessful){
+                        val status = response.body()?.status
+                        if (status == 200){
+                            val data = response.body()?.ResultStok
+                            crudView.onSuccessGetChekStok(data)
+                        } else{
+                            crudView.onFailedGetChekStok(
+                                response.body()?.pesan ?: "Error $status"
+                            )
+                        }
+                    }
+                }
+
+            })
+    }
+
+    fun getDataStokItemFG(context:Context,datasearch : String,limitstart :String,limitend:String){
+        NetworkConfig.getService(context,LoginUtama.globalVar,DataService::class.java).getDataStokItemfg(LoginUtama.globalDatabase,datasearch,limitstart,limitend)
             .enqueue(object : retrofit2.Callback<ResultStok>{
                 override fun onFailure(call: Call<ResultStok>, t: Throwable) {
                     crudView.onFailedGetChekStok(t.localizedMessage)

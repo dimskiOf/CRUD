@@ -14,20 +14,26 @@
         android:theme="@style/Theme.CRUD"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Scanning.ScannCheckStok"
-            android:exported="false"
-            android:label="@string/title_activity_scann_check_stok"
-            android:theme="@style/Theme.CRUD.NoActionBar" />
+            android:name=".DataManagement.AddKeluarMasukBarangManual"
+            android:exported="false" />
         <activity
-            android:name=".DataManagement.CheckStok"
-            android:exported="false"
-            android:label="@string/title_activity_check_stok"
-            android:theme="@style/Theme.CRUD.NoActionBar" />
+            android:name=".ProfilPengguna"
+            android:exported="false" />
         <activity
-            android:name=".MenuUtama"
-            android:exported="false"
-            android:label="@string/title_activity_menu_utama"
-            android:theme="@style/Theme.CRUD.NoActionBar" />
+            android:name=".InventoryKantor"
+            android:exported="false" />
+        <activity
+            android:name=".InventorySparepart"
+            android:exported="false" />
+        <activity
+            android:name=".InventoryGudang"
+            android:exported="false" />
+        <activity
+            android:name=".DataManagement.HasilScan"
+            android:exported="false" />
+        <activity
+            android:name=".DataManagement.HasilScannFG"
+            android:exported="false" />
         <activity
             android:name=".Scanning.ScannRmMasuk"
             android:exported="false" />
@@ -39,6 +45,12 @@
             android:exported="false" />
         <activity
             android:name=".Scanning.ScannFgKeluar"
+            android:exported="false" />
+        <activity
+            android:name=".Scanning.ScannCheckStok"
+            android:exported="false" />
+        <activity
+            android:name=".Scanning.ScannCheckStokFG"
             android:exported="false" />
         <activity
             android:name=".DataManagement.UpdateAddRmMasuk"
@@ -63,6 +75,12 @@
             android:exported="false" />
         <activity
             android:name=".DataManagement.RmKeluar"
+            android:exported="false" />
+        <activity
+            android:name=".DataManagement.CheckStok"
+            android:exported="false" />
+        <activity
+            android:name=".DataManagement.CheckStokFG"
             android:exported="false" />
         <activity
             android:name=".LoginUtama"

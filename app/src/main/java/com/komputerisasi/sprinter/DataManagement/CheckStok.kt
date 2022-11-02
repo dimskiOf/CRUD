@@ -1,11 +1,19 @@
 package com.komputerisasi.sprinter.DataManagement
 
+
+import android.app.SearchManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.sprinter.InventoryGudang
 import com.komputerisasi.sprinter.LoginUtama
 import com.komputerisasi.sprinter.MainActivity
 import com.komputerisasi.sprinter.R
 import com.komputerisasi.sprinter.Scanning.ScannCheckStok
+import com.komputerisasi.sprinter.adapter.CheckStokAdapter
 import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
@@ -13,29 +21,36 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_check_stok.*
 import org.jetbrains.anko.startActivity
 
-
-class CheckStok : AppCompatActivity(),CrudView {
+class CheckStok : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
+
+    companion object {
+        var limitstart = 0
+        var limitend = 10
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val loaduser = selectDatabase("datauser")
 
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+        if(loaduser.isNotEmpty()){
 
-        if (data1.isEmpty() || data2.isEmpty()){
+        }else{
             startActivity<LoginUtama>()
             finish()
-        }else{
-
         }
+
         LoginUtama.globalVar = selectDatabase("settingurl")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check_stok)
         presenter = Presenter(this)
+        val tes = ""
+        presenter.getDataStokItem(this, tes, limitstart.toString(), limitend.toString())
 
         val actionbar = supportActionBar
         //set actionbar title
-        actionbar!!.title = "SCAN CHECK STOK"
+        actionbar!!.title = "Data Stok"
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
 
@@ -43,12 +58,54 @@ class CheckStok : AppCompatActivity(),CrudView {
             startActivity<ScannCheckStok>()
             finish()
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mymenu, menu)
+        val searchView = menu?.findItem(R.id.buttonsearch)?.actionView as SearchView
+        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(
+            searchManager.getSearchableInfo(componentName)
+        )
 
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                getInput(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+        return true
+        return super.onCreateOptionsMenu(menu)
+
+    }
+    fun getInput(searchText: String?) {
+        presenter.getDataStokItem(this, searchText.toString(), limitstart.toString(), limitend.toString())
+    }
+
+    // handle button activities
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id: Int = item.getItemId()
+        if (id == R.id.buttonsearch) {
+            // do something here
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSuccessGetDBname(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDBname(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSupportNavigateUp(): Boolean {
         //onBackPressed()
-        startActivity<MainActivity>()
+        startActivity<InventoryGudang>()
         finish()
         return true
     }
@@ -64,43 +121,89 @@ class CheckStok : AppCompatActivity(),CrudView {
         db.close()
     }
 
-    override fun onSuccessGetLogin(data: List<DataLogin>?) {
-        TODO("Not yet implemented")
-    }
+    override fun onSuccessGetLogin(data: List<DataLogin>?) {}
 
     override fun onFailedGetLogin(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSuccessgetToken(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onFailedgetToken(msg: String) {
-        TODO("Not yet implemented")
     }
 
     override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
-        TODO("Not yet implemented")
     }
 
     override fun onFailedGetFgKeluar(msg: String) {
-        TODO("Not yet implemented")
+
+    }
+
+    override fun onSuccessDeleteFgKeluar(msg: String) {
+
+    }
+
+    override fun onErrorDeleteFgKeluar(msg: String) {
+
+    }
+
+    override fun successAddFgKeluar(msg: String) {
+    }
+
+    override fun errorAddFgKeluar(msg: String) {
+    }
+
+    override fun onSuccessUpdateFgKeluar(msg: String) {
+    }
+
+    override fun onErrorUpdateFgKeluar(msg: String) {
+    }
+
+    override fun successAddFgMasuk(msg: String) {
+    }
+
+    override fun onSuccessDeleteFgMasuk(msg: String) {
     }
 
     override fun onSuccessGetFgMasuk(data: List<FgMasukItem>?) {
-        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateFgMasuk(msg: String) {
+    }
+    override fun errorAddFgMasuk(msg: String) {
+    }
+
+    override fun onErrorDeleteFgMasuk(msg: String) {
+    }
+
+    override fun onErrorUpdateFgMasuk(msg: String) {
     }
 
     override fun onFailedGetFgMasuk(msg: String) {
+    }
+
+    override fun errorAddRmKeluar(msg: String) {
         TODO("Not yet implemented")
     }
 
-    override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {
+    override fun onErrorDeleteRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateRmKeluar(msg: String) {
         TODO("Not yet implemented")
     }
 
     override fun onFailedGetRmKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteRmKeluar(msg: String) {
+
+    }
+
+    override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {
+    }
+
+    override fun onSuccessUpdateRmKeluark(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun successAddRmKeluar(msg: String) {
         TODO("Not yet implemented")
     }
 
@@ -112,59 +215,11 @@ class CheckStok : AppCompatActivity(),CrudView {
         TODO("Not yet implemented")
     }
 
-    override fun onSuccessDeleteFgKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorDeleteFgKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSuccessDeleteFgMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorDeleteFgMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSuccessDeleteRmKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorDeleteRmKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
     override fun onSuccessDeleteRmMasuk(msg: String) {
         TODO("Not yet implemented")
     }
 
     override fun onErrorDeleteRmMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun successAddFgKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun errorAddFgKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun successAddFgMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun errorAddFgMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun successAddRmKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun errorAddRmKeluar(msg: String) {
         TODO("Not yet implemented")
     }
 
@@ -176,30 +231,6 @@ class CheckStok : AppCompatActivity(),CrudView {
         TODO("Not yet implemented")
     }
 
-    override fun onSuccessUpdateFgKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorUpdateFgKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSuccessUpdateFgMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorUpdateFgMasuk(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSuccessUpdateRmKeluark(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorUpdateRmKeluar(msg: String) {
-        TODO("Not yet implemented")
-    }
-
     override fun onSuccessUpdateRmMasuk(msg: String) {
         TODO("Not yet implemented")
     }
@@ -207,7 +238,13 @@ class CheckStok : AppCompatActivity(),CrudView {
     override fun onErrorUpdateRmMasuk(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onSuccessgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
 
+    override fun onFailedgetToken(msg: String) {
+        TODO("Not yet implemented")
+    }
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
         TODO("Not yet implemented")
     }
@@ -215,7 +252,6 @@ class CheckStok : AppCompatActivity(),CrudView {
     override fun onErrorGetItemById(msg: String) {
         TODO("Not yet implemented")
     }
-
     override fun onSuccessPingApi(msg: String) {
         TODO("Not yet implemented")
     }
@@ -223,21 +259,16 @@ class CheckStok : AppCompatActivity(),CrudView {
     override fun onErrorPingApi(msg: String) {
         TODO("Not yet implemented")
     }
-
-    override fun onSuccessGetDBname(msg: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onErrorGetDBname(msg: String) {
-        TODO("Not yet implemented")
-    }
-
     override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
-        TODO("Not yet implemented")
+        rvCategory.adapter = CheckStokAdapter(data,object :CheckStokAdapter.onClickItem{
+            override fun clicked(item: ChekStokItem?) {
+
+            }
+        })
     }
 
     override fun onFailedGetChekStok(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccessGetScanChekStok(data: List<ChekStokItem>?) {

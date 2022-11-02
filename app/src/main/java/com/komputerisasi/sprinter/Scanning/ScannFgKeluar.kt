@@ -33,14 +33,13 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+        val loaduser = selectDatabase("datauser")
 
-        if (data1.isEmpty() || data2.isEmpty()){
+        if(loaduser.isNotEmpty()){
+
+        }else{
             startActivity<LoginUtama>()
             finish()
-        }else{
-
         }
 
         super.onCreate(savedInstanceState)
@@ -314,11 +313,7 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
             b.putExtra("itemcode", i.ItemCode)
             b.putExtra("itemdes", i.Itemdes)
             b.putExtra("tglmasuk", i.TglMasuk)
-            if (i.Unit3 != null){
-                b.putExtra("satuan", i.Unit3)
-            }else {
-                b.putExtra("satuan", i.Satuan)
-            }
+            b.putExtra("satuan", i.Satuan)
             b.putExtra("quantity", i.Quantity)
             b.putExtra("minimumqty", i.Minimumqty)
             b.putExtra("minusplus", i.MinusPlus)
@@ -343,6 +338,21 @@ class ScannFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorPingApi(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetScanChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetScanChekStok(msg: String) {
         TODO("Not yet implemented")
     }
 }

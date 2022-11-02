@@ -1,9 +1,14 @@
 package com.komputerisasi.sprinter.DataManagement
 
 import android.app.AlertDialog
+import android.app.SearchManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.sprinter.InventoryGudang
 import com.komputerisasi.sprinter.LoginUtama
 import com.komputerisasi.sprinter.MainActivity
 import com.komputerisasi.sprinter.R
@@ -19,16 +24,18 @@ import org.jetbrains.anko.startActivity
 class RmKeluar : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
-
+    companion object {
+        var limitstart = 0
+        var limitend = 10
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+        val loaduser = selectDatabase("datauser")
 
-        if (data1.isEmpty() || data2.isEmpty()){
+        if(loaduser.isNotEmpty()){
+
+        }else{
             startActivity<LoginUtama>()
             finish()
-        }else{
-
         }
 
         LoginUtama.globalVar = selectDatabase("settingurl")
@@ -36,7 +43,8 @@ class RmKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rm_keluar)
         presenter = Presenter(this)
-        presenter.getDataRmKeluar(this)
+        val tes = ""
+        presenter.getDataRmKeluar(this,tes, limitstart.toString(), limitend.toString())
 
         val actionbar = supportActionBar
         //set actionbar title
@@ -49,6 +57,41 @@ class RmKeluar : AppCompatActivity(), CrudView {
             finish()
         }
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mymenu, menu)
+        val searchView = menu?.findItem(R.id.buttonsearch)?.actionView as SearchView
+        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(
+            searchManager.getSearchableInfo(componentName)
+        )
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                getInput(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+        return true
+        return super.onCreateOptionsMenu(menu)
+
+    }
+    fun getInput(searchText: String?) {
+        presenter.getDataRmKeluar(this,searchText.toString(), limitstart.toString(), limitend.toString())
+    }
+
+    // handle button activities
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id: Int = item.getItemId()
+        if (id == R.id.buttonsearch) {
+            // do something here
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onSuccessGetDBname(msg: String) {
         TODO("Not yet implemented")
@@ -60,7 +103,7 @@ class RmKeluar : AppCompatActivity(), CrudView {
 
     override fun onSupportNavigateUp(): Boolean {
         //onBackPressed()
-        startActivity<MainActivity>()
+        startActivity<InventoryGudang>()
         finish()
         return true
     }
@@ -149,7 +192,8 @@ class RmKeluar : AppCompatActivity(), CrudView {
 
     override fun onSuccessDeleteRmKeluar(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
-        presenter.getDataRmKeluar(this)
+        val tes = ""
+        presenter.getDataRmKeluar(this,tes, limitstart.toString(), limitend.toString())
     }
 
     override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {

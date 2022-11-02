@@ -1,9 +1,17 @@
 package com.komputerisasi.sprinter.DataManagement
 
 import android.app.AlertDialog
+import android.app.SearchManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.komputerisasi.sprinter.InventoryGudang
 import com.komputerisasi.sprinter.LoginUtama
 import com.komputerisasi.sprinter.MainActivity
 import com.komputerisasi.sprinter.R
@@ -19,15 +27,26 @@ import org.jetbrains.anko.startActivity
 class FgKeluar : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+    companion object {
+        var limitstart = 0
+        var limitend = 10
+    }
 
-        if (data1.isEmpty() || data2.isEmpty()){
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)}
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)}
+    private val fromButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_button_anim)}
+    private val toButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_button_anim)}
+
+    private var clicked = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val loaduser = selectDatabase("datauser")
+
+        if(loaduser.isNotEmpty()){
+
+        }else{
             startActivity<LoginUtama>()
             finish()
-        }else{
-
         }
 
         LoginUtama.globalVar = selectDatabase("settingurl")
@@ -35,18 +54,104 @@ class FgKeluar : AppCompatActivity(), CrudView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fg_keluar)
         presenter = Presenter(this)
-        presenter.getDataFgKeluar(this)
+        val tes = ""
+        presenter.getDataFgKeluar(this,tes, limitstart.toString(), limitend.toString())
 
         val actionbar = supportActionBar
-        //set actionbar title
         actionbar!!.title = "BARANG JADI KELUAR"
-        //set back button
+
         actionbar.setDisplayHomeAsUpEnabled(true)
 
         btnTambah.setOnClickListener {
-          startActivity<ScannFgKeluar>()
+            onAddButtonClicked()
+        }
+
+        tambahManual.setOnClickListener{
+
+        }
+        tambahScan.setOnClickListener {
+            startActivity<ScannFgKeluar>()
             finish()
         }
+    }
+
+    private fun onAddButtonClicked() {
+        setVisibility(clicked)
+        setAnimation(clicked)
+        setClickAble(clicked)
+        clicked = !clicked
+    }
+    private fun setVisibility(clicked: Boolean){
+        if(!clicked){
+            tambahManual.visibility = View.VISIBLE
+            tambahScan.visibility = View.VISIBLE
+        }else{
+            tambahManual.visibility = View.INVISIBLE
+            tambahScan.visibility = View.INVISIBLE
+        }
+    }
+    private fun setAnimation(clicked: Boolean){
+        if(!clicked){
+            tambahManual.startAnimation(fromButon)
+            tambahScan.startAnimation(fromButon)
+            btnTambah.startAnimation(rotateOpen)
+        }else{
+            tambahManual.startAnimation(toButon)
+            tambahScan.startAnimation(toButon)
+            btnTambah.startAnimation(rotateClose)
+        }
+    }
+
+    private fun setClickAble(clicked: Boolean){
+        if(!clicked){
+            tambahScan.isClickable = true
+            tambahManual.isClickable = true
+        }else{
+            tambahScan.isClickable = false
+            tambahManual.isClickable =false
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mymenu, menu)
+        val searchView = menu?.findItem(R.id.buttonsearch)?.actionView as SearchView
+        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(
+            searchManager.getSearchableInfo(componentName)
+        )
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                getInput(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+        return true
+        return super.onCreateOptionsMenu(menu)
+
+    }
+    fun getInput(searchText: String?) {
+        presenter.getDataFgKeluar(this,searchText.toString(), limitstart.toString(), limitend.toString())
+    }
+
+    // handle button activities
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id: Int = item.getItemId()
+        if (id == R.id.buttonsearch) {
+            // do something here
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        //onBackPressed()
+        startActivity<InventoryGudang>()
+        finish()
+        return true
     }
 
     override fun onSuccessGetDBname(msg: String) {
@@ -57,12 +162,7 @@ class FgKeluar : AppCompatActivity(), CrudView {
         TODO("Not yet implemented")
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        //onBackPressed()
-        startActivity<MainActivity>()
-        finish()
-        return true
-    }
+
 
     private fun selectDatabase(namaseting: String): String {
         var helper = DatabaseHelper(applicationContext)
@@ -128,7 +228,8 @@ class FgKeluar : AppCompatActivity(), CrudView {
 
     override fun onSuccessDeleteFgKeluar(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
-        presenter.getDataFgKeluar(this)
+        val tes = ""
+        presenter.getDataFgKeluar(this,tes, limitstart.toString(), limitend.toString())
     }
 
     override fun onErrorDeleteFgKeluar(msg: String) {

@@ -20,7 +20,7 @@ class ChekStokItem : Serializable {
     @field:SerializedName("unit3")
     val Unit3: String? = null
 
-    @field:SerializedName("Quantity")
+    @field:SerializedName("quantity")
     val Qty: String? = null
 
     @field:SerializedName("minimumqty")

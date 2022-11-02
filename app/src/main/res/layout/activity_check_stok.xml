@@ -13,7 +13,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/btnScann"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_stok_data"></androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/item_stok_data">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/btnScann"
@@ -24,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_press"
         android:drawableBottom="@drawable/rounderbtn"
-        android:text="Scann"
+        android:text="Scan"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="normal|bold" />

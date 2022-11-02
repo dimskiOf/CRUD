@@ -43,10 +43,9 @@ class LoginUtama() : AppCompatActivity(), CrudView {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL)
         CookieHandler.setDefault(cookieManager)
 
-        val data1 = selectDatabase("username")
-        val data2 = selectDatabase("accesstoken")
+        val data_user = selectDatabase("datauser")
 
-        if (data1.isEmpty() || data2.isEmpty()) {
+        if (data_user.isEmpty()) {
         setContentView(R.layout.activity_login_utama)
 
         settingserver.setOnClickListener {
@@ -173,8 +172,7 @@ class LoginUtama() : AppCompatActivity(), CrudView {
         data?.forEach{
             i ->
             intent.putExtra("token", "Selamat datang "+i.username)
-            insertDatabase(i.username.toString(),1,"username")
-            insertDatabase(i.accesstoken.toString(),1,"accesstoken")
+            insertDatabase(i.username.toString()+","+i.nama.toString()+","+i.privilage.toString(),1,"datauser")
             Toast.makeText(this, "Login Berhasil", Toast.LENGTH_SHORT).show()
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
                     Intent.FLAG_ACTIVITY_CLEAR_TASK or
@@ -329,6 +327,22 @@ class LoginUtama() : AppCompatActivity(), CrudView {
 
     override fun onErrorPingApi(msg: String) {
 
+    }
+
+    override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetScanChekStok(data: List<ChekStokItem>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
     }
 
 }
