@@ -43,7 +43,7 @@ class HasilScan : AppCompatActivity(), CrudView {
         val actionbar = supportActionBar
         //set actionbar title
 
-        etItemNo.setFocusable(false)
+        etItemNos.setFocusable(false)
         etItemDescription.setFocusable(false)
         etUnit1.setFocusable(false)
         etQtyMinimum.setFocusable(false)
@@ -56,7 +56,7 @@ class HasilScan : AppCompatActivity(), CrudView {
         val quantity = intent.getStringExtra("quantity")
         val minimumqty = intent.getStringExtra("minimumqty")
 
-        etItemNo.setText(itemcode)
+        etItemNos.setText(itemcode)
         etItemDescription.setText(itemdes)
         etUnit1.setText(satuan)
         etQtyMinimum.setText(minimumqty)

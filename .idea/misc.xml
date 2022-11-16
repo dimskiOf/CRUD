@@ -51,6 +51,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/bggradient.xml" value="0.135" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/button_press.xml" value="0.133" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/button_round.xml" value="0.133" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/checkstok.xml" value="0.1225" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/custom_rectangle.xml" value="0.133" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/edit_material.xml" value="0.133" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/help.xml" value="0.133" />
@@ -62,13 +63,15 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/profile.xml" value="0.133" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/saran.xml" value="0.133" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/drawable/settings.xml" value="0.133" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_add_keluar_masuk_barang_manual.xml" value="0.14407866609662248" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_add_keluar_masuk_barang_manual.xml" value="0.24859663191659984" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_check_stok.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_check_stok_fg.xml" value="0.19972826086956522" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_fg_keluar.xml" value="0.18" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_fg_masuk.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_hasil_scan.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_inventory_gudang.xml" value="0.17693836978131214" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_inventory_kantor.xml" value="0.12056434373663959" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_inventory_sparepart.xml" value="0.12056434373663959" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_login_utama.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_menu_utama.xml" value="0.1" />
@@ -83,7 +86,7 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_update_add_fg_keluar.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_update_add_fg_masuk.xml" value="0.22" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_update_add_rm_keluar.xml" value="0.18" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_update_add_rm_masuk.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/activity_update_add_rm_masuk.xml" value="0.18" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/app_bar_menu_utama.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/content_check_stok.xml" value="0.165625" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/SPRINTER/app/src/main/res/layout/content_menu_utama.xml" value="0.18854166666666666" />

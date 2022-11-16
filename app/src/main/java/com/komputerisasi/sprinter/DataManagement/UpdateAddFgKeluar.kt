@@ -2,16 +2,14 @@ package com.komputerisasi.sprinter.DataManagement
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.komputerisasi.sprinter.LoginUtama
 import com.komputerisasi.sprinter.R
-import com.komputerisasi.sprinter.keyboard.Numberingwithdot
 import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
@@ -20,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_update_add_fg_keluar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import java.lang.Float
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Suppress("SENSELESS_COMPARISON")
 class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
@@ -33,6 +33,11 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     }
 
     private lateinit var presenter: Presenter
+
+    var adjusttgl: Button? = null
+    var viewdate: EditText? = null
+    var calen = Calendar.getInstance()
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         val loaduser = selectDatabase("datauser")
@@ -69,26 +74,64 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             actionbar!!.title = "SIMPAN FG KELUAR"
             //set back button
             actionbar.setDisplayHomeAsUpEnabled(true)
-            etItemNo.setFocusable(false)
+            etItemNos.setFocusable(false)
             etItemDescription.setFocusable(false)
             etUnit1.setFocusable(false)
-            etTglCreateFg.setFocusable(false)
+            etTglTransaksi.setFocusable(false)
             etQtyMinimum.setFocusable(false)
             etQuantity.setFocusable(false)
 
-            etItemNo.setText(itemcode)
+            etItemNos.setText(itemcode)
             etItemDescription.setText(itemdes)
             etInputMinusPlus.setText(minusplus)
             etUnit1.setText(satuan)
             etCatatan.setText(catatan)
-            etTglCreateFg.setText(tglmasuk)
+            etTglTransaksi.setText(tglmasuk)
             etQtyMinimum.setText(minimumqty)
             etQuantity.setText(quantity)
+
+            adjusttgl = this.adjusttgltransaksi
+            viewdate = this.etTglTransaksi
+
+            val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                       dayOfMonth: Int) {
+                    calen.set(Calendar.YEAR, year)
+                    calen.set(Calendar.MONTH, monthOfYear)
+                    calen.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    updateDateInView()
+                }
+            }
+
+            val timeSetListener = object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker, hourofday: Int, minute: Int) {
+                    calen.set(Calendar.HOUR_OF_DAY, hourofday)
+                    calen.set(Calendar.MINUTE, minute)
+                    updateDateInView()
+                }
+            }
+
+            adjusttgl!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(view: View) {
+                    TimePickerDialog(this@UpdateAddFgKeluar,
+                        timeSetListener,
+                        calen.get(Calendar.HOUR_OF_DAY),
+                        calen.get(Calendar.MINUTE),true).show()
+
+                    DatePickerDialog(this@UpdateAddFgKeluar,
+                        dateSetListener,
+                        // set DatePickerDialog to point to today's date when it loads up
+                        calen.get(Calendar.YEAR),
+                        calen.get(Calendar.MONTH),
+                        calen.get(Calendar.DAY_OF_MONTH)).show()
+                }
+
+            })
 
             btnAction.text = "Simpan"
             btnAction.onClick {
                 if ((minimumqty.toString() == null) or (minimumqty.toString() == "0")) {
-                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyFG.text.toString())){
+                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyInput.text.toString())){
                         val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
                         builder.setMessage("Simpan Data?")
                             .setCancelable(false)
@@ -99,9 +142,9 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                             .setPositiveButton("Yes") { dialog, id ->
 
                                 presenter.addDataFgKeluar(
-                                    applicationContext, etItemNo.text.toString(),
-                                    etTglCreateFg.text.toString(),
-                                    Float.parseFloat(etQtyFG.text.toString()),
+                                    applicationContext, etItemNos.text.toString(),
+                                    etTglTransaksi.text.toString(),
+                                    Float.parseFloat(etQtyInput.text.toString()),
                                     etCatatan.text.toString(),
                                     etLotNumber.text.toString(),
                                     Float.parseFloat(etInputMinusPlus.text.toString()),
@@ -113,9 +156,9 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                         Toast.makeText(applicationContext, "Qauntity request melebihi stok awal", Toast.LENGTH_SHORT).show()
                     }
                 }else{
-                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyFG.text.toString())){
+                    if(Float.parseFloat(quantity.toString()) >= Float.parseFloat(etQtyInput.text.toString())){
                         val a = Float.parseFloat(quantity.toString())
-                        val b = Float.parseFloat(etQtyFG.text.toString())
+                        val b = Float.parseFloat(etQtyInput.text.toString())
                        if (Float.parseFloat(minimumqty.toString()) >= (a-b)){
                            val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
                            builder.setMessage("Stok awal akan membawahi quantity minimum, ingin melanjutkan?")
@@ -127,9 +170,9 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                                .setPositiveButton("Yes") { dialog, id ->
 
                                    presenter.addDataFgKeluar(
-                                       applicationContext, etItemNo.text.toString(),
-                                       etTglCreateFg.text.toString(),
-                                       Float.parseFloat(etQtyFG.text.toString()),
+                                       applicationContext, etItemNos.text.toString(),
+                                       etTglTransaksi.text.toString(),
+                                       Float.parseFloat(etQtyInput.text.toString()),
                                        etCatatan.text.toString(),
                                        etLotNumber.text.toString(),
                                        Float.parseFloat(etInputMinusPlus.text.toString()),
@@ -148,9 +191,9 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                                .setPositiveButton("Yes") { dialog, id ->
 
                                    presenter.addDataFgKeluar(
-                                       applicationContext, etItemNo.text.toString(),
-                                       etTglCreateFg.text.toString(),
-                                       Float.parseFloat(etQtyFG.text.toString()),
+                                       applicationContext, etItemNos.text.toString(),
+                                       etTglTransaksi.text.toString(),
+                                       Float.parseFloat(etQtyInput.text.toString()),
                                        etCatatan.text.toString(),
                                        etLotNumber.text.toString(),
                                        Float.parseFloat(etInputMinusPlus.text.toString()),
@@ -171,16 +214,16 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as FgKeluarItem?
-            etItemNo.setFocusable(false)
+            etItemNos.setFocusable(false)
             etItemDescription.setFocusable(false)
             etUnit1.setFocusable(false)
-            etTglCreateFg.setFocusable(false)
+            etTglTransaksi.setFocusable(false)
             etQtyMinimum.setFocusable(false)
             etQuantity.setFocusable(false)
 
-            etItemNo.setText(item?.ItemNo.toString())
+            etItemNos.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
-            etQtyFG.setText(item?.Qty.toString())
+            etQtyInput.setText(item?.Qty.toString())
             etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
             if (item?.Unit3.toString() != null){
@@ -188,7 +231,7 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             }else {
                 etUnit1.setText(item?.Unit1.toString())
             }
-            etTglCreateFg.setText(item?.TglCatatan.toString())
+            etTglTransaksi.setText(item?.TglCatatan.toString())
             btnAction.onClick {
                 val builder = AlertDialog.Builder(this@UpdateAddFgKeluar)
                 builder.setMessage("Update Data?")
@@ -201,9 +244,9 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
                         // Delete selected note from database
                         presenter.updateDataFgKeluar(
                             applicationContext,item?.Id_warehouse_InOut ?: "",
-                            etItemNo.text.toString(),
-                            etTglCreateFg.text.toString(),
-                            Float.parseFloat(etQtyFG.text.toString()),
+                            etItemNos.text.toString(),
+                            etTglTransaksi.text.toString(),
+                            Float.parseFloat(etQtyInput.text.toString()),
                             etCatatan.text.toString(),
                             etLotNumber.text.toString(),
                             Float.parseFloat(etInputMinusPlus.text.toString()))
@@ -215,6 +258,12 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
             }
 
         }
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "yyyy-MM-dd hh:mm:ss" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        viewdate!!.setText(sdf.format(calen.getTime()))
     }
 
     override fun onSupportNavigateUp(): Boolean {

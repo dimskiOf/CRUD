@@ -1,19 +1,19 @@
 package com.komputerisasi.sprinter.DataManagement
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.SearchManager
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.komputerisasi.sprinter.InventoryGudang
 import com.komputerisasi.sprinter.LoginUtama
-import com.komputerisasi.sprinter.MainActivity
 import com.komputerisasi.sprinter.R
 import com.komputerisasi.sprinter.Scanning.ScannFgKeluar
 import com.komputerisasi.sprinter.adapter.FgKeluarAdapter
@@ -21,8 +21,11 @@ import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
 import com.komputerisasi.sprinter.presenter.Presenter
+import kotlinx.android.synthetic.main.activity_add_keluar_masuk_barang_manual.*
 import kotlinx.android.synthetic.main.activity_fg_keluar.*
 import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FgKeluar : AppCompatActivity(), CrudView {
 
@@ -37,7 +40,13 @@ class FgKeluar : AppCompatActivity(), CrudView {
     private val fromButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_button_anim)}
     private val toButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_button_anim)}
 
+    var adjusttgl: Button? = null
+    var viewdate: EditText? = null
+    var calen = Calendar.getInstance()
+
     private var clicked = false
+
+    private var isclick = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val loaduser = selectDatabase("datauser")
@@ -67,7 +76,65 @@ class FgKeluar : AppCompatActivity(), CrudView {
         }
 
         tambahManual.setOnClickListener{
+            isclick = true
+            setContentView(R.layout.activity_add_keluar_masuk_barang_manual)
 
+            val actionbar = supportActionBar
+
+            actionbar!!.title = "FG KELUAR INPUT"
+
+            actionbar.setDisplayHomeAsUpEnabled(true)
+
+            etItemDescription.setFocusable(false)
+            etQuantity.setFocusable(false)
+            etQtyMinimum.setFocusable(false)
+            etUnit1.setFocusable(false)
+            etTglTransaksi.setFocusable(false)
+
+            adjusttgl = this.adjusttgltransaksi
+            viewdate = this.etTglTransaksi
+            val timing = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+
+            viewdate!!.setText(timing.format(Date()))
+
+            val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                       dayOfMonth: Int) {
+                    calen.set(Calendar.YEAR, year)
+                    calen.set(Calendar.MONTH, monthOfYear)
+                    calen.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    updateDateInView()
+                }
+            }
+
+            val timeSetListener = object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker, hourofday: Int, minute: Int) {
+                    calen.set(Calendar.HOUR_OF_DAY, hourofday)
+                    calen.set(Calendar.MINUTE, minute)
+                    updateDateInView()
+                }
+            }
+
+            adjusttgl!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(view: View) {
+                    TimePickerDialog(this@FgKeluar,
+                        timeSetListener,
+                        calen.get(Calendar.HOUR_OF_DAY),
+                        calen.get(Calendar.MINUTE),true).show()
+
+                    DatePickerDialog(this@FgKeluar,
+                        dateSetListener,
+                        // set DatePickerDialog to point to today's date when it loads up
+                        calen.get(Calendar.YEAR),
+                        calen.get(Calendar.MONTH),
+                        calen.get(Calendar.DAY_OF_MONTH)).show()
+                }
+
+            })
+
+            btnAction.setOnClickListener {
+
+            }
         }
         tambahScan.setOnClickListener {
             startActivity<ScannFgKeluar>()
@@ -75,12 +142,20 @@ class FgKeluar : AppCompatActivity(), CrudView {
         }
     }
 
+    private fun updateDateInView() {
+        val myFormat = "yyyy-MM-dd hh:mm:ss" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        viewdate!!.setText(sdf.format(calen.getTime()))
+    }
+
+
     private fun onAddButtonClicked() {
         setVisibility(clicked)
         setAnimation(clicked)
         setClickAble(clicked)
         clicked = !clicked
     }
+
     private fun setVisibility(clicked: Boolean){
         if(!clicked){
             tambahManual.visibility = View.VISIBLE
@@ -90,6 +165,7 @@ class FgKeluar : AppCompatActivity(), CrudView {
             tambahScan.visibility = View.INVISIBLE
         }
     }
+
     private fun setAnimation(clicked: Boolean){
         if(!clicked){
             tambahManual.startAnimation(fromButon)
@@ -149,9 +225,16 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
     override fun onSupportNavigateUp(): Boolean {
         //onBackPressed()
-        startActivity<InventoryGudang>()
-        finish()
-        return true
+        if(!isclick) {
+            startActivity<InventoryGudang>()
+            finish()
+        }else{
+            startActivity<FgKeluar>()
+            finish()
+            isclick = false
+        }
+            return true
+
     }
 
     override fun onSuccessGetDBname(msg: String) {

@@ -2,16 +2,14 @@ package com.komputerisasi.sprinter.DataManagement
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.komputerisasi.sprinter.LoginUtama
 import com.komputerisasi.sprinter.R
-import com.komputerisasi.sprinter.keyboard.Numberingwithdot
 import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
@@ -20,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_update_add_fg_masuk.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import java.lang.Float
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Suppress("SENSELESS_COMPARISON")
 class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
@@ -33,6 +33,11 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
 
     private lateinit var presenter: Presenter
     @SuppressLint("SetTextI18n")
+
+    var adjusttgl: Button? = null
+    var viewdate: EditText? = null
+    var calen = Calendar.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val loaduser = selectDatabase("datauser")
 
@@ -65,21 +70,59 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
             actionbar!!.title = "SIMPAN FG MASUK"
             //set back button
             actionbar.setDisplayHomeAsUpEnabled(true)
-            etItemNo.setFocusable(false)
+            etItemNos.setFocusable(false)
             etItemDescription.setFocusable(false)
             etUnit1.setFocusable(false)
-            etTglCreateFg.setFocusable(false)
+            etTglTransaksi.setFocusable(false)
             etQtyMinimum.setFocusable(false)
             etQuantity.setFocusable(false)
 
-            etItemNo.setText(itemcode)
+            etItemNos.setText(itemcode)
             etItemDescription.setText(itemdes)
             etInputMinusPlus.setText(minusplus)
             etUnit1.setText(satuan)
             etCatatan.setText(catatan)
-            etTglCreateFg.setText(tglmasuk)
+            etTglTransaksi.setText(tglmasuk)
             etQtyMinimum.setText(minimumqty)
             etQuantity.setText(quantity)
+
+            adjusttgl = this.adjusttgltransaksi
+            viewdate = this.etTglTransaksi
+
+            val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                       dayOfMonth: Int) {
+                    calen.set(Calendar.YEAR, year)
+                    calen.set(Calendar.MONTH, monthOfYear)
+                    calen.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    updateDateInView()
+                }
+            }
+
+            val timeSetListener = object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker, hourofday: Int, minute: Int) {
+                    calen.set(Calendar.HOUR_OF_DAY, hourofday)
+                    calen.set(Calendar.MINUTE, minute)
+                    updateDateInView()
+                }
+            }
+
+            adjusttgl!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(view: View) {
+                    TimePickerDialog(this@UpdateAddFgMasuk,
+                        timeSetListener,
+                        calen.get(Calendar.HOUR_OF_DAY),
+                        calen.get(Calendar.MINUTE),true).show()
+
+                    DatePickerDialog(this@UpdateAddFgMasuk,
+                        dateSetListener,
+                        // set DatePickerDialog to point to today's date when it loads up
+                        calen.get(Calendar.YEAR),
+                        calen.get(Calendar.MONTH),
+                        calen.get(Calendar.DAY_OF_MONTH)).show()
+                }
+
+            })
 
             btnAction.text = "Simpan"
             btnAction.onClick {
@@ -93,9 +136,9 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
                     .setPositiveButton("Yes") { dialog, id ->
                         // Delete selected note from database
                         presenter.addDataFgMasuk(
-                            applicationContext,etItemNo.text.toString(),
-                            etTglCreateFg.text.toString(),
-                            Float.parseFloat(etQtyFG.text.toString()),
+                            applicationContext,etItemNos.text.toString(),
+                            etTglTransaksi.text.toString(),
+                            Float.parseFloat(etQtyInput.text.toString()),
                             etCatatan.text.toString(),
                             etLotNumber.text.toString(),
                             Float.parseFloat(etInputMinusPlus.text.toString()),
@@ -112,16 +155,16 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
             actionbar.setDisplayHomeAsUpEnabled(true)
             btnAction.text = "Update"
             val item = itemDataItem as FgMasukItem?
-            etItemNo.setFocusable(false)
+            etItemNos.setFocusable(false)
             etItemDescription.setFocusable(false)
             etUnit1.setFocusable(false)
-            etTglCreateFg.setFocusable(false)
+            etTglTransaksi.setFocusable(false)
             etQtyMinimum.setFocusable(false)
             etQuantity.setFocusable(false)
 
-            etItemNo.setText(item?.ItemNo.toString())
+            etItemNos.setText(item?.ItemNo.toString())
             etItemDescription.setText(item?.ItemDescription.toString())
-            etQtyFG.setText(item?.Qty.toString())
+            etQtyInput.setText(item?.Qty.toString())
             etLotNumber.setText(item?.LotNumber.toString())
             etInputMinusPlus.setText(item?.InputMinusPlus.toString())
             if (item?.Unit3.toString() != null){
@@ -129,7 +172,7 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
             }else {
                 etUnit1.setText(item?.Unit1.toString())
             }
-            etTglCreateFg.setText(item?.TglCatatan.toString())
+            etTglTransaksi.setText(item?.TglCatatan.toString())
             btnAction.onClick {
                 val builder = AlertDialog.Builder(this@UpdateAddFgMasuk)
                 builder.setMessage("Update Data?")
@@ -142,9 +185,9 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
                         // Delete selected note from database
                         presenter.updateDataFgMasuk(
                             applicationContext,item?.Id_warehouse_InOut ?: "",
-                            etItemNo.text.toString(),
-                            etTglCreateFg.text.toString(),
-                            Float.parseFloat(etQtyFG.text.toString()),
+                            etItemNos.text.toString(),
+                            etTglTransaksi.text.toString(),
+                            Float.parseFloat(etQtyInput.text.toString()),
                             etCatatan.text.toString(),
                             etLotNumber.text.toString(),
                             Float.parseFloat(etInputMinusPlus.text.toString())
@@ -157,6 +200,12 @@ class UpdateAddFgMasuk : AppCompatActivity(), CrudView {
             }
 
         }
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "yyyy-MM-dd hh:mm:ss" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        viewdate!!.setText(sdf.format(calen.getTime()))
     }
 
     override fun onSupportNavigateUp(): Boolean {

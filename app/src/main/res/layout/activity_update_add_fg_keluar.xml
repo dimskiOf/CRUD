@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etItemNo"
+            android:id="@+id/etItemNos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Item Code"
@@ -102,7 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etQtyFG"
+            android:id="@+id/etQtyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Quantity"
@@ -187,12 +187,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etTglCreateFg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tgl Masuk"
-            android:inputType="text" />
+        <LinearLayout
+            android:layout_height="wrap_content" android:orientation="horizontal"
+            android:layout_width="fill_parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTglTransaksi"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Tgl Transaksi"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/adjusttgltransaksi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adjust"></Button>
+
+        </LinearLayout>
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

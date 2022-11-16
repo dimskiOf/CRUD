@@ -15,19 +15,54 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_data"></androidx.recyclerview.widget.RecyclerView>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnTambah"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_press"
-        android:drawableBottom="@drawable/rounderbtn"
-        android:text="+"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="normal|bold"
         android:layout_centerHorizontal="true"
-        />
+        android:backgroundTint="@color/colorAccent"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_add"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tambahManual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:tint="@color/white"
+        android:layout_alignEnd="@+id/btnTambah"
+        android:layout_alignRight="@id/btnTambah"
+        android:layout_alignBottom="@+id/rvCategory"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_add_manual"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tambahScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnTambah"
+        android:layout_alignLeft="@id/btnTambah"
+        android:layout_alignBottom="@+id/rvCategory"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="130dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/teal_700"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_add_scan"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>
