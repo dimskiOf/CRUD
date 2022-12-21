@@ -5,6 +5,8 @@ import android.app.DatePickerDialog
 import android.app.SearchManager
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +26,7 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_add_keluar_masuk_barang_manual.*
 import kotlinx.android.synthetic.main.activity_rm_keluar.*
 import org.jetbrains.anko.startActivity
+import java.lang.Float
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,6 +42,8 @@ class RmKeluar : AppCompatActivity(), CrudView {
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)}
     private val fromButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_button_anim)}
     private val toButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_button_anim)}
+
+    var autotextsearch: AutoCompleteTextView? = null
 
     var adjusttgl: Button? = null
     var viewdate: EditText? = null
@@ -92,6 +97,21 @@ class RmKeluar : AppCompatActivity(), CrudView {
             etUnit1.setFocusable(false)
             etTglTransaksi.setFocusable(false)
 
+            etItemNos.addTextChangedListener( object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    presenter.getDataItemBySearch(applicationContext, s.toString())
+
+                }
+            })
+
             adjusttgl = this.adjusttgltransaksi
             viewdate = this.etTglTransaksi
             val timing = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -133,7 +153,29 @@ class RmKeluar : AppCompatActivity(), CrudView {
 
             })
             btnAction.setOnClickListener {
+                val builder = AlertDialog.Builder(this@RmKeluar)
+                builder.setMessage("Simpan Data?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, id ->
 
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { dialog, id ->
+
+                        presenter.addDataRmKeluar(
+                            applicationContext,
+                            etItemNos?.text.toString(),
+                            etTglTransaksi?.text.toString(),
+                            Float.parseFloat(etQtyInput?.text.toString()),
+                            etCatatan?.text.toString(),
+                            etLotNumber?.text.toString(),
+                            Float.parseFloat(etInputMinusPlus?.text.toString()),
+                        )
+
+
+                    }
+                val alert = builder.create()
+                alert.show()
             }
         }
         tambahScan.setOnClickListener {
@@ -141,6 +183,31 @@ class RmKeluar : AppCompatActivity(), CrudView {
             finish()
         }
     }
+
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        val setter: MutableList<String> = ArrayList()
+        data?.forEach { i ->
+            setter.add(i.ItemCode.toString())
+
+        }
+        autotextsearch = this.findViewById(R.id.etItemNos);
+
+        val adapter: ArrayAdapter<*> =
+            ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1, setter as List<Any?>)
+
+        autotextsearch?.setAdapter(adapter)
+        autotextsearch?.setThreshold(1)
+
+        autotextsearch?.setOnItemClickListener{
+                parent, view, position, id ->
+            presenter.getDataItemById(applicationContext,etItemNos.text.toString())
+        }
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
     private fun updateDateInView() {
         val myFormat = "yyyy-MM-dd hh:mm:ss" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -311,7 +378,7 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun errorAddRmKeluar(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onErrorDeleteRmKeluar(msg: String) {
@@ -319,7 +386,7 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onErrorUpdateRmKeluar(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onFailedGetRmKeluar(msg: String) {
@@ -328,12 +395,12 @@ class RmKeluar : AppCompatActivity(), CrudView {
 
     override fun onSuccessDeleteRmKeluar(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
-        val tes = ""
-        presenter.getDataRmKeluar(this,tes, limitstart.toString(), limitend.toString())
+        startActivity<RmKeluar>()
+        finish()
     }
 
     override fun onSuccessGetRmKeluar(data: List<RmKeluarItem>?) {
-        rvCategory.adapter = RmKeluarAdapter(data,object :RmKeluarAdapter.onClickItem{
+        rvCategory.adapter = RmKeluarAdapter(data,object : RmKeluarAdapter.onClickItem{
             override fun clicked(item: RmKeluarItem?) {
                 val builder = AlertDialog.Builder(this@RmKeluar)
                 builder.setMessage("Edit Data?")
@@ -375,11 +442,15 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessUpdateRmKeluark(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        startActivity<RmKeluar>()
+        finish()
     }
 
     override fun successAddRmKeluar(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        startActivity<RmKeluar>()
+        finish()
     }
 
     override fun onSuccessGetRmMasuk(data: List<RmMasukItem>?) {
@@ -421,18 +492,25 @@ class RmKeluar : AppCompatActivity(), CrudView {
         TODO("Not yet implemented")
     }
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
-        TODO("Not yet implemented")
+        data?.forEach { i ->
+            etItemDescription.setText(i.Itemdes)
+            etQuantity.setText(i.Quantity)
+            etQtyMinimum.setText(i.Minimumqty)
+            etUnit1.setText(i.Satuan)
+        }
+        etInputMinusPlus.setText("0")
+        etQtyInput.setText("0")
     }
 
     override fun onErrorGetItemById(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
     override fun onSuccessPingApi(msg: String) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onErrorPingApi(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
@@ -448,6 +526,20 @@ class RmKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
         TODO("Not yet implemented")
     }
 }

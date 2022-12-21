@@ -5,6 +5,8 @@ import android.app.DatePickerDialog
 import android.app.SearchManager
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +26,7 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_add_keluar_masuk_barang_manual.*
 import kotlinx.android.synthetic.main.activity_rm_masuk.*
 import org.jetbrains.anko.startActivity
+import java.lang.Float
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +43,8 @@ class RmMasuk : AppCompatActivity(), CrudView {
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)}
     private val fromButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_button_anim)}
     private val toButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_button_anim)}
+
+    var autotextsearch: AutoCompleteTextView? = null
 
     var adjusttgl: Button? = null
     var viewdate: EditText? = null
@@ -93,6 +98,21 @@ class RmMasuk : AppCompatActivity(), CrudView {
             etUnit1.setFocusable(false)
             etTglTransaksi.setFocusable(false)
 
+            etItemNos.addTextChangedListener( object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    presenter.getDataItemBySearch(applicationContext, s.toString())
+
+                }
+            })
+
             adjusttgl = this.adjusttgltransaksi
             viewdate = this.etTglTransaksi
             val timing = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -134,7 +154,29 @@ class RmMasuk : AppCompatActivity(), CrudView {
 
             })
             btnAction.setOnClickListener {
+                val builder = AlertDialog.Builder(this@RmMasuk)
+                builder.setMessage("Simpan Data?")
+                    .setCancelable(false)
+                    .setNegativeButton("No") { dialog, id ->
 
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Yes") { dialog, id ->
+
+                        presenter.addDataRmMasuk(
+                            applicationContext,
+                            etItemNos?.text.toString(),
+                            etTglTransaksi?.text.toString(),
+                            Float.parseFloat(etQtyInput?.text.toString()),
+                            etCatatan?.text.toString(),
+                            etLotNumber?.text.toString(),
+                            Float.parseFloat(etInputMinusPlus?.text.toString()),
+                        )
+
+
+                    }
+                val alert = builder.create()
+                alert.show()
             }
         }
         tambahScan.setOnClickListener {
@@ -142,6 +184,30 @@ class RmMasuk : AppCompatActivity(), CrudView {
             finish()
         }
 
+    }
+
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        val setter: MutableList<String> = ArrayList()
+        data?.forEach { i ->
+            setter.add(i.ItemCode.toString())
+
+        }
+        autotextsearch = this.findViewById(R.id.etItemNos);
+
+        val adapter: ArrayAdapter<*> =
+            ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1, setter as List<Any?>)
+
+        autotextsearch?.setAdapter(adapter)
+        autotextsearch?.setThreshold(1)
+
+        autotextsearch?.setOnItemClickListener{
+                parent, view, position, id ->
+            presenter.getDataItemById(applicationContext,etItemNos.text.toString())
+        }
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun updateDateInView() {
@@ -345,7 +411,7 @@ class RmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessGetRmMasuk(data: List<RmMasukItem>?) {
-        rvCategory.adapter = RmMasukAdapter(data,object :RmMasukAdapter.onClickItem{
+        rvCategory.adapter = RmMasukAdapter(data,object : RmMasukAdapter.onClickItem{
             override fun clicked(item: RmMasukItem?) {
                 val builder = AlertDialog.Builder(this@RmMasuk)
                 builder.setMessage("Edit Data?")
@@ -391,8 +457,8 @@ class RmMasuk : AppCompatActivity(), CrudView {
 
     override fun onSuccessDeleteRmMasuk(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
-        val set = "";
-        presenter.getDataRmMasuk(this,set, limitstart.toString(), limitend.toString())
+        startActivity<RmMasuk>()
+        finish()
     }
 
     override fun onErrorDeleteRmMasuk(msg: String) {
@@ -400,19 +466,23 @@ class RmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun successAddRmMasuk(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        startActivity<RmMasuk>()
+        finish()
     }
 
     override fun errorAddRmMasuk(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccessUpdateRmMasuk(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        startActivity<RmMasuk>()
+        finish()
     }
 
     override fun onErrorUpdateRmMasuk(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
     override fun onSuccessgetToken(msg: String) {
         TODO("Not yet implemented")
@@ -422,18 +492,25 @@ class RmMasuk : AppCompatActivity(), CrudView {
         TODO("Not yet implemented")
     }
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
-        TODO("Not yet implemented")
+        data?.forEach { i ->
+            etItemDescription.setText(i.Itemdes)
+            etQuantity.setText(i.Quantity)
+            etQtyMinimum.setText(i.Minimumqty)
+            etUnit1.setText(i.Satuan)
+        }
+        etInputMinusPlus.setText("0")
+        etQtyInput.setText("0")
     }
 
     override fun onErrorGetItemById(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
     override fun onSuccessPingApi(msg: String) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onErrorPingApi(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
     }
     override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
         TODO("Not yet implemented")
@@ -448,6 +525,20 @@ class RmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
         TODO("Not yet implemented")
     }
 }

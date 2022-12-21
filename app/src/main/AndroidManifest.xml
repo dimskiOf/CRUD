@@ -13,6 +13,34 @@
         android:theme="@style/Theme.CRUD"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UpdateAddItemSparepart"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UpdateAddItemKantor"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".HasilScanItemSparepart"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".HasilScanItemKantor"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".DataManagement.AddKeluarMasukBarangManual"
             android:exported="false" />
         <activity

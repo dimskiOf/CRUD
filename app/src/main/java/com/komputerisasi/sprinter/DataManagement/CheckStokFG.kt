@@ -83,6 +83,14 @@ class CheckStokFG : AppCompatActivity(), CrudView {
         presenter.getDataStokItemFG(this,searchText.toString(), limitstart.toString(), limitend.toString())
     }
 
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        TODO("Not yet implemented")
+    }
+
     // handle button activities
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id: Int = item.getItemId()
@@ -257,7 +265,7 @@ class CheckStokFG : AppCompatActivity(), CrudView {
         TODO("Not yet implemented")
     }
     override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
-        rvCategory.adapter = CheckStokFGAdapter(data,object :CheckStokFGAdapter.onClickItem{
+        rvCategory.adapter = CheckStokFGAdapter(data,object : CheckStokFGAdapter.onClickItem{
             override fun clicked(item: ChekStokItem?) {
 
             }
@@ -273,6 +281,228 @@ class CheckStokFG : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantor(data: List<DataItemKantor>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetdataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantorKeluar(data: List<DataItemKantorKeluar>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantorMasuk(data: List<DataItemKantorMasuk>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantorById(data: List<DataItemKantorGetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemKantorById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepart(data: List<DataItemSparepart>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetdataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepartKeluar(data: List<DataItemSparepartKeluar>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepartMasuk(data: List<DataItemSparepartMasuk>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepartById(data: List<DataItemSparepartGetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemSparepartById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemSparepartMasuk(msg: String) {
         TODO("Not yet implemented")
     }
 }

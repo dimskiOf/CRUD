@@ -123,6 +123,8 @@ class ScannCheckStok : AppCompatActivity(), CrudView {
         super.onPause()
     }
 
+
+
     private fun setupPermissions() {
         val permission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
 
@@ -158,6 +160,14 @@ class ScannCheckStok : AppCompatActivity(), CrudView {
 
     companion object {
         private const val CAMERA_REQ = 101
+    }
+
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {
@@ -351,5 +361,19 @@ class ScannCheckStok : AppCompatActivity(), CrudView {
 
     override fun onFailedGetScanChekStok(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
+        TODO("Not yet implemented")
     }
 }

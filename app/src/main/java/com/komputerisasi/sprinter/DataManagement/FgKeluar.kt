@@ -5,6 +5,8 @@ import android.app.DatePickerDialog
 import android.app.SearchManager
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,8 +26,10 @@ import com.komputerisasi.sprinter.presenter.Presenter
 import kotlinx.android.synthetic.main.activity_add_keluar_masuk_barang_manual.*
 import kotlinx.android.synthetic.main.activity_fg_keluar.*
 import org.jetbrains.anko.startActivity
+import java.lang.Float
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class FgKeluar : AppCompatActivity(), CrudView {
 
@@ -40,6 +44,9 @@ class FgKeluar : AppCompatActivity(), CrudView {
     private val fromButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_button_anim)}
     private val toButon: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_button_anim)}
 
+    var autotextsearch: AutoCompleteTextView? = null
+    
+    var menu: Menu? = null
     var adjusttgl: Button? = null
     var viewdate: EditText? = null
     var calen = Calendar.getInstance()
@@ -91,6 +98,21 @@ class FgKeluar : AppCompatActivity(), CrudView {
             etUnit1.setFocusable(false)
             etTglTransaksi.setFocusable(false)
 
+            etItemNos.addTextChangedListener( object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    presenter.getDataItemBySearch(applicationContext, s.toString())
+
+                }
+                })
+
             adjusttgl = this.adjusttgltransaksi
             viewdate = this.etTglTransaksi
             val timing = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -132,14 +154,61 @@ class FgKeluar : AppCompatActivity(), CrudView {
 
             })
 
-            btnAction.setOnClickListener {
+                btnAction.setOnClickListener {
+                    val builder = AlertDialog.Builder(this@FgKeluar)
+                    builder.setMessage("Simpan Data?")
+                        .setCancelable(false)
+                        .setNegativeButton("No") { dialog, id ->
 
-            }
+                            dialog.dismiss()
+                        }
+                        .setPositiveButton("Yes") { dialog, id ->
+
+                            presenter.addDataFgKeluar(
+                                applicationContext,
+                                etItemNos?.text.toString(),
+                                etTglTransaksi?.text.toString(),
+                                Float.parseFloat(etQtyInput?.text.toString()),
+                                etCatatan?.text.toString(),
+                                etLotNumber?.text.toString(),
+                                Float.parseFloat(etInputMinusPlus?.text.toString()),
+                            )
+
+
+                        }
+                    val alert = builder.create()
+                    alert.show()
+                }
+
         }
         tambahScan.setOnClickListener {
             startActivity<ScannFgKeluar>()
             finish()
         }
+    }
+
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        val setter: MutableList<String> = ArrayList()
+        data?.forEach { i ->
+            setter.add(i.ItemCode.toString())
+
+        }
+        autotextsearch = this.findViewById(R.id.etItemNos);
+
+        val adapter: ArrayAdapter<*> =
+            ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1, setter as List<Any?>)
+
+        autotextsearch?.setAdapter(adapter)
+        autotextsearch?.setThreshold(1)
+
+        autotextsearch?.setOnItemClickListener{
+                parent, view, position, id ->
+                presenter.getDataItemById(applicationContext,etItemNos.text.toString())
+        }
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun updateDateInView() {
@@ -189,27 +258,28 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.mymenu, menu)
-        val searchView = menu?.findItem(R.id.buttonsearch)?.actionView as SearchView
-        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
-        searchView.setSearchableInfo(
-            searchManager.getSearchableInfo(componentName)
-        )
+        if(!isclick) {
+            menuInflater.inflate(R.menu.mymenu, menu)
+            val searchView = menu?.findItem(R.id.buttonsearch)?.actionView as SearchView
+            val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
+            searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(componentName)
+            )
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                getInput(query)
-                return false
-            }
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    getInput(query)
+                    return false
+                }
 
-            override fun onQueryTextChange(newText: String): Boolean {
+                override fun onQueryTextChange(newText: String): Boolean {
 
-                return false
-            }
-        })
-        return true
-        return super.onCreateOptionsMenu(menu)
-
+                    return false
+                }
+            })
+        }
+            return true
+            return super.onCreateOptionsMenu(menu)
     }
     fun getInput(searchText: String?) {
         presenter.getDataFgKeluar(this,searchText.toString(), limitstart.toString(), limitend.toString())
@@ -265,7 +335,7 @@ class FgKeluar : AppCompatActivity(), CrudView {
 
     override fun onSuccessGetFgKeluar(data: List<FgKeluarItem>?) {
         
-        rvCategory.adapter = FgKeluarAdapter(data,object :FgKeluarAdapter.onClickItem{
+        rvCategory.adapter = FgKeluarAdapter(data,object : FgKeluarAdapter.onClickItem{
             override fun clicked(item: FgKeluarItem?) {
                 val builder = AlertDialog.Builder(this@FgKeluar)
                 builder.setMessage("Edit Data?")
@@ -311,8 +381,8 @@ class FgKeluar : AppCompatActivity(), CrudView {
 
     override fun onSuccessDeleteFgKeluar(msg: String) {
         Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
-        val tes = ""
-        presenter.getDataFgKeluar(this,tes, limitstart.toString(), limitend.toString())
+        startActivity<FgKeluar>()
+        finish()
     }
 
     override fun onErrorDeleteFgKeluar(msg: String) {
@@ -328,9 +398,13 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun successAddFgKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        startActivity<FgKeluar>()
+        finish()
     }
 
     override fun errorAddFgKeluar(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccessUpdateFgKeluar(msg: String) {
@@ -435,12 +509,21 @@ class FgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onSuccessGetItemById(data: List<GetItemById>?) {
-        TODO("Not yet implemented")
+        data?.forEach { i ->
+            etItemDescription.setText(i.Itemdes)
+            etQuantity.setText(i.Quantity)
+            etQtyMinimum.setText(i.Minimumqty)
+            etUnit1.setText(i.Satuan)
+        }
+        etInputMinusPlus.setText("0")
+        etQtyInput.setText("0")
+
     }
 
     override fun onErrorGetItemById(msg: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+
     override fun onSuccessGetChekStok(data: List<ChekStokItem>?) {
         TODO("Not yet implemented")
     }
@@ -456,5 +539,242 @@ class FgKeluar : AppCompatActivity(), CrudView {
     override fun onFailedGetScanChekStok(msg: String) {
         TODO("Not yet implemented")
     }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
 
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantor(data: List<DataItemKantor>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetdataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantorKeluar(data: List<DataItemKantorKeluar>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantorMasuk(data: List<DataItemKantorMasuk>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemKantorById(data: List<DataItemKantorGetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemKantorById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemKantor(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemKantorKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemKantorMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepart(data: List<DataItemSparepart>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetdataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepartKeluar(data: List<DataItemSparepartKeluar>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepartMasuk(data: List<DataItemSparepartMasuk>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetDataItemSparepartById(data: List<DataItemSparepartGetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataItemSparepartById(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessAddDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorAddDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessUpdateDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemSparepart(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemSparepartKeluar(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessDeleteDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorDeleteDataItemSparepartMasuk(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetKategoryItemLike(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetKategoryItemLike(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccessGetSatuanItemLike(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetSatuanItemLike(msg: String) {
+        TODO("Not yet implemented")
+    }
 }

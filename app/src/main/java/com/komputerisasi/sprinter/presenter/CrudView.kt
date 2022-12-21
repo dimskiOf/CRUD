@@ -57,6 +57,10 @@ interface CrudView {
     fun onSuccessGetItemById(data: List<GetItemById>?)
     fun onErrorGetItemById(msg: String)
 
+    //get item query
+    fun onSuccessGetItemQuery(data: List<GetItemById>?)
+    fun onErrorGetItemQuery(msg: String)
+
     //Ping Api
     fun onSuccessPingApi(msg: String)
     fun onErrorPingApi(msg: String)
@@ -65,4 +69,111 @@ interface CrudView {
     fun onSuccessGetDBname(msg: String)
     fun onErrorGetDBname(msg: String)
 
+    //update profile
+    fun onSuccessUpdateProfile(msg: String)
+    fun onErrorUpdateProfile(msg: String)
+
+    //Get data user
+    fun onSuccessGetDataUser(data: List<DataUser>?)
+    fun onErrorGetDataUser(msg: String)
+
+    //-----------------------INVENTORY KANTOR-----------------\\
+
+    fun onSuccessGetDataItemKantor(data: List<DataItemKantor>?)
+    fun onErrorGetdataItemKantor(msg: String)
+
+    fun onSuccessGetDataItemKantorKeluar(data: List<DataItemKantorKeluar>?)
+    fun onErrorGetDataItemKantorKeluar(msg: String)
+
+    fun onSuccessGetDataItemKantorMasuk(data: List<DataItemKantorMasuk>?)
+    fun onErrorGetDataItemKantorMasuk(msg: String)
+
+    fun onSuccessGetDataItemKantorById(data: List<DataItemKantorGetItemById>?)
+    fun onErrorGetDataItemKantorById(msg: String)
+
+    fun onSuccessAddDataItemKantor(msg: String)
+    fun onErrorAddDataItemKantor(msg: String)
+
+    fun onSuccessAddDataItemKantorKeluar(msg: String)
+    fun onErrorAddDataItemKantorKeluar(msg: String)
+
+    fun onSuccessAddDataItemKantorMasuk(msg: String)
+    fun onErrorAddDataItemKantorMasuk(msg: String)
+
+    fun onSuccessUpdateDataItemKantor(msg: String)
+    fun onErrorUpdateDataItemKantor(msg: String)
+
+    fun onSuccessUpdateDataItemKantorKeluar(msg: String)
+    fun onErrorUpdateDataItemKantorKeluar(msg: String)
+
+    fun onSuccessUpdateDataItemKantorMasuk(msg: String)
+    fun onErrorUpdateDataItemKantorMasuk(msg: String)
+
+    fun onSuccessDeleteDataItemKantor(msg: String)
+    fun onErrorDeleteDataItemKantor(msg: String)
+
+    fun onSuccessDeleteDataItemKantorKeluar(msg: String)
+    fun onErrorDeleteDataItemKantorKeluar(msg: String)
+
+    fun onSuccessDeleteDataItemKantorMasuk(msg: String)
+    fun onErrorDeleteDataItemKantorMasuk(msg: String)
+
+    //-----------------------END INVENTORY KANTOR-----------------\\
+
+    //-----------------------INVENTORY SPAREPART-----------------\\
+
+    fun onSuccessGetDataItemSparepart(data: List<DataItemSparepart>?)
+    fun onErrorGetdataItemSparepart(msg: String)
+
+    fun onSuccessGetDataItemSparepartKeluar(data: List<DataItemSparepartKeluar>?)
+    fun onErrorGetDataItemSparepartKeluar(msg: String)
+
+    fun onSuccessGetDataItemSparepartMasuk(data: List<DataItemSparepartMasuk>?)
+    fun onErrorGetDataItemSparepartMasuk(msg: String)
+
+    fun onSuccessGetDataItemSparepartById(data: List<DataItemSparepartGetItemById>?)
+    fun onErrorGetDataItemSparepartById(msg: String)
+
+    fun onSuccessAddDataItemSparepart(msg: String)
+    fun onErrorAddDataItemSparepart(msg: String)
+
+    fun onSuccessAddDataItemSparepartKeluar(msg: String)
+    fun onErrorAddDataItemSparepartKeluar(msg: String)
+
+    fun onSuccessAddDataItemSparepartMasuk(msg: String)
+    fun onErrorAddDataItemSparepartMasuk(msg: String)
+
+    fun onSuccessUpdateDataItemSparepart(msg: String)
+    fun onErrorUpdateDataItemSparepart(msg: String)
+
+    fun onSuccessUpdateDataItemSparepartKeluar(msg: String)
+    fun onErrorUpdateDataItemSparepartKeluar(msg: String)
+
+    fun onSuccessUpdateDataItemSparepartMasuk(msg: String)
+    fun onErrorUpdateDataItemSparepartMasuk(msg: String)
+
+    fun onSuccessDeleteDataItemSparepart(msg: String)
+    fun onErrorDeleteDataItemSparepart(msg: String)
+
+    fun onSuccessDeleteDataItemSparepartKeluar(msg: String)
+    fun onErrorDeleteDataItemSparepartKeluar(msg: String)
+
+    fun onSuccessDeleteDataItemSparepartMasuk(msg: String)
+    fun onErrorDeleteDataItemSparepartMasuk(msg: String)
+
+    //-----------------------END INVENTORY SPAREPART-----------------\\
+
+    //---------------------kategori item------------------------------\\
+
+    fun onSuccessGetKategoryItemLike(msg: String)
+    fun onErrorGetKategoryItemLike(msg: String)
+
+    //--------------------end kategori-------------------------------\\
+
+    //---------------------satuan item------------------------------\\
+
+    fun onSuccessGetSatuanItemLike(msg: String)
+    fun onErrorGetSatuanItemLike(msg: String)
+
+    //--------------------end satuan-------------------------------\\
 }

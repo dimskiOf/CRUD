@@ -168,6 +168,14 @@ class ScannRmMasuk : AppCompatActivity(), CrudView {
         private const val CAMERA_REQ = 101
     }
 
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun onSuccessGetLogin(data: List<DataLogin>?) {
         TODO("Not yet implemented")
     }
@@ -354,6 +362,20 @@ class ScannRmMasuk : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
         TODO("Not yet implemented")
     }
 }

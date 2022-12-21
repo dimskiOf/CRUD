@@ -9,7 +9,6 @@ import com.komputerisasi.sprinter.konfigurasi.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import android.content.Intent
-import com.komputerisasi.sprinter.DataManagement.FgKeluar
 import com.komputerisasi.sprinter.model.*
 import com.komputerisasi.sprinter.presenter.CrudView
 import com.komputerisasi.sprinter.presenter.Presenter
@@ -190,6 +189,14 @@ class MainActivity : AppCompatActivity(), CrudView {
         startActivity<MainActivity>()
         finish()
         return true
+    }
+
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onSuccessGetLogin(data: List<DataLogin>?) {
@@ -389,6 +396,20 @@ class MainActivity : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
         TODO("Not yet implemented")
     }
 }

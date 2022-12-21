@@ -260,6 +260,14 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
         }
     }
 
+    override fun onSuccessGetItemQuery(data: List<GetItemById>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetItemQuery(msg: String) {
+        TODO("Not yet implemented")
+    }
+
     private fun updateDateInView() {
         val myFormat = "yyyy-MM-dd hh:mm:ss" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
@@ -452,6 +460,20 @@ class UpdateAddFgKeluar : AppCompatActivity(), CrudView {
     }
 
     override fun onFailedGetScanChekStok(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorUpdateProfile(msg: String) {
+        TODO("Not yet implemented")
+    }
+    override fun onSuccessGetDataUser(data: List<DataUser>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onErrorGetDataUser(msg: String) {
         TODO("Not yet implemented")
     }
 }
